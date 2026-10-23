@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- Auto-generated index page. Do not edit by hand. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>OnSite Prototypes · OnSite 原型目录</title>
+<link rel="icon" href="data:,">
+<style>
+:root {
+  --bg-color-container: #ffffff;
+  --bg-color-page: #f5f7fa;
+  --brand-color: #1450f5;
+  --brand-color-light: #f3f6fe;
+  --component-stroke: #dfe1e8;
+  --focus-shadow-default: 0 0 0 2px #d0dcfd;
+  --font-family-base: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --radius-extralarge: 12px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --text-body-14: 400 14px/22px var(--font-family-base);
+  --text-color-brand: #1450f5;
+  --text-color-placeholder: #8f9195;
+  --text-color-primary: #141414;
+  --text-color-secondary: #676a72;
+  --text-foot-12: 400 12px/20px var(--font-family-base);
+  --text-title-16-sb: 600 16px/24px var(--font-family-base);
+  --text-title-24-sb: 600 24px/32px var(--font-family-base);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color-container: #141414;
+    --bg-color-page: #000000;
+    --brand-color: #0a84ff;
+    --brand-color-light: #021a33;
+    --component-stroke: #333740;
+    --text-color-brand: #0a84ff;
+    --text-color-primary: #ffffff;
+    --text-color-secondary: #f2f4f7;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg-color-page); color: var(--text-color-primary); font: var(--text-body-14); }
+.page { max-width: 960px; margin: 0 auto; padding: var(--spacing-32) var(--spacing-16) var(--spacing-32); }
+.page__title { margin: 0; font: var(--text-title-24-sb); }
+.page__subtitle { margin: var(--spacing-4) 0 0; color: var(--text-color-secondary); font: var(--text-body-14); }
+.page__intro { margin: var(--spacing-24) 0 0; color: var(--text-color-secondary); font: var(--text-body-14); }
+.page__intro-zh { margin: 0; color: var(--text-color-placeholder); font: var(--text-foot-12); }
+.list { margin: var(--spacing-24) 0 0; padding: 0; list-style: none; display: grid; gap: var(--spacing-16); }
+.card { position: relative; display: block; padding: var(--spacing-24); background: var(--bg-color-container); border: 1px solid var(--component-stroke); border-radius: var(--radius-extralarge); color: inherit; text-decoration: none; }
+.card:hover { border-color: var(--brand-color); }
+.card:focus-visible { outline: 0; border-color: var(--brand-color); box-shadow: var(--focus-shadow-default); }
+.card__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-16); }
+.card__title { margin: 0; font: var(--text-title-16-sb); }
+.card__date { flex: none; color: var(--text-color-placeholder); font: var(--text-foot-12); }
+.card__sub { margin: var(--spacing-4) 0 0; color: var(--text-color-secondary); font: var(--text-body-14); }
+.card__summary { margin: var(--spacing-12) 0 0; padding-right: calc(var(--spacing-24) + var(--spacing-16)); color: var(--text-color-secondary); font: var(--text-body-14); }
+.card__summary-zh { margin: 0; padding-right: calc(var(--spacing-24) + var(--spacing-16)); color: var(--text-color-placeholder); font: var(--text-foot-12); }
+.card__arrow { position: absolute; right: var(--spacing-24); bottom: var(--spacing-24); color: var(--text-color-brand); }
+@media (max-width: 480px) {
+  .page { padding-top: var(--spacing-24); }
+  .card { padding: var(--spacing-16); }
+  .card__summary, .card__summary-zh { padding-right: calc(var(--spacing-16) + var(--spacing-24)); }
+  .card__head { flex-direction: column; gap: var(--spacing-4); }
+  .card__arrow { right: var(--spacing-16); bottom: var(--spacing-16); }
+}
+</style>
+</head>
+<body>
+  <main class="page">
+    <h1 class="page__title">OnSite Prototypes</h1>
+    <p class="page__subtitle" lang="zh-CN">OnSite 原型目录</p>
+    <p class="page__intro">High-fidelity prototypes published for review. Select a requirement to open it.</p>
+    <p class="page__intro-zh" lang="zh-CN">已发布的高保真原型，选择需求即可打开查看。</p>
+    <ul class="list">
+      <li>
+        <a class="card" href="crm-customer-contacts.html">
+          <div class="card__head">
+            <h2 class="card__title">CRM Customer Contacts</h2>
+            <span class="card__date"><span class="card__date-label">Updated</span> <time datetime="2026-09-07">2026-09-07</time></span>
+          </div>
+          <p class="card__sub" lang="zh-CN">CRM 客户联系人</p>
+          <p class="card__summary">View, search, create and edit project customer contacts linked to CRM.</p>
+          <p class="card__summary-zh" lang="zh-CN">查看、搜索、新建和编辑与 CRM 关联的项目客户联系人。</p>
+          <svg class="card__arrow" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 11.7071L12.3536 8.35351C12.5488 8.15824 12.5488 7.84166 12.3536 7.6464L9 4.29285L8.29289 4.99995L10.7929 7.5L3.5 7.5V8.5L10.7928 8.5L8.29289 11L9 11.7071Z" fill="currentColor"/></svg>
+        </a>
+      </li>
+    </ul>
+  </main>
+</body>
+</html>

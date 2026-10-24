@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<!-- GitHub Pages 发布副本：本地 CSS 与图片已内联为单文件。 -->
+<html lang="zh-CN" data-theme="light" data-demo-screen="IP1" data-demo-state="valid">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnSite 安装授权书 · High-Fidelity UI</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   KONE China Design Token · 内嵌自 the KONE design-system token file
+   本文件为单文件原型，数值只从设计系统 Token 取用。
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --brand-color: #1450f5;
+  --brand-color-hover: #4373f7;
+  --brand-color-active: #1444c8;
+  --brand-color-disabled: #a1b9fb;
+  --brand-color-light: #f3f6fe;
+  --brand-color-light-hover: #d0dcfd;
+  --brand-color-light-active: #a1b9fb;
+  --brand-color-focus: #d0dcfd;
+
+  --warning-color: #f98600;
+  --warning-color-hover: #ffb145;
+  --warning-color-active: #d97019;
+  --warning-color-disabled: #ffd18d;
+  --warning-color-light: #fff1db;
+  --warning-color-focus: #ffe1b3;
+
+  --error-color: #f51414;
+  --error-color-hover: #f74343;
+  --error-color-active: #c41010;
+  --error-color-disabled: #fba1a1;
+  --error-color-light: #fef3f3;
+  --error-color-focus: #fdd0d0;
+
+  --success-color: #1ed273;
+  --success-color-hover: #4bdb8f;
+  --success-color-active: #16b662;
+  --success-color-disabled: #8ceeba;
+  --success-color-light: #dbfbea;
+  --success-color-focus: #b2f5d2;
+
+  --bg-color-page: #f5f7fa;
+  --bg-color-container: #ffffff;
+  --bg-color-container-hover: #f5f7fa;
+  --bg-color-container-active: #dfe1e8;
+  --bg-color-secondarycontainer: #f5f7fa;
+  --bg-color-secondarycontainer-hover: #dfe1e8;
+  --bg-color-secondarycontainer-active: #c8cad0;
+  --bg-color-component: #f2f4f7;
+  --bg-color-component-hover: #dfe1e8;
+  --bg-color-component-active: #8f9195;
+  --bg-color-component-disabled: #f2f4f7;
+  --component-stroke: #dfe1e8;
+  --component-border: #c8cad0;
+
+  --text-color-primary: #141414;
+  --text-color-secondary: #676a72;
+  --text-color-placeholder: #8f9195;
+  --text-color-disabled: #abadb2;
+  --text-color-white: #ffffff;
+  --text-color-brand: #1450f5;
+  --text-color-link: #1450f5;
+
+  --kone-yellow: #ffe141;
+  --kone-light-blue: #d2f5ff;
+  --mask-active: rgba(0, 0, 0, .6);
+  --radius-small: 2px;
+  --radius-default: 4px;
+  --radius-medium: 6px;
+  --radius-large: 8px;
+  --radius-extralarge: 12px;
+  --radius-circle: 128px;
+  --radius-xxlarge: 16px;
+
+  --shadow-1: 0 2px 5px rgba(0, 0, 0, .1);
+  --shadow-2: 0 4px 10px rgba(0, 0, 0, .1);
+  --shadow-3: 0 8px 20px rgba(0, 0, 0, .1);
+  --shadow-4: 0 -2px 10px rgba(0, 0, 0, .1);
+  --shadow-5: 2px 0 5px rgba(0, 0, 0, .1);
+  --shadow-6: -4px 0 10px rgba(0, 0, 0, .1);
+  --inner-shadow-1: inset 0 -2px 0 #1450f5;
+  --inner-shadow-2: inset 0 -1px 0 #dfe1e8;
+  --focus-shadow-default: 0 0 0 2px #d0dcfd;
+  --focus-shadow-success: 0 0 0 2px #b2f5d2;
+  --focus-shadow-warning: 0 0 0 2px #ffe1b3;
+  --focus-shadow-error: 0 0 0 2px #fdd0d0;
+
+  --font-family-base: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --font-size-10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --text-foot-10: 400 10px/16px var(--font-family-base);
+  --text-foot-10-md: 500 10px/16px var(--font-family-base);
+  --text-foot-10-sb: 600 10px/16px var(--font-family-base);
+  --text-foot-12: 400 12px/20px var(--font-family-base);
+  --text-foot-12-md: 500 12px/20px var(--font-family-base);
+  --text-foot-12-sb: 600 12px/20px var(--font-family-base);
+  --text-body-14: 400 14px/22px var(--font-family-base);
+  --text-body-14-md: 500 14px/22px var(--font-family-base);
+  --text-body-14-sb: 600 14px/22px var(--font-family-base);
+  --text-title-16: 400 16px/24px var(--font-family-base);
+  --text-title-16-md: 500 16px/24px var(--font-family-base);
+  --text-title-16-sb: 600 16px/24px var(--font-family-base);
+  --text-title-18: 400 18px/26px var(--font-family-base);
+  --text-title-18-sb: 600 18px/26px var(--font-family-base);
+  --text-title-20-sb: 600 20px/28px var(--font-family-base);
+
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --page-width: 375px;
+  --page-padding: 16px;
+  --page-content-width: 343px;
+  --safe-area-bottom: 34px;
+  --demo-panel-bg: #909399;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100%; }
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--bg-color-component-hover);
+  color: var(--text-color-primary);
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+}
+button, input { font: inherit; }
+button { color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--brand-color); outline-offset: 2px; }
+svg { display: block; }
+[hidden] { display: none !important; }
+
+.phone {
+  position: relative;
+  width: var(--page-width);
+  height: 812px;
+  overflow: hidden;
+  background: var(--bg-color-page);
+  box-shadow: var(--shadow-3);
+  transform-origin: center center;
+}
+.screen {
+  display: none;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.screen.active { display: block; }
+.screen::-webkit-scrollbar { display: none; }
+.screen--with-nav { padding-bottom: 90px; }
+.screen--with-footer { padding-bottom: 118px; }
+.content { width: 100%; padding: 0 var(--page-padding); }
+
+/* Header-primary / Header-secondary：状态栏 44 + 导航栏 40。 */
+.td-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 84px;
+  background: var(--bg-color-container);
+}
+.td-header__status { position: relative; height: 44px; }
+.status-time {
+  position: absolute;
+  top: 12px;
+  left: 28px;
+  width: 40px;
+  color: var(--text-color-primary);
+  font: var(--text-foot-12-sb);
+  text-align: center;
+}
+.status-icons { position: absolute; top: 16px; right: 14px; width: 67px; height: 12px; color: var(--text-color-primary); }
+.status-icons svg { width: 67px; height: 12px; }
+.td-header__bar { position: relative; height: 40px; }
+.td-header__title {
+  position: absolute;
+  top: 4px;
+  left: 42px;
+  right: 42px;
+  overflow: hidden;
+  color: var(--text-color-primary);
+  font: var(--text-title-18-sb);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.td-header__back, .td-header__action {
+  position: absolute;
+  top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-color-primary);
+}
+.td-header__back { left: 12px; }
+.td-header__action { right: 12px; color: var(--text-color-brand); }
+.td-header__action svg, .td-header__back svg { width: 20px; height: 20px; }
+
+/* 底部 Home / Project / Me 导航。 */
+.td-bottom-nav {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  height: 90px;
+  padding-bottom: var(--safe-area-bottom);
+  background: var(--bg-color-container);
+  box-shadow: var(--shadow-4);
+}
+.td-bottom-nav__item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-8);
+  border: 0;
+  background: transparent;
+  color: var(--text-color-secondary);
+  font: var(--text-foot-12);
+}
+.td-bottom-nav__item svg { width: 20px; height: 20px; }
+.td-bottom-nav__item.is-active { color: var(--text-color-brand); font: var(--text-foot-12-sb); }
+
+/* Buttons / tags / cards。 */
+.td-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  min-width: 0;
+  height: 40px;
+  padding: 0 var(--spacing-16);
+  border: 0;
+  border-radius: var(--radius-circle);
+  font: var(--text-body-14-md);
+}
+.td-button svg { width: 16px; height: 16px; }
+.td-button--primary { background: var(--brand-color); color: var(--text-color-white); }
+.td-button--primary:active { background: var(--brand-color-active); }
+.td-button--primary.is-disabled, .td-button--primary:disabled { background: var(--brand-color-disabled); color: var(--text-color-white); cursor: not-allowed; }
+.td-button--light { background: var(--brand-color-light); color: var(--text-color-brand); }
+.td-button--light:active { background: var(--brand-color-light-hover); }
+.td-button--outline { border: 1px solid var(--brand-color); background: var(--bg-color-container); color: var(--text-color-brand); }
+.td-button--outline:active { background: var(--brand-color-light); }
+.td-button--outline.is-disabled, .td-button--outline:disabled { border-color: var(--component-border); color: var(--text-color-disabled); cursor: not-allowed; }
+.td-button--text { height: 32px; padding: 0 var(--spacing-8); background: transparent; color: var(--text-color-brand); }
+.td-button--text:active { color: var(--brand-color-active); }
+.td-button--text.is-danger { color: var(--error-color); }
+.td-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 0 var(--spacing-8);
+  border-radius: var(--radius-default);
+  font: var(--text-foot-12-md);
+  white-space: nowrap;
+}
+.td-tag--primary { background: var(--brand-color-light); color: var(--text-color-brand); }
+.td-tag--success { background: var(--success-color-light); color: var(--success-color-active); }
+.td-tag--warning { background: var(--warning-color-light); color: var(--warning-color-active); }
+.td-tag--danger { background: var(--error-color-light); color: var(--error-color); }
+.td-tag--default { background: var(--bg-color-component); color: var(--text-color-secondary); }
+.td-card { background: var(--bg-color-container); border-radius: var(--radius-xxlarge); box-shadow: var(--shadow-1); }
+.td-card:active { background: var(--bg-color-container-hover); }
+
+/* Home。 */
+.td-home-hero {
+  min-height: 174px;
+  padding: var(--spacing-24) var(--spacing-16);
+  background: var(--bg-color-container);
+  background-image: radial-gradient(circle at 21% 50%, var(--brand-color-light), transparent 44%), radial-gradient(circle at 74% 48%, var(--bg-color-page), transparent 48%);
+}
+.td-home-hero__eyebrow { color: var(--text-color-secondary); font: var(--text-body-14); }
+.td-home-hero__title { margin-top: var(--spacing-8); font: var(--text-title-20-sb); }
+.td-home-hero__copy { margin-top: var(--spacing-8); color: var(--text-color-secondary); font: var(--text-body-14); }
+.td-home-content { padding: var(--spacing-20) var(--page-padding) var(--spacing-24); }
+.td-section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-12); }
+.td-section-title h2 { font: var(--text-title-16-sb); }
+.td-section-title span { color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-entry-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100px;
+  gap: var(--spacing-12);
+  padding: var(--spacing-16);
+  border: 0;
+  border-radius: var(--radius-xxlarge);
+  background: var(--bg-color-container);
+  box-shadow: var(--shadow-1);
+  text-align: left;
+}
+.td-entry-card:active { background: var(--bg-color-container-hover); }
+.td-entry-card__icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: var(--radius-large); background: var(--brand-color-light); color: var(--text-color-brand); }
+.td-entry-card__icon svg { width: 24px; height: 24px; }
+.td-entry-card__body { min-width: 0; flex: 1; }
+.td-entry-card__title { display: block; font: var(--text-title-16-sb); }
+.td-entry-card__copy { display: block; margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-entry-card__chevron { width: 20px; height: 20px; color: var(--text-color-placeholder); }
+.td-home-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-12); margin-top: var(--spacing-20); }
+.td-summary-card { padding: var(--spacing-16); }
+.td-summary-card__value { font: var(--text-title-20-sb); }
+.td-summary-card__label { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+
+/* Search / lists。 */
+.td-search { padding: var(--spacing-8) var(--page-padding); background: var(--bg-color-container); }
+.td-search__inner { display: flex; align-items: center; gap: var(--spacing-8); height: 40px; padding: 0 var(--spacing-12); border-radius: var(--radius-circle); background: var(--bg-color-component); color: var(--text-color-placeholder); }
+.td-search__inner svg { width: 20px; height: 20px; flex: 0 0 20px; }
+.td-search__inner input { min-width: 0; flex: 1; border: 0; outline: 0; background: transparent; color: var(--text-color-primary); font: var(--text-body-14); }
+.td-search__inner input::placeholder { color: var(--text-color-placeholder); }
+.td-search__clear { display: none; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: var(--text-color-placeholder); }
+.td-search--has-value .td-search__clear { display: flex; align-items: center; justify-content: center; }
+.td-search__clear svg { width: 20px !important; height: 20px !important; }
+.td-list-content { padding: var(--spacing-12) var(--page-padding) var(--spacing-24); }
+.td-list-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-12); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-project-card { margin-bottom: var(--spacing-12); overflow: hidden; }
+.td-project-card__head { display: flex; align-items: flex-start; justify-content: space-between; width: 100%; gap: var(--spacing-8); padding: var(--spacing-16) var(--spacing-16) var(--spacing-12); border: 0; background: transparent; text-align: left; }
+.td-project-card__title { min-width: 0; flex: 1; font: var(--text-title-16-sb); }
+.td-project-card__contract { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-project-card__arrow { width: 20px; height: 20px; color: var(--text-color-placeholder); }
+.td-project-card__rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-8); padding: 0 var(--spacing-16) var(--spacing-16); }
+.td-project-card__count { display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding: var(--spacing-12); border-radius: var(--radius-large); background: var(--bg-color-secondarycontainer); text-align: left; }
+.td-project-card__count:active { background: var(--bg-color-component-active); }
+.td-project-card__count-label { color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-project-card__count-value { margin-top: var(--spacing-4); font: var(--text-title-16-sb); }
+.td-project-card__count svg { width: 16px; height: 16px; color: var(--text-color-placeholder); }
+.td-empty { display: none; padding: var(--spacing-24) var(--spacing-16); color: var(--text-color-secondary); font: var(--text-body-14); text-align: center; }
+.td-empty.is-visible { display: block; }
+
+/* Tabs / task list。 */
+.td-tabs { display: flex; height: 48px; background: var(--bg-color-container); box-shadow: inset 0 -1px 0 var(--component-stroke); }
+.td-tabs__item { position: relative; display: flex; flex: 1 1 0; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--text-color-primary); font: var(--text-body-14); }
+.td-tabs__item.is-active { color: var(--text-color-brand); font: var(--text-body-14-sb); }
+.td-tabs__item.is-active::after { position: absolute; right: var(--spacing-16); bottom: 0; left: var(--spacing-16); height: 3px; border-radius: var(--radius-circle); background: var(--brand-color); content: ''; }
+.td-task-card { position: relative; display: block; width: 100%; margin-bottom: var(--spacing-12); padding: var(--spacing-16); border: 0; text-align: left; }
+.td-task-card:active { background: var(--bg-color-container-hover); }
+.td-task-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-8); }
+.td-task-card__title { min-width: 0; flex: 1; font: var(--text-title-16-sb); }
+.td-task-card__project { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-task-card__kv { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: var(--spacing-8); margin-top: var(--spacing-16); font: var(--text-body-14); }
+.td-task-card__kv dt { color: var(--text-color-secondary); }
+.td-task-card__kv dd { min-width: 0; color: var(--text-color-primary); overflow-wrap: anywhere; }
+.td-task-card__footer { display: flex; align-items: center; justify-content: space-between; margin-top: var(--spacing-12); padding-top: var(--spacing-12); border-top: 1px solid var(--component-stroke); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-task-card__open { display: inline-flex; align-items: center; gap: var(--spacing-4); border: 0; background: transparent; color: var(--text-color-brand); font: var(--text-foot-12-md); }
+.td-task-card__open svg { width: 16px; height: 16px; }
+
+/* 选择梯台。 */
+.td-selection-summary { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 0 var(--page-padding); background: var(--bg-color-container); color: var(--text-color-secondary); font: var(--text-body-14); }
+.td-selection-summary strong { color: var(--text-color-brand); font: var(--text-body-14-sb); }
+.td-equipment-group { margin: var(--spacing-12) var(--page-padding) 0; overflow: hidden; border-radius: var(--radius-xxlarge); background: var(--bg-color-container); box-shadow: var(--shadow-1); }
+.td-equipment-group__head { display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding: 0 var(--spacing-16); border-bottom: 1px solid var(--component-stroke); }
+.td-equipment-group__name { display: flex; align-items: center; gap: var(--spacing-8); font: var(--text-title-16-sb); }
+.td-equipment-group__meta { color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-group-select { display: inline-flex; align-items: center; gap: var(--spacing-4); color: var(--text-color-brand); font: var(--text-body-14-md); }
+.td-group-select input, .td-equipment-row input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.td-checkbox__visual { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border: 1px solid var(--component-border); border-radius: var(--radius-default); background: var(--bg-color-container); color: var(--text-color-white); }
+.td-checkbox__visual svg { width: 16px; height: 16px; opacity: 0; }
+.td-group-select.is-selected .td-checkbox__visual, .td-equipment-row.is-selected .td-checkbox__visual { border-color: var(--brand-color); background: var(--brand-color); }
+.td-group-select.is-selected .td-checkbox__visual svg, .td-equipment-row.is-selected .td-checkbox__visual svg { opacity: 1; }
+.td-equipment-row { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-12); padding: var(--spacing-16); border-bottom: 1px solid var(--component-stroke); }
+.td-equipment-row:last-child { border-bottom: 0; }
+.td-equipment-row:active { background: var(--bg-color-component); }
+.td-equipment-row__body { min-width: 0; flex: 1; }
+.td-equipment-row__title { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-4); font: var(--text-title-16-md); }
+.td-equipment-row__sub { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-body-14); }
+.td-equipment-row__meta { display: flex; flex-wrap: wrap; gap: var(--spacing-4) var(--spacing-8); margin-top: var(--spacing-8); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-equipment-row__risk { display: none; align-items: center; gap: var(--spacing-4); margin-top: var(--spacing-8); color: var(--warning-color-active); font: var(--text-foot-12-md); }
+html[data-demo-state="risk"] .td-equipment-row__risk { display: flex; }
+.td-equipment-risk-notice { display: none; align-items: flex-start; gap: var(--spacing-8); margin: var(--spacing-12) var(--page-padding) 0; padding: var(--spacing-12); border-radius: var(--radius-large); background: var(--warning-color-light); color: var(--text-color-primary); font: var(--text-body-14); }
+html[data-demo-state="risk"] .td-equipment-risk-notice { display: flex; }
+.td-equipment-risk-notice svg { width: 20px; height: 20px; flex: 0 0 20px; color: var(--warning-color); }
+.td-footer-bar { position: absolute; right: 0; bottom: 0; left: 0; z-index: 30; background: var(--bg-color-container); box-shadow: var(--shadow-4); }
+.td-footer-bar__inner { display: flex; gap: var(--spacing-8); padding: var(--spacing-12) var(--page-padding); }
+.td-footer-bar__inner .td-button { flex: 1 1 0; min-width: 0; height: 48px; }
+.td-safe-area { height: var(--safe-area-bottom); }
+
+/* 详情页。 */
+.td-detail-content { padding: var(--spacing-12) var(--page-padding) var(--spacing-24); }
+.td-detail-hero { padding: var(--spacing-16); }
+.td-detail-hero__title { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-8); }
+.td-detail-hero__title > div { min-width: 0; flex: 1; }
+.td-detail-hero__name { min-width: 0; flex: 1; font: var(--text-title-18-sb); }
+.td-detail-hero__copy { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-body-14); }
+.td-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-12); margin-top: var(--spacing-16); }
+.td-detail-stat { padding: var(--spacing-12); border-radius: var(--radius-large); background: var(--bg-color-secondarycontainer); }
+.td-detail-stat__label { color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-detail-stat__value { margin-top: var(--spacing-4); font: var(--text-body-14-sb); overflow-wrap: anywhere; }
+.td-section-card { margin-top: var(--spacing-12); padding: var(--spacing-16); }
+.td-section-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-8); }
+.td-section-card__title { font: var(--text-title-16-sb); }
+.td-kv-list { display: grid; gap: var(--spacing-10); margin-top: var(--spacing-12); }
+.td-kv-row { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: var(--spacing-8); font: var(--text-body-14); }
+.td-kv-row dt { color: var(--text-color-secondary); }
+.td-kv-row dd { min-width: 0; color: var(--text-color-primary); overflow-wrap: anywhere; }
+.td-progress { display: flex; align-items: center; gap: var(--spacing-8); margin-top: var(--spacing-16); }
+.td-progress__track { flex: 1; height: 8px; overflow: hidden; border-radius: var(--radius-circle); background: var(--bg-color-component); }
+.td-progress__value { width: 55%; height: 100%; border-radius: var(--radius-circle); background: var(--brand-color); }
+.td-progress__text { color: var(--text-color-secondary); font: var(--text-foot-12); white-space: nowrap; }
+.td-record-list { display: grid; gap: var(--spacing-8); margin-top: var(--spacing-12); }
+.td-record-entry { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-8); min-height: 48px; padding: 0 var(--spacing-12); border-radius: var(--radius-large); background: var(--bg-color-secondarycontainer); color: var(--text-color-primary); font: var(--text-body-14-md); text-align: left; }
+.td-record-entry:active { background: var(--bg-color-component-active); }
+.td-record-entry svg { width: 20px; height: 20px; flex: 0 0 20px; color: var(--text-color-placeholder); }
+.td-noticebar { display: none; align-items: flex-start; gap: var(--spacing-8); margin-top: var(--spacing-12); padding: var(--spacing-12); border-radius: var(--radius-large); background: var(--warning-color-light); font: var(--text-body-14); }
+html[data-demo-state="risk"] .td-noticebar--risk, html[data-demo-state="modify-rejected"] .td-noticebar--modify-rejected, html[data-demo-state="seal-rejected"] .td-noticebar--seal-rejected { display: flex; }
+.td-noticebar svg { width: 20px; height: 20px; flex: 0 0 20px; color: var(--warning-color); }
+.td-noticebar--modify-rejected, .td-noticebar--seal-rejected { background: var(--error-color-light); }
+.td-noticebar--modify-rejected svg, .td-noticebar--seal-rejected svg { color: var(--error-color); }
+
+/* PDF 详情。 */
+.td-pdf-content { padding: var(--spacing-12) var(--page-padding) var(--spacing-24); }
+.td-pdf-file-card { padding: var(--spacing-16); }
+.td-pdf-file-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-8); }
+.td-pdf-file-title { min-width: 0; flex: 1; font: var(--text-title-16-sb); }
+.td-pdf-file-number { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-pdf-preview {
+  position: relative;
+  min-height: 244px;
+  margin-top: var(--spacing-16);
+  padding: var(--spacing-20) var(--spacing-16);
+  border: 1px solid var(--component-border);
+  border-radius: var(--radius-medium);
+  background: var(--bg-color-container);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+}
+.td-pdf-preview__watermark { position: absolute; top: var(--spacing-16); right: var(--spacing-16); padding: var(--spacing-4) var(--spacing-8); border-radius: var(--radius-default); background: var(--brand-color-light); color: var(--text-color-brand); font: var(--text-foot-10-sb); }
+.td-pdf-preview__logo { display: flex; align-items: center; gap: var(--spacing-8); color: var(--brand-color); font: var(--text-title-16-sb); }
+.td-pdf-preview__logo svg { width: 20px; height: 20px; }
+.td-pdf-preview__heading { margin-top: var(--spacing-24); font: var(--text-title-18-sb); text-align: center; }
+.td-pdf-preview__line { height: 1px; margin-top: var(--spacing-12); background: var(--component-stroke); transform: scaleY(.5); transform-origin: bottom; }
+.td-pdf-preview__kv { display: grid; gap: var(--spacing-8); margin-top: var(--spacing-16); font: var(--text-foot-12); }
+.td-pdf-preview__kv div { display: flex; justify-content: space-between; gap: var(--spacing-8); }
+.td-pdf-preview__kv span { min-width: 0; overflow-wrap: anywhere; }
+.td-pdf-preview__kv span:first-child { color: var(--text-color-secondary); }
+.td-pdf-preview__kv span:last-child { color: var(--text-color-primary); text-align: right; }
+.td-pdf-meta { display: grid; gap: var(--spacing-10); margin-top: var(--spacing-16); }
+.td-pdf-meta .td-kv-row { grid-template-columns: 84px minmax(0, 1fr); }
+.td-pdf-actions { display: flex; gap: var(--spacing-8); margin-top: var(--spacing-12); }
+.td-pdf-actions .td-button { flex: 1 1 0; min-width: 0; padding: 0 var(--spacing-8); }
+.td-pdf-action-note { margin-top: var(--spacing-8); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-pdf-relation { display: flex; align-items: flex-start; gap: var(--spacing-8); margin-top: var(--spacing-12); padding: var(--spacing-12); border-radius: var(--radius-large); background: var(--brand-color-light); color: var(--text-color-primary); font: var(--text-body-14); }
+.td-pdf-relation svg { width: 20px; height: 20px; flex: 0 0 20px; color: var(--brand-color); }
+.td-record-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-8); margin-top: var(--spacing-20); }
+.td-record-tabs__item { width: 100%; min-width: 0; min-height: 32px; height: auto; padding: var(--spacing-4) var(--spacing-8); border: 0; border-radius: var(--radius-circle); background: var(--bg-color-component); color: var(--text-color-secondary); font: var(--text-body-14); white-space: normal; }
+.td-record-tabs__item.is-active { background: var(--brand-color-light); color: var(--text-color-brand); font: var(--text-body-14-sb); }
+.td-record-panel { margin-top: var(--spacing-12); padding: var(--spacing-16); }
+.td-record-panel[hidden] { display: none; }
+.td-timeline { display: grid; gap: var(--spacing-12); }
+.td-timeline__item { position: relative; padding-left: var(--spacing-20); }
+.td-timeline__item::before { position: absolute; top: var(--spacing-4); left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-color); content: ''; }
+.td-timeline__item::after { position: absolute; top: var(--spacing-12); bottom: calc(var(--spacing-12) * -1); left: 3px; width: 1px; background: var(--component-stroke); content: ''; }
+.td-timeline__item:last-child::after { display: none; }
+.td-timeline__title { font: var(--text-body-14-md); }
+.td-timeline__meta { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+.td-association { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-8); padding: var(--spacing-12) 0; border-bottom: 1px solid var(--component-stroke); }
+.td-association:last-child { border-bottom: 0; }
+.td-association__name { min-width: 0; flex: 1; font: var(--text-body-14-md); }
+.td-association__meta { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
+
+/* PDF 预览弹层与轻提示。 */
+.td-overlay { position: absolute; inset: 0; z-index: 250; display: flex; align-items: center; justify-content: center; padding: var(--spacing-16); background: var(--mask-active); }
+.td-dialog { width: 100%; max-height: calc(100% - var(--spacing-24)); overflow-y: auto; border-radius: var(--radius-extralarge); background: var(--bg-color-container); box-shadow: var(--shadow-3); }
+.td-dialog__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-8); padding: var(--spacing-16); border-bottom: 1px solid var(--component-stroke); }
+.td-dialog__title { font: var(--text-title-18-sb); }
+.td-dialog__close { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: var(--text-color-secondary); }
+.td-dialog__body { padding: var(--spacing-16); }
+.td-dialog__copy { color: var(--text-color-secondary); font: var(--text-body-14); }
+.td-dialog__paper { margin-top: var(--spacing-12); padding: var(--spacing-16); border: 1px solid var(--component-border); border-radius: var(--radius-medium); font: var(--text-body-14); }
+.td-dialog__paper h3 { font: var(--text-title-16-sb); text-align: center; }
+.td-dialog__paper p { margin-top: var(--spacing-12); }
+.td-toast { position: absolute; right: var(--spacing-16); bottom: 108px; left: var(--spacing-16); z-index: 400; padding: var(--spacing-12) var(--spacing-16); border-radius: var(--radius-large); background: var(--text-color-primary); color: var(--text-color-white); font: var(--text-body-14); text-align: center; opacity: 0; pointer-events: none; transform: translateY(var(--spacing-8)); transition: opacity .2s ease, transform .2s ease; }
+.td-toast.is-show { opacity: 1; transform: translateY(0); }
+
+/* DEMO ONLY · 左上屏幕导航与右下状态面板。产品交付时整块删除。 */
+.screen-nav, #demo-panel { position: fixed; z-index: 999; overflow: hidden; border: 1px solid var(--demo-panel-bg); border-radius: var(--radius-large); background: var(--bg-color-container); box-shadow: var(--shadow-3); font: var(--text-foot-12); }
+.screen-nav { top: var(--spacing-16); left: var(--spacing-16); width: 168px; max-height: calc(100vh - var(--spacing-32)); overflow-y: auto; scrollbar-width: none; }
+.screen-nav::-webkit-scrollbar, #demo-panel .dp-body::-webkit-scrollbar { display: none; }
+.screen-nav__head, #demo-panel .dp-head { display: flex; align-items: center; justify-content: space-between; min-height: 36px; padding: 0 var(--spacing-12); background: var(--demo-panel-bg); color: var(--text-color-white); font: var(--text-foot-12-sb); cursor: pointer; }
+.screen-nav__body { padding: var(--spacing-4) var(--spacing-8) var(--spacing-8); }
+.screen-nav.collapsed .screen-nav__body, #demo-panel.collapsed .dp-body, #demo-panel.collapsed .dp-footer { display: none; }
+.screen-nav__group { padding: var(--spacing-8) var(--spacing-4) var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12-sb); }
+.screen-nav__body button { display: block; width: 100%; min-height: 32px; padding: 0 var(--spacing-8); border: 1px solid var(--component-border); border-radius: var(--radius-large); background: var(--bg-color-container); color: var(--text-color-secondary); font: var(--text-foot-12); text-align: left; }
+.screen-nav__body button + button { margin-top: var(--spacing-4); }
+.screen-nav__body button:active { background: var(--bg-color-component); }
+.screen-nav__body button.is-active { border-color: var(--brand-color); background: var(--brand-color); color: var(--text-color-white); }
+.screen-nav__zoom { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-4); }
+.screen-nav__zoom button { text-align: center; }
+#demo-panel { right: var(--spacing-16); bottom: var(--spacing-16); width: 252px; }
+#demo-panel .dp-body { max-height: 72vh; overflow-y: auto; padding: var(--spacing-4) var(--spacing-12) var(--spacing-12); }
+#demo-panel .dp-group { padding-top: var(--spacing-12); }
+#demo-panel .dp-label { padding-bottom: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12-sb); }
+#demo-panel label { display: flex; align-items: flex-start; gap: var(--spacing-4); padding: var(--spacing-4) 0; color: var(--text-color-primary); cursor: pointer; }
+#demo-panel label input { margin-top: var(--spacing-4); accent-color: var(--brand-color); }
+#demo-panel .dp-note { padding-top: var(--spacing-8); color: var(--text-color-placeholder); }
+#demo-panel .dp-footer { padding: var(--spacing-8) var(--spacing-12); color: var(--text-color-placeholder); font: var(--text-foot-10-sb); }
+
+@media (max-width: 900px) {
+  body { align-items: flex-start; padding-top: var(--spacing-12); }
+  .screen-nav { top: var(--spacing-8); left: var(--spacing-8); width: 160px; }
+  #demo-panel { right: var(--spacing-8); bottom: var(--spacing-8); width: 218px; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ic-status" viewBox="0 0 67 12"><path d="M1 9h2M6 7h2M11 5h2M16 2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M25 9.5a4.5 4.5 0 0 1 6.4 0M23 7a7.5 7.5 0 0 1 10.4 0M21 4.5a10.5 10.5 0 0 1 14.4 0" fill="none" stroke="currentColor" stroke-linecap="round"/><path d="M46 2h15a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H46a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm18 2v4" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M46 3.5h15a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H46a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5Z" fill="currentColor"/></symbol>
+  <symbol id="ic-back" viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7M8 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><path d="m15.5 15.5 5 5M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="m4 10 8-6 8 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 20v-6h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="ic-project" viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h3l1.5 2h6.5A2.5 2.5 0 0 1 20 9.5v7A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-me" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ic-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6V3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h4M9 12h6M9 16h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ic-warning" viewBox="0 0 24 24"><path d="m12 4 8 15H4L12 4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v4M12 16h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="ic-edit" viewBox="0 0 24 24"><path d="m5 16-.8 4 4-.8L19 8.4a2.1 2.1 0 0 0-3-3L5 16Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m14 7 3 3" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="ic-seal" viewBox="0 0 24 24"><circle cx="12" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m8 15-1 6 5-2 5 2-1-6M9 10l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ic-link" viewBox="0 0 24 24"><path d="m9 15 6-6M7.5 18.5h-1a4 4 0 0 1 0-8h3M16.5 5.5h1a4 4 0 0 1 0 8h-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5M12 8h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+</svg>
+
+<!-- ▼▼▼ DEMO ONLY · 屏幕导航，开发请整块删除 ▼▼▼ -->
+<nav class="screen-nav" data-demo aria-label="DEMO ONLY 屏幕导航">
+  <div class="screen-nav__head" id="nav-toggle"><span>DEMO ONLY · 屏幕导航</span><span id="nav-caret">▾</span></div>
+  <div class="screen-nav__body">
+    <div class="screen-nav__group">安装授权书流程</div>
+    <button type="button" data-go="s-ip1-home" class="is-active">1 Home</button>
+    <button type="button" data-go="s-ip2-project-list">2 Project List</button>
+    <button type="button" data-go="s-ip3-select-equipment">3 Select Equipment</button>
+    <button type="button" data-go="s-ip4-task-list">4 Task List</button>
+    <button type="button" data-go="s-ip5-task-detail">5 Task Detail</button>
+    <button type="button" data-go="s-ip6-pdf-detail">6 PDF Detail</button>
+    <div class="screen-nav__group">预览</div>
+    <div class="screen-nav__zoom"><button type="button" data-zoom="fit">Fit</button><button type="button" data-zoom="100">100%</button></div>
+  </div>
+</nav>
+<!-- ▲▲▲ DEMO ONLY · 屏幕导航结束 ▲▲▲ -->
+
+<main class="phone" id="prototype-phone">
+  <!-- IP1 Home -->
+  <section class="screen screen--with-nav active" id="s-ip1-home" data-screen="IP1">
+    <header class="td-header">
+      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg aria-hidden="true"><use href="#ic-status"></use></svg></span></div>
+      <div class="td-header__bar"><h1 class="td-header__title">OnSite</h1></div>
+    </header>
+    <div class="td-home-hero">
+      <div class="td-home-hero__eyebrow">KCC · 中国国内 OnSite</div>
+      <div class="td-home-hero__title">安装现场工作台</div>
+      <div class="td-home-hero__copy">集中处理项目、任务与现场授权文件。</div>
+    </div>
+    <div class="td-home-content">
+      <div class="td-section-title"><h2>常用功能</h2><span>Work tools</span></div>
+      <button class="td-entry-card" type="button" data-go="s-ip2-project-list">
+        <span class="td-entry-card__icon"><svg aria-hidden="true"><use href="#ic-file"></use></svg></span>
+        <span class="td-entry-card__body"><span class="td-entry-card__title">安装授权书</span><span class="td-entry-card__copy">按授权方选择梯台，生成 KF127 PDF</span></span>
+        <svg class="td-entry-card__chevron" aria-hidden="true"><use href="#ic-chevron"></use></svg>
+      </button>
+      <div class="td-home-summary">
+        <div class="td-card td-summary-card"><div class="td-summary-card__value">2</div><div class="td-summary-card__label">待处理项目</div></div>
+        <div class="td-card td-summary-card"><div class="td-summary-card__value">6</div><div class="td-summary-card__label">待处理梯台</div></div>
+      </div>
+    </div>
+    <nav class="td-bottom-nav" aria-label="主导航">
+      <button class="td-bottom-nav__item is-active" type="button" data-go="s-ip1-home"><svg><use href="#ic-home"></use></svg><span>Home</span></button>
+      <button class="td-bottom-nav__item" type="button" data-go="s-ip2-project-list"><svg><use href="#ic-project"></use></svg><span>Project</span></button>
+      <button class="td-bottom-nav__item" type="button" data-nav-toast="Me 为现有公共能力入口"><svg><use href="#ic-me"></use></svg><span>Me</span></button>
+    </nav>
+  </section>
+
+  <!-- IP2 Project List -->
+  <section class="screen screen--with-nav" id="s-ip2-project-list" data-screen="IP2">
+    <header class="td-header">
+      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg><use href="#ic-status"></use></svg></span></div>
+      <div class="td-header__bar"><button class="td-header__back" type="button" data-go="s-ip1-home" aria-label="返回 Home"><svg><use href="#ic-back"></use></svg></button><h1 class="td-header__title">安装授权书</h1></div>
+    </header>
+    <div class="td-search" id="project-search-wrap"><div class="td-search__inner"><svg><use href="#ic-search"></use></svg><input id="project-search" type="search" placeholder="搜索项目名称或合同号" autocomplete="off"><button class="td-search__clear" id="project-search-clear" type="button" aria-label="清除搜索"><svg><use href="#ic-close"></use></svg></button></div></div>
+    <div class="td-list-content">
+      <div class="td-list-meta"><span>项目列表</span><span>2 个项目</span></div>
+      <article class="td-card td-project-card" data-project-card data-keywords="上海虹桥 T2 扩建安装项目 CT-2026-SH-0088 PO-4500127">
+        <button class="td-project-card__head" type="button" data-go="s-ip3-select-equipment">
+          <span><span class="td-project-card__title">上海虹桥 T2 扩建安装项目</span><span class="td-project-card__contract">合同号 CT-2026-SH-0088 · 订单 PO-4500127</span></span>
+          <svg class="td-project-card__arrow"><use href="#ic-chevron"></use></svg>
+        </button>
+        <div class="td-project-card__rows">
+          <button class="td-project-card__count" type="button" data-go="s-ip3-select-equipment"><span><span class="td-project-card__count-label">未提交</span><span class="td-project-card__count-value">4 台</span></span><svg><use href="#ic-chevron"></use></svg></button>
+          <button class="td-project-card__count" type="button" data-go="s-ip4-task-list"><span><span class="td-project-card__count-label">已生成</span><span class="td-project-card__count-value">2 份</span></span><svg><use href="#ic-chevron"></use></svg></button>
+        </div>
+      </article>
+      <article class="td-card td-project-card" data-project-card data-keywords="广州南站综合交通枢纽 CT-2026-GZ-0126 PO-4500198">
+        <button class="td-project-card__head" type="button" data-go="s-ip3-select-equipment">
+          <span><span class="td-project-card__title">广州南站综合交通枢纽</span><span class="td-project-card__contract">合同号 CT-2026-GZ-0126 · 订单 PO-4500198</span></span>
+          <svg class="td-project-card__arrow"><use href="#ic-chevron"></use></svg>
+        </button>
+        <div class="td-project-card__rows">
+          <button class="td-project-card__count" type="button" data-go="s-ip3-select-equipment"><span><span class="td-project-card__count-label">未提交</span><span class="td-project-card__count-value">2 台</span></span><svg><use href="#ic-chevron"></use></svg></button>
+          <button class="td-project-card__count" type="button" data-go="s-ip4-task-list"><span><span class="td-project-card__count-label">已生成</span><span class="td-project-card__count-value">1 份</span></span><svg><use href="#ic-chevron"></use></svg></button>
+        </div>
+      </article>
+      <div class="td-empty" id="project-empty">没有找到匹配的项目</div>
+    </div>
+    <nav class="td-bottom-nav" aria-label="主导航">
+      <button class="td-bottom-nav__item" type="button" data-go="s-ip1-home"><svg><use href="#ic-home"></use></svg><span>Home</span></button>
+      <button class="td-bottom-nav__item is-active" type="button" data-go="s-ip2-project-list"><svg><use href="#ic-project"></use></svg><span>Project</span></button>
+      <button class="td-bottom-nav__item" type="button" data-nav-toast="Me 为现有公共能力入口"><svg><use href="#ic-me"></use></svg><span>Me</span></button>
+    </nav>
+  </section>
+
+  <!-- IP3 Select Equipment -->
+  <section class="screen screen--with-footer" id="s-ip3-select-equipment" data-screen="IP3">
+    <header class="td-header">
+      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg><use href="#ic-status"></use></svg></span></div>
+      <div class="td-header__bar"><button class="td-header__back" type="button" data-go="s-ip2-project-list" aria-label="返回项目列表"><svg><use href="#ic-back"></use></svg></button><h1 class="td-header__title">选择梯台</h1></div>
+    </header>
+    <div class="td-search"><div class="td-search__inner"><svg><use href="#ic-search"></use></svg><input id="equipment-search" type="search" placeholder="搜索梯台名称或型号" autocomplete="off"><button class="td-search__clear" id="equipment-search-clear" type="button" aria-label="清除搜索"><svg><use href="#ic-close"></use></svg></button></div></div>
+    <div class="td-selection-summary"><span>一次只能选择一个授权方</span><strong id="equipment-selected-count">已选 0 台</strong></div>
+    <div class="td-equipment-risk-notice" id="ip3-risk-notice"><svg><use href="#ic-warning"></use></svg><span>资质校验提示：当前“授权方 + 梯型与资质等级”的组合无法确认，仍可提交，不阻断流程。</span></div>
+    <div class="td-equipment-group" data-equipment-group="A">
+      <div class="td-equipment-group__head"><span><span class="td-equipment-group__name">授权方 A <span class="td-tag td-tag--primary">安装合作方</span></span><span class="td-equipment-group__meta">2 台可选</span></span><label class="td-group-select" data-group-select-label="A"><input type="checkbox" data-group-select="A"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span><span>全选</span></label></div>
+      <label class="td-equipment-row" data-group="A" data-equipment-id="A-01" data-keywords="A-01 KF127-A01 迅达 S30">
+        <input class="td-equipment-check" type="checkbox" data-equipment-id="A-01" data-group="A"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span>
+        <span class="td-equipment-row__body"><span class="td-equipment-row__title">A-01 · 1号梯 <span class="td-tag td-tag--default">S30</span></span><span class="td-equipment-row__sub">Elevator · 迅达 S30</span><span class="td-equipment-row__meta"><span>Network 4G</span><span>Contract Type 安装合同</span><span>资质等级 B</span></span><span class="td-equipment-row__risk"><svg><use href="#ic-warning"></use></svg>资质数据待确认</span></span>
+      </label>
+      <label class="td-equipment-row" data-group="A" data-equipment-id="A-02" data-keywords="A-02 KF127-A02 迅达 S30">
+        <input class="td-equipment-check" type="checkbox" data-equipment-id="A-02" data-group="A"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span>
+        <span class="td-equipment-row__body"><span class="td-equipment-row__title">A-02 · 2号梯 <span class="td-tag td-tag--default">S30</span></span><span class="td-equipment-row__sub">Elevator · 迅达 S30</span><span class="td-equipment-row__meta"><span>Network 4G</span><span>Contract Type 安装合同</span><span>资质等级 B</span></span><span class="td-equipment-row__risk"><svg><use href="#ic-warning"></use></svg>资质数据待确认</span></span>
+      </label>
+    </div>
+    <div class="td-equipment-group" data-equipment-group="B">
+      <div class="td-equipment-group__head"><span><span class="td-equipment-group__name">授权方 B <span class="td-tag td-tag--primary">分公司</span></span><span class="td-equipment-group__meta">3 台可选</span></span><label class="td-group-select" data-group-select-label="B"><input type="checkbox" data-group-select="B"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span><span>全选</span></label></div>
+      <label class="td-equipment-row" data-group="B" data-equipment-id="B-01" data-keywords="B-01 KF127-B01 通力 KONE MiniSpace">
+        <input class="td-equipment-check" type="checkbox" data-equipment-id="B-01" data-group="B"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span>
+        <span class="td-equipment-row__body"><span class="td-equipment-row__title">B-01 · 3号梯 <span class="td-tag td-tag--default">MiniSpace</span></span><span class="td-equipment-row__sub">Elevator · 通力 KONE MiniSpace</span><span class="td-equipment-row__meta"><span>Network 4G</span><span>Contract Type 调试协议</span><span>2Z 已通过</span></span><span class="td-equipment-row__risk"><svg><use href="#ic-warning"></use></svg>资质数据待确认</span></span>
+      </label>
+      <label class="td-equipment-row" data-group="B" data-equipment-id="B-02" data-keywords="B-02 KF127-B02 通力 KONE MiniSpace">
+        <input class="td-equipment-check" type="checkbox" data-equipment-id="B-02" data-group="B"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span>
+        <span class="td-equipment-row__body"><span class="td-equipment-row__title">B-02 · 5号梯 <span class="td-tag td-tag--default">MiniSpace</span></span><span class="td-equipment-row__sub">Elevator · 通力 KONE MiniSpace</span><span class="td-equipment-row__meta"><span>Network 4G</span><span>Contract Type 调试协议</span><span>2Z 已通过</span></span><span class="td-equipment-row__risk"><svg><use href="#ic-warning"></use></svg>资质数据待确认</span></span>
+      </label>
+      <label class="td-equipment-row" data-group="B" data-equipment-id="B-03" data-keywords="B-03 KF127-B03 通力 KONE MiniSpace">
+        <input class="td-equipment-check" type="checkbox" data-equipment-id="B-03" data-group="B"><span class="td-checkbox__visual"><svg><use href="#ic-check"></use></svg></span>
+        <span class="td-equipment-row__body"><span class="td-equipment-row__title">B-03 · 6号梯 <span class="td-tag td-tag--default">MiniSpace</span></span><span class="td-equipment-row__sub">Elevator · 通力 KONE MiniSpace</span><span class="td-equipment-row__meta"><span>Network 4G</span><span>Contract Type 调试协议</span><span>2Z 已通过</span></span><span class="td-equipment-row__risk"><svg><use href="#ic-warning"></use></svg>资质数据待确认</span></span>
+      </label>
+    </div>
+    <div class="td-footer-bar">
+      <div class="td-footer-bar__inner"><button class="td-button td-button--light" type="button" data-go="s-ip2-project-list">取消</button><button class="td-button td-button--primary is-disabled" id="equipment-submit" type="button" disabled>提交</button></div>
+      <div class="td-safe-area"></div>
+    </div>
+  </section>
+
+  <!-- IP4 Task List -->
+  <section class="screen screen--with-nav" id="s-ip4-task-list" data-screen="IP4">
+    <header class="td-header">
+      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg><use href="#ic-status"></use></svg></span></div>
+      <div class="td-header__bar"><button class="td-header__back" type="button" data-go="s-ip2-project-list" aria-label="返回项目列表"><svg><use href="#ic-back"></use></svg></button><h1 class="td-header__title">安装授权书任务</h1></div>
+    </header>
+    <div class="td-tabs" id="task-tabs"><button class="td-tabs__item is-active" type="button" data-task-filter="all">全部</button><button class="td-tabs__item" type="button" data-task-filter="pending">未提交</button><button class="td-tabs__item" type="button" data-task-filter="generated">已生成</button></div>
+    <div class="td-list-content">
+      <article class="td-card td-task-card" data-task-card data-task-state="pending" data-go="s-ip5-task-detail">
+        <div class="td-task-card__top"><span><span class="td-task-card__title">上海虹桥 T2 安装授权书</span><span class="td-task-card__project">上海虹桥 T2 扩建安装项目</span></span><span class="td-tag td-tag--warning">未提交</span></div>
+        <dl class="td-task-card__kv"><dt>授权方</dt><dd>授权方 A</dd><dt>梯台数量</dt><dd>4 台待处理</dd><dt>执行人</dt><dd>PS 陈思远</dd></dl>
+        <div class="td-task-card__footer"><span>2026-10-22 09:20 创建</span><button class="td-task-card__open" type="button">查看任务 <svg><use href="#ic-chevron"></use></svg></button></div>
+      </article>
+      <article class="td-card td-task-card" data-task-card data-task-state="generated" data-go="s-ip5-task-detail">
+        <div class="td-task-card__top"><span><span class="td-task-card__title">广州南站 KF127 生成任务</span><span class="td-task-card__project">广州南站综合交通枢纽</span></span><span class="td-tag td-tag--success">已生成</span></div>
+        <dl class="td-task-card__kv"><dt>授权方</dt><dd>华南安装分公司</dd><dt>梯台数量</dt><dd>2 台 · KF127</dd><dt>执行人</dt><dd>PS 林晓彤</dd></dl>
+        <div class="td-task-card__footer"><span>2026-10-21 16:40 创建</span><button class="td-task-card__open" type="button" data-go="s-ip6-pdf-detail">查看 PDF <svg><use href="#ic-chevron"></use></svg></button></div>
+      </article>
+      <article class="td-card td-task-card" data-task-card data-task-state="partial" data-go="s-ip5-task-detail">
+        <div class="td-task-card__top"><span><span class="td-task-card__title">上海虹桥 T2 分批处理任务</span><span class="td-task-card__project">上海虹桥 T2 扩建安装项目</span></span><span class="td-tag td-tag--primary">部分处理</span></div>
+        <dl class="td-task-card__kv"><dt>授权方</dt><dd>授权方 B</dd><dt>梯台数量</dt><dd>1 台已生成 · 2 台待处理</dd><dt>执行人</dt><dd>PS 陈思远</dd></dl>
+        <div class="td-task-card__footer"><span>2026-10-20 11:08 创建</span><button class="td-task-card__open" type="button">查看任务 <svg><use href="#ic-chevron"></use></svg></button></div>
+      </article>
+    </div>
+    <nav class="td-bottom-nav" aria-label="主导航">
+      <button class="td-bottom-nav__item" type="button" data-go="s-ip1-home"><svg><use href="#ic-home"></use></svg><span>Home</span></button>
+      <button class="td-bottom-nav__item is-active" type="button" data-go="s-ip2-project-list"><svg><use href="#ic-project"></use></svg><span>Project</span></button>
+      <button class="td-bottom-nav__item" type="button" data-nav-toast="Me 为现有公共能力入口"><svg><use href="#ic-me"></use></svg><span>Me</span></button>
+    </nav>
+  </section>
+
+  <!-- IP5 Task Detail -->
+  <section class="screen screen--with-footer" id="s-ip5-task-detail" data-screen="IP5">
+    <header class="td-header">
+      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg><use href="#ic-status"></use></svg></span></div>
+      <div class="td-header__bar"><button class="td-header__back" type="button" data-go="s-ip4-task-list" aria-label="返回任务列表"><svg><use href="#ic-back"></use></svg></button><h1 class="td-header__title">任务详情</h1><button class="td-header__action" type="button" data-go="s-ip2-project-list">项目</button></div>
+    </header>
+    <div class="td-detail-content">
+      <section class="td-card td-detail-hero">
+        <div class="td-detail-hero__title"><div><div class="td-detail-hero__name">上海虹桥 T2 安装授权书</div><div class="td-detail-hero__copy">上海虹桥 T2 扩建安装项目</div></div><span class="td-tag td-tag--warning" id="task-status-tag">未提交</span></div>
+        <div class="td-detail-grid"><div class="td-detail-stat"><div class="td-detail-stat__label">合同号</div><div class="td-detail-stat__value">CT-2026-SH-0088</div></div><div class="td-detail-stat"><div class="td-detail-stat__label">订单号</div><div class="td-detail-stat__value">PO-4500127</div></div><div class="td-detail-stat"><div class="td-detail-stat__label">执行人</div><div class="td-detail-stat__value">PS 陈思远</div></div><div class="td-detail-stat"><div class="td-detail-stat__label">创建时间</div><div class="td-detail-stat__value">2026-10-22 09:20</div></div></div>
+        <div class="td-progress"><div class="td-progress__track"><div class="td-progress__value" id="task-progress-value"></div></div><span class="td-progress__text" id="task-progress-text">已处理 0 / 4 台</span></div>
+      </section>
+      <div class="td-noticebar td-noticebar--risk"><svg><use href="#ic-warning"></use></svg><span>授权方 A 的资质校验存在待确认风险，允许提交。风险不会阻止 KF127 生成。</span></div>
+      <div class="td-noticebar td-noticebar--modify-rejected"><svg><use href="#ic-warning"></use></svg><span>修改审批已拒绝，原 PDF 继续有效。PS 将收到 SFM 消息中心 / App 推送。</span></div>
+      <div class="td-noticebar td-noticebar--seal-rejected"><svg><use href="#ic-warning"></use></svg><span>用印申请已拒绝，原 PDF 不失效，可重新申请用印。</span></div>
+      <section class="td-card td-section-card"><div class="td-section-card__head"><h2 class="td-section-card__title">处理范围</h2><span class="td-tag td-tag--primary" id="task-scope-tag">授权方 A</span></div><dl class="td-kv-list"><div class="td-kv-row"><dt>已选择梯台</dt><dd id="task-selected-equipment">A-01、A-02 · 2 台</dd></div><div class="td-kv-row"><dt>未处理梯台</dt><dd id="task-unprocessed-equipment">A-03、A-04 · 2 台仍在任务池</dd></div><div class="td-kv-row"><dt>流程说明</dt><dd id="task-flow-copy">首次提交后立即生成 KF127 PDF；若仍有未处理梯台，任务继续保留。</dd></div></dl></section>
+      <section class="td-card td-section-card"><div class="td-section-card__head"><h2 class="td-section-card__title">可追溯记录</h2><span class="td-foot-note">任务与 PDF 共用记录</span></div><div class="td-record-list"><button class="td-record-entry" type="button" data-record-tab="modify" data-go="s-ip6-pdf-detail"><span>修改记录</span><svg><use href="#ic-chevron"></use></svg></button><button class="td-record-entry" type="button" data-record-tab="approval" data-go="s-ip6-pdf-detail"><span>审批记录</span><svg><use href="#ic-chevron"></use></svg></button><button class="td-record-entry" type="button" data-record-tab="seal" data-go="s-ip6-pdf-detail"><span>用印申请记录</span><svg><use href="#ic-chevron"></use></svg></button><button class="td-record-entry" type="button" data-record-tab="relation" data-go="s-ip6-pdf-detail"><span>新旧 PDF 关联关系</span><svg><use href="#ic-chevron"></use></svg></button></div></section>
+    </div>
+    <div class="td-footer-bar"><div class="td-footer-bar__inner"><button class="td-button td-button--light" type="button" data-go="s-ip4-task-list">返回任务</button><button class="td-button td-button--primary" type="button" data-go="s-ip6-pdf-detail">查看 PDF</button></div><div class="td-safe-area"></div></div>
+  </section>
+
+  <!-- IP6 PDF Detail -->
+  <section class="screen" id="s-ip6-pdf-detail" data-screen="IP6">
+    <header class="td-header">
+      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg><use href="#ic-status"></use></svg></span></div>
+      <div class="td-header__bar"><button class="td-header__back" type="button" data-go="s-ip5-task-detail" aria-label="返回任务详情"><svg><use href="#ic-back"></use></svg></button><h1 class="td-header__title">授权书详情</h1></div>
+    </header>
+    <div class="td-pdf-content">
+      <section class="td-card td-pdf-file-card">
+        <div class="td-pdf-file-head"><div><div class="td-pdf-file-title">KF127 安装授权书</div><div class="td-pdf-file-number" id="pdf-number">IAL202610220015M</div></div><span class="td-tag td-tag--success" id="pdf-status">有效</span></div>
+        <div class="td-pdf-preview" id="pdf-preview-trigger" role="button" tabindex="0" aria-label="查看 KF127 PDF 预览"><span class="td-pdf-preview__watermark">PDF PREVIEW</span><div class="td-pdf-preview__logo"><svg><use href="#ic-file"></use></svg><span>KONE · KF127</span></div><div class="td-pdf-preview__heading">安装授权书</div><div class="td-pdf-preview__line"></div><div class="td-pdf-preview__kv"><div><span>授权书编号</span><span id="pdf-preview-number">IAL202610220015M</span></div><div><span>项目名称</span><span>上海虹桥 T2 扩建安装项目</span></div><div><span>被授权方</span><span>授权方 A</span></div><div><span>梯台范围</span><span id="pdf-preview-elevators">A-01、A-02</span></div></div></div>
+        <div class="td-pdf-meta"><div class="td-kv-row"><dt>项目名称</dt><dd>上海虹桥 T2 扩建安装项目</dd></div><div class="td-kv-row"><dt>授权方</dt><dd>授权方 A · 安装合作方</dd></div><div class="td-kv-row"><dt>梯台范围</dt><dd id="pdf-elevators">A-01、A-02 · 2 台</dd></div><div class="td-kv-row"><dt>生成时间</dt><dd id="pdf-created-time">2026-10-22 09:28</dd></div><div class="td-kv-row"><dt>当前状态</dt><dd id="pdf-status-copy">首次提交后自动生成，当前 PDF 有效。</dd></div></div>
+        <div class="td-pdf-relation" id="pdf-relation"><svg><use href="#ic-link"></use></svg><span id="pdf-relation-copy">当前为首次生成版本，暂无上游 PDF；本 PDF 对当前梯台范围有效。</span></div>
+        <div class="td-pdf-actions"><button class="td-button td-button--light" type="button" id="pdf-view-button">查看 PDF</button><button class="td-button td-button--outline" type="button" id="pdf-modify-button"><svg><use href="#ic-edit"></use></svg><span>修改</span></button><button class="td-button td-button--primary" type="button" id="pdf-seal-button"><svg><use href="#ic-seal"></use></svg><span>申请用印</span></button></div>
+        <div class="td-pdf-action-note" id="pdf-action-note">首次提交不需要审批；PDF 生成后可以立即申请用印。</div>
+      </section>
+      <div class="td-record-tabs" role="tablist" aria-label="授权书记录"><button class="td-record-tabs__item is-active" type="button" data-record-tab="modify">修改记录</button><button class="td-record-tabs__item" type="button" data-record-tab="approval">审批记录</button><button class="td-record-tabs__item" type="button" data-record-tab="seal">用印申请记录</button><button class="td-record-tabs__item" type="button" data-record-tab="relation">新旧 PDF 关联关系</button></div>
+      <section class="td-card td-record-panel" id="record-panel-modify"><div class="td-timeline"><div class="td-timeline__item"><div class="td-timeline__title">首次提交并生成 KF127 PDF</div><div class="td-timeline__meta">PS 陈思远 · 2026-10-22 09:28 · 当前版本</div></div><div class="td-timeline__item"><div class="td-timeline__title">修改记录预留</div><div class="td-timeline__meta">尚未发起修改，历史记录持续保留</div></div></div></section>
+      <section class="td-card td-record-panel" id="record-panel-approval" hidden><div class="td-timeline"><div class="td-timeline__item"><div class="td-timeline__title">首次生成不进入审批</div><div class="td-timeline__meta">当前 PDF 直接标记为有效</div></div><div class="td-timeline__item"><div class="td-timeline__title">修改审批链</div><div class="td-timeline__meta">PS 提交 → IM → BGM 或分公司经理（由 BPM 配置决定）</div></div></div></section>
+      <section class="td-card td-record-panel" id="record-panel-seal" hidden><div class="td-timeline"><div class="td-timeline__item"><div class="td-timeline__title">用印申请记录</div><div class="td-timeline__meta">PDF 生成后可申请；BPM 当前由 IM 审批</div></div><div class="td-timeline__item"><div class="td-timeline__title">线下盖章</div><div class="td-timeline__meta">审批通过后由 PS 持申请线下盖章，回写方式待确认</div></div></div></section>
+      <section class="td-card td-record-panel" id="record-panel-relation" hidden><div class="td-association"><div><div class="td-association__name" id="relation-current-name">IAL202610220015M · 当前 PDF</div><div class="td-association__meta">有效 · A-01、A-02</div></div><span class="td-tag td-tag--success">当前</span></div><div class="td-association"><div><div class="td-association__name">IAL202610220014M · 上一版本</div><div class="td-association__meta">首次生成版本 · 已保留历史记录</div></div><span class="td-tag td-tag--default">关联</span></div></section>
+    </div>
+    <div class="td-overlay" id="pdf-overlay" hidden><div class="td-dialog" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title"><div class="td-dialog__head"><h2 class="td-dialog__title" id="pdf-dialog-title">KF127 PDF 预览</h2><button class="td-dialog__close" type="button" data-close-pdf aria-label="关闭预览"><svg><use href="#ic-close"></use></svg></button></div><div class="td-dialog__body"><p class="td-dialog__copy">自包含视觉预览，不连接外部文件服务。</p><div class="td-dialog__paper"><h3>安装授权书 · KF127</h3><p>授权书编号：<span id="pdf-dialog-number">IAL202610220015M</span></p><p>项目名称：上海虹桥 T2 扩建安装项目</p><p>被授权方：授权方 A</p><p>梯台范围：A-01、A-02</p><p>状态：<span id="pdf-dialog-status">有效</span></p></div></div></div></div>
+  </section>
+  <!-- Toast 放在 .phone 根下，不属于任何 .screen：任何屏触发都可见（此前放在 IP6 内，其他屏触发时随屏幕一起被隐藏） -->
+  <div class="td-toast" id="prototype-toast" role="status" aria-live="polite"></div>
+</main>
+
+<!-- ▼▼▼ DEMO ONLY · 交互状态及说明，开发请整块删除 ▼▼▼ -->
+<div id="demo-panel" data-demo aria-label="DEMO ONLY 交互状态及说明">
+  <div class="dp-head" id="dp-toggle"><span>DEMO ONLY · 交互状态及说明</span><span id="dp-caret">▾</span></div>
+  <div class="dp-body">
+    <div class="dp-group">
+      <div class="dp-label">业务状态</div>
+      <label><input type="radio" name="demoState" value="valid" checked> 首次提交 / PDF有效</label>
+      <label><input type="radio" name="demoState" value="risk"> 资质风险提示</label>
+      <label><input type="radio" name="demoState" value="modify-approving"> 修改审批中</label>
+      <label><input type="radio" name="demoState" value="modify-rejected"> 修改审批已拒绝</label>
+      <label><input type="radio" name="demoState" value="modify-approved"> 修改审批通过后新PDF</label>
+      <label><input type="radio" name="demoState" value="partial-invalid"> 部分梯台失效</label>
+      <label><input type="radio" name="demoState" value="all-invalid"> 全部梯台已作废</label>
+      <label><input type="radio" name="demoState" value="seal-approving"> 用印审批中</label>
+      <label><input type="radio" name="demoState" value="seal-rejected"> 用印审批已拒绝</label>
+      <label><input type="radio" name="demoState" value="sealed"> 已用印</label>
+      <div class="dp-note" id="demo-state-note">当前可查看 KF127 PDF、发起修改和申请用印。当前 PDF 保持有效；没有新 PDF 版本。</div>
+    </div>
+  </div>
+  <div class="dp-footer">DEMO ONLY · 开发请删除</div>
+</div>
+<!-- ▲▲▲ DEMO ONLY · 交互状态及说明结束 ▲▲▲ -->
+
+<script data-demo>
+(function () {
+  'use strict';
+  const root = document.documentElement;
+  const phone = document.getElementById('prototype-phone');
+  const screens = Array.from(document.querySelectorAll('.screen'));
+  const navButtons = Array.from(document.querySelectorAll('.screen-nav [data-go]'));
+  const equipmentState = { selectedGroup: null, selected: new Set() };
+  let recordTab = 'modify';
+  let toastTimer;
+
+  const stateMeta = {
+    valid: {
+      task: '有效', tag: 'success', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '首次提交后自动生成，当前 PDF 有效。',
+      relation: '当前为首次生成版本，暂无上游 PDF；本 PDF 对当前梯台范围有效。',
+      note: '首次提交不需要审批；PDF 生成后可以立即申请用印。',
+      panel: '当前可查看 KF127 PDF、发起修改和申请用印。当前 PDF 保持有效；没有新 PDF 版本。'
+    },
+    risk: {
+      task: '资质风险', tag: 'warning', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '资质组合无法确认，但风险不阻断提交；提交后仍自动生成 KF127。',
+      relation: '资质风险只记录在选择/提交上下文中，不改变当前 PDF 的有效性。',
+      note: '仍可提交。风险不会阻止 KF127 生成，也不会额外发送推送。',
+      panel: '当前选择存在资质数据无法确认风险；仍可提交。不会自动产生消息推送，提交后照常生成 KF127 PDF。'
+    },
+    'modify-approving': {
+      task: '审批中', tag: 'primary', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '修改申请已提交 BPM，原 PDF 继续有效；本次修改尚未生效。',
+      relation: '原 PDF 有效；修改申请正在 BPM 审批，未生成新 PDF。',
+      note: '可撤回修改后重新提交；当前不允许发起冲突的用印操作。',
+      panel: '修改申请已发起，PS 可撤回后重新提交。原 PDF 继续有效，本次修改未生效。'
+    },
+    'modify-rejected': {
+      task: '已拒绝', tag: 'danger', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '修改审批已拒绝，本次修改不生效；原 PDF 继续有效。',
+      relation: '没有新有效 PDF；原 PDF 继续有效，拒绝结果和审批记录保留。',
+      note: '可再次发起修改；PS 会收到 SFM 消息中心 / App 推送。',
+      panel: '修改审批已拒绝，原 PDF 继续有效。本次不生成新 PDF，PS 会收到 SFM 消息中心 / App 推送，可再次修改。'
+    },
+    'modify-approved': {
+      task: '有效', tag: 'success', number: 'IAL202610220016M', elevators: 'A-01、A-02',
+      copy: '修改审批通过后自动生成新 PDF，新授权书编号为 IAL202610220016M。',
+      relation: '当前为新 PDF；原 PDF 根据修改范围标记为部分失效或已作废，历史关系保留。',
+      note: '当前新 PDF 有效，可再次修改或申请用印。',
+      panel: '修改审批通过后已自动生成新 PDF 和新授权书编号；原 PDF 根据范围部分失效或已作废，新 PDF 有效。'
+    },
+    'partial-invalid': {
+      task: '部分失效', tag: 'warning', number: 'IAL202610220016M', elevators: 'A-01',
+      copy: '新 PDF 只包含被修改的 A-01；原 PDF 对 A-01 部分失效，其他梯台仍有效。',
+      relation: 'IAL202610220016M 由当前 PDF 的修改审批通过后生成；A-02 继续保留原 PDF 有效关系。',
+      note: '可以查看新 PDF；未修改梯台继续由原 PDF 保持有效关系。',
+      panel: '仅部分梯台被修改：新 PDF 只含被修改梯台，原 PDF 对这些梯台部分失效，未修改梯台仍保留原 PDF 有效关系。'
+    },
+    'all-invalid': {
+      task: '已作废', tag: 'default', number: 'IAL202610220016M', elevators: 'A-01、A-02',
+      copy: '全部梯台都已修改；原 PDF 已作废，新 PDF 为新的有效版本。',
+      relation: '当前新 PDF 替代原 PDF；原 PDF 已作废，但修改、审批和版本关联记录保留。',
+      note: '原 PDF 不可申请用印；请查看新的有效 PDF。',
+      panel: '全部梯台被修改：原 PDF 已作废，新 PDF 为新的有效版本；历史记录和新旧关联仍保留。'
+    },
+    'seal-approving': {
+      task: '用印审批中', tag: 'primary', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '用印申请已提交 BPM，等待 IM 审批；原 PDF 继续有效。',
+      relation: '用印审批不生成新 PDF；原 PDF 保持有效，申请记录独立留存。',
+      note: '当前不能重复申请用印，也不能发起冲突的修改操作。',
+      panel: '用印审批中，原 PDF 继续有效；当前禁止发起冲突用印/修改操作，等待 BPM 的 IM 结果。'
+    },
+    'seal-rejected': {
+      task: '用印审批已拒绝', tag: 'danger', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '用印审批已拒绝，原 PDF 不失效；可以重新申请用印。',
+      relation: '用印拒绝不生成新 PDF；原 PDF 继续有效，拒绝记录和通知结果保留。',
+      note: '可以重新申请用印；PS 会收到 SFM 消息中心 / App 推送。',
+      panel: '用印审批已拒绝，原 PDF 不失效，可重新申请用印；PS 收到 SFM 消息中心 / App 推送。'
+    },
+    sealed: {
+      task: '已用印', tag: 'success', number: 'IAL202610220015M', elevators: 'A-01、A-02',
+      copy: '用印审批已通过并完成线下盖章，当前 PDF 记录为已用印。',
+      relation: '已用印不生成新 PDF；当前 PDF 保持有效，线下盖章记录独立留存。',
+      note: '可查看 PDF 和历史记录；不重复申请当前 PDF 的用印。',
+      panel: '用印审批已通过并完成线下盖章，当前 PDF 状态为已用印；不生成新 PDF。'
+    }
+  };
+
+  function showToast(message) {
+    const toast = document.getElementById('prototype-toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('is-show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('is-show'); }, 2200);
+  }
+
+  function showScreen(id) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    screens.forEach(function (screen) { screen.classList.toggle('active', screen.id === id); screen.scrollTop = 0; });
+    root.dataset.demoScreen = target.dataset.screen;
+    navButtons.forEach(function (button) { button.classList.toggle('is-active', button.dataset.go === id); });
+    applyDemoState(root.dataset.demoState || 'valid');
+  }
+
+  function updateStatusTag(element, text, theme) {
+    if (!element) return;
+    element.textContent = text;
+    element.className = 'td-tag td-tag--' + theme;
+  }
+
+  function applyDemoState(state) {
+    const meta = stateMeta[state] || stateMeta.valid;
+    root.dataset.demoState = state;
+    document.getElementById('demo-state-note').textContent = meta.panel;
+    updateStatusTag(document.getElementById('task-status-tag'), meta.task, meta.tag);
+    updateStatusTag(document.getElementById('pdf-status'), meta.task, meta.tag);
+    document.getElementById('pdf-number').textContent = meta.number;
+    document.getElementById('pdf-preview-number').textContent = meta.number;
+    document.getElementById('pdf-dialog-number').textContent = meta.number;
+    document.getElementById('pdf-preview-elevators').textContent = meta.elevators;
+    document.getElementById('pdf-elevators').textContent = meta.elevators + ' · ' + (state === 'partial-invalid' ? '1 台' : '2 台');
+    document.getElementById('pdf-status-copy').textContent = meta.copy;
+    document.getElementById('pdf-relation-copy').textContent = meta.relation;
+    document.getElementById('pdf-action-note').textContent = meta.note;
+    document.getElementById('pdf-dialog-status').textContent = meta.task;
+    document.getElementById('relation-current-name').textContent = meta.number + ' · 当前 PDF';
+    document.getElementById('task-progress-text').textContent = state === 'valid' || state === 'risk' ? '已处理 0 / 4 台' : '已处理 2 / 4 台';
+    document.getElementById('task-progress-value').style.width = state === 'valid' || state === 'risk' ? '0%' : '55%';
+    updatePdfActions(state);
+  }
+
+  function updatePdfActions(state) {
+    const modify = document.getElementById('pdf-modify-button');
+    const seal = document.getElementById('pdf-seal-button');
+    const modifyLabel = modify.querySelector('span');
+    const sealLabel = seal.querySelector('span');
+    modify.classList.remove('is-disabled');
+    seal.classList.remove('is-disabled');
+    modify.disabled = false;
+    seal.disabled = false;
+    modifyLabel.textContent = '修改';
+    sealLabel.textContent = '申请用印';
+    if (state === 'modify-approving') {
+      modifyLabel.textContent = '撤回修改';
+      seal.classList.add('is-disabled');
+      seal.disabled = true;
+    } else if (state === 'modify-rejected') {
+      modifyLabel.textContent = '再次修改';
+    } else if (state === 'modify-approved' || state === 'partial-invalid') {
+      modifyLabel.textContent = '修改';
+    } else if (state === 'all-invalid') {
+      modifyLabel.textContent = '查看新 PDF';
+      modify.classList.add('is-disabled');
+      modify.disabled = true;
+      seal.classList.add('is-disabled');
+      seal.disabled = true;
+    } else if (state === 'seal-approving') {
+      modify.classList.add('is-disabled');
+      modify.disabled = true;
+      sealLabel.textContent = '用印审批中';
+      seal.classList.add('is-disabled');
+      seal.disabled = true;
+    } else if (state === 'seal-rejected') {
+      sealLabel.textContent = '重新申请用印';
+    } else if (state === 'sealed') {
+      sealLabel.textContent = '已用印';
+      seal.classList.add('is-disabled');
+      seal.disabled = true;
+    }
+  }
+
+  function syncEquipmentSelection() {
+    const selected = equipmentState.selected;
+    document.querySelectorAll('.td-equipment-row').forEach(function (row) {
+      const id = row.dataset.equipmentId;
+      const checked = selected.has(id);
+      row.classList.toggle('is-selected', checked);
+      row.querySelector('.td-equipment-check').checked = checked;
+    });
+    document.querySelectorAll('[data-group-select]').forEach(function (input) {
+      const group = input.dataset.groupSelect;
+      const rows = Array.from(document.querySelectorAll('.td-equipment-row[data-group="' + group + '"]'));
+      const count = rows.filter(function (row) { return selected.has(row.dataset.equipmentId); }).length;
+      input.checked = rows.length > 0 && count === rows.length;
+      input.indeterminate = count > 0 && count < rows.length;
+      input.closest('.td-group-select').classList.toggle('is-selected', count === rows.length && count > 0);
+    });
+    document.getElementById('equipment-selected-count').textContent = '已选 ' + selected.size + ' 台';
+    const submit = document.getElementById('equipment-submit');
+    const enabled = selected.size > 0;
+    submit.disabled = !enabled;
+    submit.classList.toggle('is-disabled', !enabled);
+  }
+
+  function clearOtherGroup(group) {
+    equipmentState.selectedGroup = group;
+    Array.from(equipmentState.selected).forEach(function (id) {
+      const row = document.querySelector('.td-equipment-row[data-equipment-id="' + id + '"]');
+      if (row && row.dataset.group !== group) equipmentState.selected.delete(id);
+    });
+  }
+
+  function toggleGroup(group, checked) {
+    if (checked) clearOtherGroup(group);
+    document.querySelectorAll('.td-equipment-row[data-group="' + group + '"]').forEach(function (row) {
+      if (checked) equipmentState.selected.add(row.dataset.equipmentId); else equipmentState.selected.delete(row.dataset.equipmentId);
+    });
+    if (!equipmentState.selected.size) equipmentState.selectedGroup = null;
+    syncEquipmentSelection();
+  }
+
+  function toggleEquipment(id, group, checked) {
+    if (checked && equipmentState.selectedGroup && equipmentState.selectedGroup !== group) {
+      equipmentState.selected.clear();
+      showToast('一次只能选择一个授权方，已切换至 ' + (group === 'A' ? '授权方 A' : '授权方 B'));
+    }
+    if (checked) { equipmentState.selectedGroup = group; equipmentState.selected.add(id); } else { equipmentState.selected.delete(id); }
+    if (!equipmentState.selected.size) equipmentState.selectedGroup = null;
+    syncEquipmentSelection();
+  }
+
+  function setRecordTab(tab) {
+    recordTab = tab || 'modify';
+    document.querySelectorAll('.td-record-tabs__item').forEach(function (button) { button.classList.toggle('is-active', button.dataset.recordTab === recordTab); });
+    ['modify', 'approval', 'seal', 'relation'].forEach(function (name) { document.getElementById('record-panel-' + name).hidden = name !== recordTab; });
+  }
+
+  document.querySelectorAll('[data-go]').forEach(function (element) {
+    element.addEventListener('click', function (event) {
+      event.stopPropagation();
+      if (element.dataset.recordTab) setRecordTab(element.dataset.recordTab);
+      showScreen(element.dataset.go);
+    });
+  });
+  document.querySelectorAll('[data-nav-toast]').forEach(function (element) { element.addEventListener('click', function () { showToast(element.dataset.navToast); }); });
+
+  document.getElementById('nav-toggle').addEventListener('click', function () {
+    const panel = document.querySelector('.screen-nav');
+    panel.classList.toggle('collapsed');
+    document.getElementById('nav-caret').textContent = panel.classList.contains('collapsed') ? '▸' : '▾';
+  });
+  document.getElementById('dp-toggle').addEventListener('click', function () {
+    const panel = document.getElementById('demo-panel');
+    panel.classList.toggle('collapsed');
+    document.getElementById('dp-caret').textContent = panel.classList.contains('collapsed') ? '▸' : '▾';
+  });
+  document.querySelectorAll('#demo-panel input[name="demoState"]').forEach(function (input) { input.addEventListener('change', function () { applyDemoState(input.value); }); });
+  document.querySelectorAll('[data-zoom]').forEach(function (button) { button.addEventListener('click', function () { phone.style.transform = button.dataset.zoom === 'fit' ? 'scale(.86)' : 'scale(1)'; }); });
+
+  document.querySelectorAll('[data-group-select]').forEach(function (input) { input.addEventListener('change', function (event) { event.stopPropagation(); toggleGroup(input.dataset.groupSelect, input.checked); }); });
+  document.querySelectorAll('.td-equipment-check').forEach(function (input) { input.addEventListener('change', function (event) { event.stopPropagation(); toggleEquipment(input.dataset.equipmentId, input.dataset.group, input.checked); }); });
+  document.getElementById('equipment-submit').addEventListener('click', function () { if (!equipmentState.selected.size) { showToast('请至少选择 1 台梯台'); return; } showToast('已提交，正在生成 KF127 PDF'); showScreen('s-ip5-task-detail'); });
+
+  function setupSearch(inputId, clearId, wrapperSelector, itemSelector, emptyId) {
+    const input = document.getElementById(inputId);
+    const clear = document.getElementById(clearId);
+    const wrapper = input.closest('.td-search');
+    function filter() {
+      const query = input.value.trim().toLocaleLowerCase();
+      wrapper.classList.toggle('td-search--has-value', Boolean(query));
+      const items = Array.from(document.querySelectorAll(itemSelector));
+      let visible = 0;
+      items.forEach(function (item) { const match = !query || (item.dataset.keywords || '').toLocaleLowerCase().includes(query); item.hidden = !match; if (match) visible += 1; });
+      if (emptyId) document.getElementById(emptyId).classList.toggle('is-visible', visible === 0);
+    }
+    input.addEventListener('input', filter);
+    clear.addEventListener('click', function () { input.value = ''; filter(); input.focus(); });
+  }
+  setupSearch('project-search', 'project-search-clear', '#project-search-wrap', '[data-project-card]', 'project-empty');
+  setupSearch('equipment-search', 'equipment-search-clear', '.td-search', '.td-equipment-row', null);
+
+  document.querySelectorAll('[data-task-filter]').forEach(function (button) { button.addEventListener('click', function () { document.querySelectorAll('[data-task-filter]').forEach(function (item) { item.classList.toggle('is-active', item === button); }); document.querySelectorAll('[data-task-card]').forEach(function (card) { card.hidden = button.dataset.taskFilter !== 'all' && card.dataset.taskState !== button.dataset.taskFilter; }); }); });
+  document.querySelectorAll('[data-record-tab]').forEach(function (button) { if (button.closest('#s-ip6-pdf-detail')) button.addEventListener('click', function () { setRecordTab(button.dataset.recordTab); }); });
+
+  document.getElementById('pdf-view-button').addEventListener('click', function () { document.getElementById('pdf-overlay').hidden = false; });
+  document.getElementById('pdf-preview-trigger').addEventListener('click', function () { document.getElementById('pdf-overlay').hidden = false; });
+  document.getElementById('pdf-preview-trigger').addEventListener('keydown', function (event) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); document.getElementById('pdf-overlay').hidden = false; } });
+  document.querySelector('[data-close-pdf]').addEventListener('click', function () { document.getElementById('pdf-overlay').hidden = true; });
+  document.getElementById('pdf-overlay').addEventListener('click', function (event) { if (event.target.id === 'pdf-overlay') event.currentTarget.hidden = true; });
+  document.getElementById('pdf-modify-button').addEventListener('click', function () { if (this.disabled) return; const state = root.dataset.demoState; if (state === 'modify-approving') showToast('修改申请已撤回，可调整后重新提交'); else showToast('已进入修改申请，提交后将进入 BPM 审批'); });
+  document.getElementById('pdf-seal-button').addEventListener('click', function () { if (this.disabled) return; showToast('已进入用印申请，BPM 当前由 IM 审批'); });
+
+  syncEquipmentSelection();
+  setRecordTab('modify');
+  applyDemoState('valid');
+}());
+</script>
+</body>
+</html>

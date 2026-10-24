@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<!-- Auto-generated page. Do not edit by hand. -->
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empty States · OnSite Prototypes</title>
+<link rel="icon" href="data:,">
+<script>
+(function () {
+  var stored = null;
+  try { stored = window.localStorage.getItem('kone-onsite-site-collapsed-v1'); } catch (e) {}
+  var collapsed = stored === '1' ? true : stored === '0' ? false : window.matchMedia('(max-width: 899px)').matches;
+  if (collapsed) { document.documentElement.classList.add('is-sidebar-collapsed'); }
+  var theme = null;
+  try { theme = window.localStorage.getItem('kone-onsite-site-theme-v1'); } catch (e) {}
+  document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+})();
+</script>
+<style>
+:root {
+  --bg-color-container: #ffffff;
+  --bg-color-container-hover: #f5f7fa;
+  --bg-color-page: #f5f7fa;
+  --brand-color: #1450f5;
+  --brand-color-hover: #4373f7;
+  --brand-color-light: #f3f6fe;
+  --component-border: #c8cad0;
+  --component-stroke: #dfe1e8;
+  --focus-shadow-default: 0 0 0 2px #d0dcfd;
+  --font-family-base: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --font-family-web-product: "Alibaba PuHuiTi 2.0", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --radius-circle: 128px;
+  --radius-default: 4px;
+  --radius-medium: 6px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --text-body-14: 400 14px/22px var(--font-family-base);
+  --text-color-brand: #1450f5;
+  --text-color-placeholder: #8f9195;
+  --text-color-primary: #141414;
+  --text-color-secondary: #676a72;
+  --text-color-white: #ffffff;
+  --text-foot-12: 400 12px/20px var(--font-family-base);
+  --text-title-16-sb: 600 16px/24px var(--font-family-base);
+  --text-title-20-sb: 600 20px/28px var(--font-family-base);
+  --text-web-product-name: 600 18px/24px var(--font-family-web-product);
+}
+html[data-theme="dark"] {
+  --bg-color-container: #141414;
+  --bg-color-container-hover: #1d1f26;
+  --bg-color-page: #000000;
+  --brand-color: #0a84ff;
+  --brand-color-hover: #086acc;
+  --brand-color-light: #021a33;
+  --component-border: #676a72;
+  --component-stroke: #333740;
+  --text-color-brand: #0a84ff;
+  --text-color-primary: #ffffff;
+  --text-color-secondary: #f2f4f7;
+}
+
+* { box-sizing: border-box; }
+html { --sidebar-width: 232px; --topbar-height: 56px; --footer-height: 52px; color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
+html.is-sidebar-collapsed { --sidebar-width: 64px; }
+body { margin: 0; background: var(--bg-color-page); color: var(--text-color-primary); font: var(--text-body-14); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* 侧栏：从页面最顶部开始 */
+.site-sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 10; width: var(--sidebar-width); display: flex; flex-direction: column; background: var(--bg-color-container); overflow: hidden; }
+.site-sidebar__brand { flex: 0 0 56px; height: 56px; padding: 14px 0 0 24px; display: flex; align-items: flex-start; gap: var(--spacing-8); border-bottom: 1px solid var(--component-stroke); white-space: nowrap; }
+.site-sidebar__logo { display: block; flex: 0 0 72px; width: 72px; height: 28px; }
+.site-sidebar__logo svg { display: block; width: 72px; height: 28px; }
+.site-sidebar__name { height: 28px; display: flex; align-items: center; color: var(--text-color-primary); font: var(--text-web-product-name); }
+.is-sidebar-collapsed .site-sidebar__logo, .is-sidebar-collapsed .site-sidebar__name { display: none; }
+
+.site-nav { flex: 1 1 auto; min-height: 0; padding: var(--spacing-16) var(--spacing-8) var(--spacing-8); overflow-x: hidden; overflow-y: auto; }
+.site-menu, .site-menu__submenu { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--spacing-4); }
+.site-menu__submenu { margin-top: var(--spacing-4); }
+.site-menu__submenu:not(.is-open) { display: none; }
+.site-menu__label { display: block; height: 40px; padding: var(--spacing-16) var(--spacing-16) var(--spacing-4); color: var(--text-color-placeholder); font: var(--text-foot-12); white-space: nowrap; }
+
+.site-menu__item { position: relative; width: 100%; height: 36px; margin: 0; padding: 0 var(--spacing-16); display: flex; align-items: center; gap: var(--spacing-8); border: 0; border-radius: var(--radius-medium); background: transparent; color: var(--text-color-secondary); font: var(--text-body-14); text-align: left; text-decoration: none; white-space: nowrap; cursor: pointer; }
+.site-menu__item--sub { padding-left: 44px; }
+.site-menu__item.is-current { color: var(--text-color-brand); }
+.site-menu__item:hover, .site-menu__item:focus-visible { background: var(--bg-color-container-hover); color: var(--text-color-primary); outline: 0; }
+.site-menu__item:focus-visible { box-shadow: var(--focus-shadow-default); }
+.site-menu__item.is-active { background: var(--brand-color-light); color: var(--text-color-brand); }
+.site-menu__icon { width: 20px; height: 20px; flex: 0 0 20px; }
+.site-menu__icon svg { display: block; width: 20px; height: 20px; }
+.site-menu__text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.site-menu__chevron { width: 16px; height: 16px; flex: 0 0 16px; }
+.site-menu__chevron svg { display: block; width: 16px; height: 16px; }
+.site-menu__item.is-open .site-menu__chevron { transform: rotate(180deg); }
+
+/* 收起态：只留一级图标；文字保留给读屏，不用 display:none */
+.is-sidebar-collapsed .site-menu__item { width: 48px; padding: 0; justify-content: center; }
+.is-sidebar-collapsed .site-menu__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.is-sidebar-collapsed .site-menu__chevron, .is-sidebar-collapsed .site-menu__submenu, .is-sidebar-collapsed .site-menu__label { display: none; }
+.is-sidebar-collapsed .site-menu__item.is-current { background: var(--brand-color-light); color: var(--text-color-brand); }
+
+.site-sidebar__operations { flex: 0 0 56px; height: 56px; display: flex; align-items: center; border-top: 1px solid var(--component-stroke); }
+.site-sidebar__toggle { width: 32px; height: 32px; margin: 0 0 0 var(--spacing-16); padding: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid transparent; border-radius: var(--radius-default); background: transparent; color: var(--text-color-secondary); cursor: pointer; }
+.site-sidebar__toggle:hover, .site-sidebar__toggle:focus-visible { background: var(--bg-color-container-hover); color: var(--text-color-primary); outline: 0; }
+.site-sidebar__toggle:focus-visible { box-shadow: var(--focus-shadow-default); }
+.site-sidebar__toggle svg { display: block; width: 20px; height: 20px; }
+
+/* 内容区：顶部栏（灰色页面底上，56px，随页面滚动，不 sticky）+ 白色直角内容卡 + 页脚（最后一个普通流节点，短页面时落在视口底部） */
+.site-main { min-height: 100vh; margin-left: var(--sidebar-width); padding: 0 var(--spacing-24); display: flex; flex-direction: column; }
+.site-topbar { flex: 0 0 var(--topbar-height); height: var(--topbar-height); display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); min-width: 0; }
+.site-card { flex: 1 0 auto; min-height: calc(100vh - var(--topbar-height) - var(--footer-height)); padding: var(--spacing-24); border-radius: 0; background: var(--bg-color-container); }
+.site-footer { flex: 0 0 var(--footer-height); height: var(--footer-height); padding: var(--spacing-16); display: flex; align-items: center; justify-content: center; color: var(--text-color-placeholder); font: var(--text-foot-12); text-align: center; }
+
+/* 面包屑：TDesign Breadcrumb（14/22；非当前项 placeholder 色、当前项 primary 色、hover 品牌色；分隔符 / 用 placeholder 色，两侧 8px 与 QMP 面包屑一致） */
+.site-breadcrumb { flex: 0 1 auto; min-width: 0; }
+.t-breadcrumb { margin: 0; padding: 0; list-style: none; display: flex; align-items: center; min-width: 0; font: var(--text-body-14); }
+.t-breadcrumb__item { min-width: 0; display: flex; align-items: center; flex: 0 1 auto; color: var(--text-color-placeholder); }
+.t-breadcrumb__item.t-is-current { color: var(--text-color-primary); }
+.t-breadcrumb--text-overflow { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: inherit; text-decoration: none; }
+.t-breadcrumb__separator { flex: none; margin: 0 var(--spacing-8); color: var(--text-color-placeholder); }
+.t-breadcrumb__item:last-child .t-breadcrumb__separator { display: none; }
+.t-breadcrumb a.t-breadcrumb--text-overflow:hover { color: var(--text-color-brand); }
+.t-breadcrumb a.t-breadcrumb--text-overflow:focus-visible { outline: 0; border-radius: var(--radius-default); box-shadow: var(--focus-shadow-default); }
+
+/* Light / Dark 胶囊：TDesign Radio 按钮组 Small（高 24、横向内边距 8、12/20），整体圆角用 --radius-circle；
+   选中样式由 html[data-theme] 驱动（首次绘制前就正确），原生 radio 铺满选项、透明，负责点击与方向键 */
+.site-theme { flex: none; height: 24px; display: inline-flex; align-items: center; border: 1px solid var(--component-stroke); border-radius: var(--radius-circle); background: var(--bg-color-container); }
+.site-theme__option { position: relative; height: 22px; padding: 0 var(--spacing-8); display: inline-flex; align-items: center; gap: var(--spacing-4); border-radius: var(--radius-circle); color: var(--text-color-secondary); font: var(--text-foot-12); white-space: nowrap; cursor: pointer; }
+.site-theme__option:hover { background: var(--bg-color-container-hover); color: var(--text-color-primary); }
+html:not([data-theme="dark"]) .site-theme__option[data-theme-option="light"],
+html[data-theme="dark"] .site-theme__option[data-theme-option="dark"] { background: var(--brand-color-light); color: var(--text-color-brand); }
+.site-theme__option:has(.site-theme__input:focus-visible) { z-index: 1; box-shadow: var(--focus-shadow-default); }
+.site-theme__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.site-theme__icon { display: block; flex: 0 0 16px; width: 16px; height: 16px; }
+
+html.is-animated .site-sidebar, html.is-animated .site-main { transition: width .2s ease, margin-left .2s ease; }
+@media (prefers-reduced-motion: reduce) {
+  html.is-animated .site-sidebar, html.is-animated .site-main { transition: none; }
+}
+:root {
+  --tile-light-bg: #ffffff;
+  --tile-light-stroke: #dfe1e8;
+  --tile-light-text: #676a72;
+  --tile-dark-bg: #141414;
+  --tile-dark-stroke: #333740;
+  --tile-dark-text: #f2f4f7;
+}
+
+/* 页头 */
+.es-title { margin: 0; color: var(--text-color-primary); font: var(--text-title-20-sb); }
+.es-subtitle { margin: var(--spacing-4) 0 0; color: var(--text-color-secondary); font: var(--text-body-14); }
+.es-desc { margin: var(--spacing-16) 0 0; color: var(--text-color-secondary); font: var(--text-body-14); }
+.es-desc p { margin: 0; }
+.es-desc p + p { margin-top: var(--spacing-4); }
+
+/* 插图卡片网格：1440 宽下一行 2 张，窄屏单列（min() 保证容器比 480px 还窄时也不撑出横向滚动条） */
+.es-grid { margin: var(--spacing-24) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr)); gap: var(--spacing-16); }
+.es-grid > li { min-width: 0; }
+.es-card { height: 100%; padding: var(--spacing-20); border: 1px solid var(--component-stroke); border-radius: var(--radius-medium); background: var(--bg-color-container); overflow-wrap: anywhere; }
+
+/* Light / Dark 并排预览块：颜色是固定的 --tile-*，不随页面的 Light / Dark 切换变化 */
+.es-previews { display: flex; flex-wrap: wrap; gap: var(--spacing-12); }
+.es-tile { position: relative; flex: 1 1 176px; min-width: 0; height: 200px; display: flex; align-items: center; justify-content: center; border: 1px solid; border-radius: var(--radius-default); }
+.es-tile--light { border-color: var(--tile-light-stroke); background: var(--tile-light-bg); color: var(--tile-light-text); }
+.es-tile--dark { border-color: var(--tile-dark-stroke); background: var(--tile-dark-bg); color: var(--tile-dark-text); }
+.es-tile__label { position: absolute; top: var(--spacing-8); left: var(--spacing-8); font: var(--text-foot-12); }
+.es-tile img { display: block; flex: none; width: 160px; height: 160px; }
+
+.es-card__name-en { margin: var(--spacing-16) 0 0; color: var(--text-color-primary); font: var(--text-title-16-sb); }
+.es-card__line { margin: var(--spacing-8) 0 0; font: var(--text-body-14); }
+.es-card__line--primary { color: var(--text-color-primary); }
+.es-card__line--secondary { color: var(--text-color-secondary); }
+.es-card__file { margin: var(--spacing-8) 0 0; color: var(--text-color-placeholder); font: var(--text-foot-12); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="ic-home" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 9.47826C6 8.92598 6.44772 8.47826 7 8.47826H9C9.55228 8.47826 10 8.92598 10 9.47826V13H13V6.55017L8 2.31104L3 6.55016L2.35332 5.78741L7.35331 1.54828C7.72641 1.23195 8.27359 1.23195 8.64669 1.54828L13.6467 5.78741C13.8708 5.97741 14 6.25636 14 6.55017V13C14 13.5523 13.5523 14 13 14H10C9.44772 14 9 13.5523 9 13V9.47826H7V13C7 13.5523 6.55228 14 6 14H3C2.44772 14 2 13.5523 2 13V6.55017C2 6.25636 2.12921 5.97741 2.35332 5.78741L3 6.55016L3 13H6V9.47826Z" fill="currentColor"/></symbol><symbol id="state-chevron" viewBox="0 0 16 16"><path d="m12 5.3.78.84-4.28 4.42a1 1 0 0 1-1.44 0L2.78 6.14l.82-.84L7.78 9.6 12 5.3Z" fill="currentColor"/></symbol><symbol id="state-list" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M13 5H3V4H13V5ZM13 8.5H3V7.5H13V8.5ZM3 12H13V11H3V12Z" fill="currentColor"/></symbol><symbol id="ic-image" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M13 3H3L3 9.91289L5.67461 7.62037C5.87995 7.44436 6.18804 7.46354 6.36997 7.66366L11.2212 13H13V3ZM3 13L3 11.23L5.95669 8.69566L9.86973 13H3ZM3 2C2.44772 2 2 2.44772 2 3V13C2 13.5523 2.44772 14 3 14H13C13.5523 14 14 13.5523 14 13V3C14 2.44772 13.5523 2 13 2H3ZM11 6C11 6.55228 10.5523 7 10 7C9.44772 7 9 6.55228 9 6C9 5.44772 9.44772 5 10 5C10.5523 5 11 5.44772 11 6ZM12 6C12 7.10457 11.1046 8 10 8C8.89543 8 8 7.10457 8 6C8 4.89543 8.89543 4 10 4C11.1046 4 12 4.89543 12 6Z" fill="currentColor"/></symbol><symbol id="ic-sun" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 8.5H12V7.5H14.5V8.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M4 8.5H1.5V7.5H4V8.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1.5V4H7.5V1.5H8.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 12V14.5H7.5V12H8.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12.9497 3.75736L11.182 5.52513L10.4749 4.81802L12.2426 3.05025L12.9497 3.75736Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.52513 11.182L3.75736 12.9497L3.05025 12.2426L4.81802 10.4749L5.52513 11.182Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M3.75736 3.05025L5.52513 4.81802L4.81802 5.52513L3.05025 3.75736L3.75736 3.05025Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M11.182 10.4749L12.9497 12.2426L12.2426 12.9497L10.4749 11.182L11.182 10.4749Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10ZM8 11C9.65685 11 11 9.65685 11 8C11 6.34315 9.65685 5 8 5C6.34315 5 5 6.34315 5 8C5 9.65685 6.34315 11 8 11Z" fill="currentColor"/></symbol><symbol id="ic-moon" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.09589 3.19613C6.53186 4.89553 6.66806 6.82134 7.63498 8.49608C8.60189 10.1708 10.2016 11.2517 11.9553 11.6129C11.6732 11.8818 11.3545 12.1221 11.001 12.3262C8.60954 13.7069 5.55159 12.8875 4.17087 10.4961C2.79016 8.10462 3.60954 5.04667 6.001 3.66595C6.35454 3.46184 6.72193 3.306 7.09589 3.19613ZM8.42722 2.6264C8.57804 2.34731 8.40024 1.98743 8.08375 2.00925C7.20128 2.0701 6.31867 2.32785 5.501 2.79993C2.63125 4.45678 1.648 8.12633 3.30485 10.9961C4.9617 13.8658 8.63125 14.8491 11.501 13.1922C12.3187 12.7202 12.9832 12.0847 13.4771 11.3508C13.6543 11.0877 13.4315 10.7538 13.1144 10.7448C11.2686 10.6928 9.49202 9.71257 8.501 7.99608C7.50998 6.27959 7.54936 4.25095 8.42722 2.6264Z" fill="currentColor"/></symbol></defs></svg>
+<div class="site-sidebar" id="siteSidebar">
+  <div class="site-sidebar__brand">
+    <span class="site-sidebar__logo"><svg width="72" height="28" viewBox="0 0 179 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M37 5H5V64H37V5ZM82 5H50V64H82V5ZM97 5H129V64H97V5ZM174 5H142V64H174V5Z" fill="var(--text-color-white)"/><path d="M0 0V70H40.4031V0H0ZM25.2969 49.979L15.1362 35.7853V49.979H7.23284V20.021H15.1377V33.0914L24.9219 20.021H34.2307L23.4265 34.1238L34.9717 49.9805H25.2984Z" fill="#1450F5"/><path d="M92.3484 0V70H132.752V0H92.3484ZM125.73 49.979H119.139L106.681 32.4426V49.979H99.3698V20.021H106.274L118.395 36.2961V20.021H125.73V49.979Z" fill="#1450F5"/><path d="M66.3735 26.4214C62.1616 26.4214 58.9067 29.9217 58.9067 34.994C58.9067 40.0664 62.1601 43.5667 66.3735 43.5667C70.5869 43.5667 73.8388 40.0785 73.8388 34.994C73.8388 29.9096 70.5734 26.4214 66.3735 26.4214Z" fill="#1450F5"/><path d="M46.175 0V70H86.5781V0H46.175ZM66.375 50.6384C57.8567 50.6384 51.0049 44.2684 51.0049 34.9939C51.0049 25.7194 57.8567 19.3616 66.375 19.3616C74.8933 19.3616 81.7482 25.7179 81.7482 34.9939C81.7482 44.27 74.8963 50.6384 66.375 50.6384Z" fill="#1450F5"/><path d="M138.598 0V70H179.001V0H138.598ZM170.014 26.6229H155.397V31.6877H167.618L167.615 38.1016H155.398V43.1815H170.015V49.982H147.589V20.018H170.015L170.014 26.6229Z" fill="#1450F5"/></svg></span>
+    <span class="site-sidebar__name">OnSite</span>
+  </div>
+  <nav class="site-nav" id="siteNav" aria-label="Main navigation"><ul class="site-menu"><li><a class="site-menu__item" href="../" data-menu-label="Home"><span class="site-menu__icon"><svg aria-hidden="true"><use href="#ic-home"/></svg></span><span class="site-menu__text">Home</span></a></li><li><span class="site-menu__label" id="menu-label-resources">Resources</span><ul class="site-menu" aria-labelledby="menu-label-resources"><li><a class="site-menu__item is-active" href="../empty-states/" aria-current="page" data-menu-label="Empty States"><span class="site-menu__icon"><svg aria-hidden="true"><use href="#ic-image"/></svg></span><span class="site-menu__text">Empty States</span></a></li></ul></li></ul></nav>
+  <div class="site-sidebar__operations">
+    <button class="site-sidebar__toggle" id="siteSidebarToggle" type="button" title="Collapse sidebar" aria-label="Collapse sidebar" aria-expanded="true"><svg aria-hidden="true"><use href="#state-list"/></svg></button>
+  </div>
+</div>
+<div class="site-main">
+  <header class="site-topbar">
+    <nav class="site-breadcrumb" aria-label="Breadcrumb"><ol class="t-breadcrumb"><li class="t-breadcrumb__item"><span class="t-breadcrumb--text-overflow"><span class="t-breadcrumb__inner"><span class="t-breadcrumb__inner-text">Resources</span></span></span><span class="t-breadcrumb__separator" aria-hidden="true">/</span></li><li class="t-breadcrumb__item t-is-current" aria-current="page"><span class="t-breadcrumb--text-overflow"><span class="t-breadcrumb__inner"><span class="t-breadcrumb__inner-text">Empty States</span></span></span><span class="t-breadcrumb__separator" aria-hidden="true">/</span></li></ol></nav>
+    <div class="site-theme" id="siteThemeGroup" role="radiogroup" aria-label="Theme"><label class="site-theme__option" data-theme-option="light"><input class="site-theme__input" type="radio" name="site-theme" value="light" checked><svg class="site-theme__icon" width="16" height="16" aria-hidden="true"><use href="#ic-sun"/></svg><span class="site-theme__label">Light</span></label><label class="site-theme__option" data-theme-option="dark"><input class="site-theme__input" type="radio" name="site-theme" value="dark"><svg class="site-theme__icon" width="16" height="16" aria-hidden="true"><use href="#ic-moon"/></svg><span class="site-theme__label">Dark</span></label></div>
+  </header>
+  <main class="site-card" id="main">
+    <header class="es-header">
+      <h1 class="es-title">Empty States</h1>
+      <p class="es-subtitle" lang="zh-CN">缺省图</p>
+      <div class="es-desc">
+        <p>Official illustrations for empty, result and error states. Use the Light version in light theme and the Dark version in dark theme.</p>
+        <p lang="zh-CN">用于空状态、结果页和异常状态的官方插图。浅色主题用 Light 版，深色主题用 Dark 版。</p>
+      </div>
+    </header>
+    <ul class="es-grid">
+      <li>
+        <article class="es-card" aria-labelledby="es-name-no-search-result">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/no-search-result.svg" width="160" height="160" alt="No search result illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/no-search-result.svg" width="160" height="160" alt="No search result illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-no-search-result">No search result</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">无搜索结果</p>
+          <p class="es-card__line es-card__line--primary">Search or filter returned no match. The list has data, but the keyword did not hit.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">搜索或筛选后无匹配项。列表本身有数据，是关键词没命中。</p>
+          <p class="es-card__file">no-search-result.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-empty">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/empty.svg" width="160" height="160" alt="Empty illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/empty.svg" width="160" height="160" alt="Empty illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-empty">Empty</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">空状态</p>
+          <p class="es-card__line es-card__line--primary">A list, message or notification center has no data at all (no records, no options, no messages).</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">列表、消息或通知中心本身没有任何数据（暂无记录、暂无可选项、暂无消息）。</p>
+          <p class="es-card__file">empty.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-success">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/success.svg" width="160" height="160" alt="Success illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/success.svg" width="160" height="160" alt="Success illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-success">Success</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">成功状态</p>
+          <p class="es-card__line es-card__line--primary">Result page after a successful submission or creation.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">提交成功、创建成功等结果页。</p>
+          <p class="es-card__file">success.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-failure">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/failure.svg" width="160" height="160" alt="Failure illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/failure.svg" width="160" height="160" alt="Failure illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-failure">Failure</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">失败状态</p>
+          <p class="es-card__line es-card__line--primary">Result page after a failed submission or operation.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">提交失败、操作失败等结果页。</p>
+          <p class="es-card__file">failure.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-no-network">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/no-network.svg" width="160" height="160" alt="No network illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/no-network.svg" width="160" height="160" alt="No network illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-no-network">No network</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">无网络</p>
+          <p class="es-card__line es-card__line--primary">Offline or request timed out.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">断网、请求超时。</p>
+          <p class="es-card__file">no-network.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-server-not-found">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/server-not-found.svg" width="160" height="160" alt="Server not found illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/server-not-found.svg" width="160" height="160" alt="Server not found illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-server-not-found">Server not found</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">找不到服务器</p>
+          <p class="es-card__line es-card__line--primary">404, or the page or resource does not exist.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">404、页面或资源不存在。</p>
+          <p class="es-card__file">server-not-found.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-report-file">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/report-file.svg" width="160" height="160" alt="Report file illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/report-file.svg" width="160" height="160" alt="Report file illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-report-file">Report file</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">报告文件</p>
+          <p class="es-card__line es-card__line--primary">Placeholder for report, attachment or document modules.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">报告、附件、文档类模块的占位图。</p>
+          <p class="es-card__file">report-file.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-building">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/building.svg" width="160" height="160" alt="Building illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/building.svg" width="160" height="160" alt="Building illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-building">Building</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">楼宇</p>
+          <p class="es-card__line es-card__line--primary">Placeholder for project, building or on-site modules.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">项目、楼宇、现场相关模块的占位图。</p>
+          <p class="es-card__file">building.svg</p>
+        </article>
+      </li>
+      <li>
+        <article class="es-card" aria-labelledby="es-name-visit-calendar">
+          <div class="es-previews">
+            <div class="es-tile es-tile--light"><span class="es-tile__label" aria-hidden="true">Light</span><img src="./assets/light/visit-calendar.svg" width="160" height="160" alt="Visit calendar illustration (Light)"></div>
+            <div class="es-tile es-tile--dark"><span class="es-tile__label" aria-hidden="true">Dark</span><img src="./assets/dark/visit-calendar.svg" width="160" height="160" alt="Visit calendar illustration (Dark)"></div>
+          </div>
+          <h2 class="es-card__name-en" id="es-name-visit-calendar">Visit calendar</h2>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">拜访日历</p>
+          <p class="es-card__line es-card__line--primary">Placeholder for schedule or visit-plan modules.</p>
+          <p class="es-card__line es-card__line--secondary" lang="zh-CN">日程、拜访计划相关模块的占位图。</p>
+          <p class="es-card__file">visit-calendar.svg</p>
+        </article>
+      </li>
+    </ul>
+  </main>
+  <footer class="site-footer">Copyright © 2026 KONE. All Rights Reserved</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var nav = document.getElementById('siteNav');
+  var toggle = document.getElementById('siteSidebarToggle');
+  var COLLAPSE_KEY = 'kone-onsite-site-collapsed-v1';
+  var GROUP_KEY = 'kone-onsite-site-groups-v1';
+  var THEME_KEY = 'kone-onsite-site-theme-v1';
+  var themeGroup = document.getElementById('siteThemeGroup');
+  function readStore(key) { try { return window.localStorage.getItem(key); } catch (e) { return null; } }
+  function writeStore(key, value) { try { window.localStorage.setItem(key, value); } catch (e) {} }
+  var groups = {};
+  try { groups = JSON.parse(readStore(GROUP_KEY) || '{}'); } catch (e) { groups = {}; }
+  if (!groups || typeof groups !== 'object' || Array.isArray(groups)) { groups = {}; }
+
+  function isCollapsed() { return root.classList.contains('is-sidebar-collapsed'); }
+  function syncCollapsed() {
+    var collapsed = isCollapsed();
+    var label = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    toggle.title = label;
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+    Array.prototype.forEach.call(nav.querySelectorAll('[data-menu-label]'), function (item) {
+      if (collapsed) { item.title = item.getAttribute('data-menu-label'); } else { item.removeAttribute('title'); }
+    });
+  }
+  function setGroup(button, open) {
+    button.classList.toggle('is-open', open);
+    button.setAttribute('aria-expanded', String(open));
+    var menu = document.getElementById(button.getAttribute('aria-controls'));
+    if (menu) { menu.classList.toggle('is-open', open); }
+  }
+
+  Array.prototype.forEach.call(nav.querySelectorAll('[data-group]'), function (button) {
+    setGroup(button, groups[button.getAttribute('data-group')] !== false);
+  });
+  syncCollapsed();
+
+  nav.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-group]');
+    if (!button) { return; }
+    if (isCollapsed()) {
+      var href = button.getAttribute('data-first-href');
+      if (href) { window.location.href = href; }
+      return;
+    }
+    var open = !button.classList.contains('is-open');
+    setGroup(button, open);
+    groups[button.getAttribute('data-group')] = open;
+    writeStore(GROUP_KEY, JSON.stringify(groups));
+  });
+  toggle.addEventListener('click', function () {
+    var collapsed = !isCollapsed();
+    root.classList.toggle('is-sidebar-collapsed', collapsed);
+    writeStore(COLLAPSE_KEY, collapsed ? '1' : '0');
+    syncCollapsed();
+  });
+
+  // 主题：默认 Light，只由这个胶囊决定（不跟随系统）。选择写入 localStorage，所有页面共用同一个键。
+  function currentTheme() { return root.dataset.theme === 'dark' ? 'dark' : 'light'; }
+  function syncTheme() {
+    var theme = currentTheme();
+    Array.prototype.forEach.call(themeGroup.querySelectorAll('input[type="radio"]'), function (input) {
+      input.checked = input.value === theme;
+    });
+  }
+  function setTheme(value) {
+    var theme = value === 'dark' ? 'dark' : 'light';
+    root.dataset.theme = theme;
+    writeStore(THEME_KEY, theme);
+    syncTheme();
+    window.dispatchEvent(new CustomEvent('kone:theme-change', { detail: { theme: theme } }));
+  }
+  themeGroup.addEventListener('change', function (event) {
+    if (event.target && event.target.type === 'radio') { setTheme(event.target.value); }
+  });
+  syncTheme();
+
+  window.requestAnimationFrame(function () {
+    window.requestAnimationFrame(function () { root.classList.add('is-animated'); });
+  });
+})();
+</script>
+</body>
+</html>

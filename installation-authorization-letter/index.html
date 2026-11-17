@@ -544,7 +544,7 @@
 </style>
 <style data-inlined-from="components.mobile.css">
 /* ═══════════════════════════════════════════════════════════════
-   components.mobile.css · KONE 手机端组件库（第一 ~ 六批共 32 件）
+   components.mobile.css · KONE 手机端组件库（第一 ~ 七批共 33 件）
    ═══════════════════════════════════════════════════════════════
    用途
      KONE 手机端（375 画布，手机；不含 iPad / 桌面端）的组件样式，QMP、OnSite 与以后的项目共用。
@@ -599,6 +599,8 @@
      原未定项第 30 件附件卡图标块与文字的间距（FL3）：12，设计师 2026-10-25 确认；目前没有未定项。
      第六批 1 件（第 32 件：多行文本框 Textarea）2026-10-30 入库，设计师回复「改成组件样式，收入共享库」
      （来自安装授权书 IM 审批「拒绝」浮层的拒绝原因输入框）；取值见第 32 件注释与 TX1 ~ TX5。
+     第七批 1 件（第 33 件：筛选选项，多选胶囊 + 栅格）2026-11-17 入库，设计师确认（来自 OnSite Deviation 优化与公共页面的筛选弹层）；
+     取值见第 33 件注释与 FG1 ~ FG4。
      第 14 件卡片同日新增两个修饰类 .kc-card--shadow（CD4）与 .kc-card--compact（CD5），设计师确认（来自安装授权书高保真确认）。
      各件的取值依据写在各自注释里，决定记录见文件末尾与 component-map.mobile.md 第 2.1 ~ 2.7 节。
      以后再出现未定选项，用「[待设计师确认]」标记并汇总在文件末尾。
@@ -687,6 +689,9 @@
    依据档：映射表 K-04「搜索栏取 QMP 值」（图标 24、gap 4、inner 高 40 / padding 0 12 / 胶囊 /
            底 --bg-color-component、清空钮点击区 40）
    结构：.td-search > .td-search__inner (> __icon + __field + __clear) + __cancel
+   浏览器自带清除钮（2026-11-13 设计师确认修在库里）：<input type="search"> 在 Chrome / Safari 里自带一个 ×，
+         会和库的 __clear 同时出现，变成两个关闭按钮。搜索框里放了 __clear 时，库自动隐藏自带的（规则在 __clear 之后），
+         页面不要再自己压；没放 __clear 的搜索框保留自带的，否则没有清空入口。
    状态（两个独立钩子，可单用可叠加；2026-10-24 设计师确认）：
          .td-search.has-value  显示清空钮（有输入内容）。FS / CRM 的 .td-search--has-value 改名为它。
          .td-search.is-active  显示框外「取消」（搜索框处于激活态，QMP 流程）。
@@ -750,6 +755,15 @@
 }
 .td-search__clear svg { display: block; width: 24px; height: 24px; }
 .td-search.has-value .td-search__clear { display: flex; }
+/* 只在放了库的清空钮时，才隐藏浏览器自带的清除钮（原因见上方注释）。
+   没放清空钮的搜索框（如 kt- 选择项目 / 选择设备模板）保留自带的，否则这些框没有清空入口。
+   依赖 :has()（Chrome 105+、Safari 15.4+、Firefox 121+）；不支持时整条规则失效，退回两个钮并存。 */
+.td-search__inner:has(.td-search__clear) .td-search__field::-webkit-search-cancel-button,
+.td-search__inner:has(.td-search__clear) .td-search__field::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
 /* 框外「取消」（第一批收，2026-10-24 设计师确认）。QMP 有，FS 与 CRM 没有。
    点它 = 清空并返回上一页。不需要时页面不放这个元素即可，不影响其余部分。 */
 .td-search__cancel {
@@ -1238,6 +1252,8 @@
 .td-tag--success { background: var(--success-color-light); color: var(--success-color-active); }
 .td-tag--warning { background: var(--warning-color-light); color: var(--warning-color); }
 .td-tag--danger  { background: var(--error-color-light); color: var(--error-color); }
+/* 描边款（TG5）：叠在主题类后，去底、1px 同色内描边；说明见上方注释。放在主题类之后，同权重时靠顺序盖住主题底色。 */
+.td-tag--outline { background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
 
 
 .td-checkbox,
@@ -1642,7 +1658,8 @@
    蓝本：QMP 手机端当前列表页面的 .list-end（实际 DOM：
          <div class="list-end" data-i18n>已经到底了</div>）。
    结构：<div class="kc-nomore">已经到底了</div>，仅放在任务卡片列表滚动到末尾时。
-         不用于普通页面、非任务列表或空状态；没有任务卡片时不渲染。
+         不用于表单、统计面板、非任务列表或空状态；没有任务卡片时不渲染。
+         详情页内容滚动到底时也用（设计师 2026-11-17 确认，见映射表 §2.9）。
    取值：上下 padding 16 / 24、字 12/20 占位色、居中；背景透明，承接所在页面底色。
    [栅格] padding 16 / 24 在栅格上。
    ═══════════════════════════════════════════════════════════════ */
@@ -1950,6 +1967,9 @@
 }
 .kc-kv--justify .kc-kv__label { flex: 0 0 auto; }
 .kc-kv--justify .kc-kv__value { min-width: 0; text-align: right; }
+/* KV4 上下排款：多行文本字段名在上、值在下，无分割线；写在 --justify 规则之后，同权重靠顺序盖住 */
+.kc-kv .kc-kv__row--stack { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: var(--spacing-4); }
+.kc-kv .kc-kv__row--stack .kc-kv__value { text-align: left; }
 
 
 /* ═══ 23 徽标 ══════════════════════════════════════════════════
@@ -2638,6 +2658,67 @@ div.kc-file { cursor: default; }            /* 编辑态外层是 div，点击�
 .td-textarea.is-error .td-textarea__tips { color: var(--error-color); }
 
 
+/* ═══ 33 筛选选项（多选胶囊 + 栅格）════════════════════════════
+   件名：筛选选项 · 官方对应 CheckTag（TagCheck，可选中的标签）；分组标题与栅格没有官方件，前缀 kc-
+   蓝本：OnSite Deviation 优化 / 公共页面 的筛选弹层（页面局部 os-chip、os-fchip、os-fgrid）；QMP .td-check-tag；
+         取值与第 10 件 32 高胶囊（.td-tabs--tag）一致，区别只是多选。
+   依据档：设计师 2026-11-17 确认入库（FG1 ~ FG4）。
+   结构：放进第 3 件底部弹层的 .td-popup__scroll。选中加 .is-checked，同时写 aria-pressed。
+     <div class="kc-filter-group">
+       <div class="kc-filter-group__title">Status</div>
+       <div class="kc-filter-grid">
+         <button class="td-check-tag is-checked" type="button" aria-pressed="true">Handed Over</button>
+         <button class="td-check-tag" type="button" aria-pressed="false">Before Contract Signed</button>
+       </div>
+     </div>
+   取值：
+     FG1 选项胶囊 .td-check-tag：高 32、padding 0 12、胶囊圆角；未选 --bg-color-component 底 + 主文字色 14/22；
+         选中 .is-checked：--brand-color-light 底 + --text-color-brand；文字单行不换行
+     FG2 栅格 .kc-filter-grid：英文一行 2 列、中文一行 3 列（按 :lang(zh) 判断，页面切换语言时 <html lang> 要跟着换）；列距、行距 8
+     FG3 放不下一行的文字整行单独放：给该项加 .is-wide（grid-column: 1 / -1）。要看真实宽度，CSS 做不到，
+         页面在弹层打开后、切换语言后各跑一次（画廊里有同一段脚本）：
+           chips.forEach(c => c.classList.remove('is-wide'));
+           chips.forEach(c => { if (c.scrollWidth > c.clientWidth + 1) c.classList.add('is-wide'); });
+         整行仍放不下时，文字用省略号截断，不换行。
+     FG4 分组标题 .kc-filter-group__title：16/24/600 主文字色，上 16 下 12；第一组上 4
+   不收：单选（用第 10 件 .td-tabs--tag）；带图标或关闭按钮的标签；选项数量角标；QMP 的小号。
+   [栅格] 高 32、列距行距 8、padding 12、标题间距 16 / 12 / 4 都在栅格上。
+   ═══════════════════════════════════════════════════════════════ */
+.td-check-tag {
+  box-sizing: border-box;
+  display: block;
+  min-width: 0;
+  height: 32px;
+  padding: 0 var(--spacing-12);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-circle);
+  background: var(--bg-color-component);
+  color: var(--text-color-primary);
+  font: var(--text-body-14);
+  line-height: 32px;                        /* 单行居中，同高 */
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.td-check-tag[hidden] { display: none !important; }
+.td-check-tag.is-checked { background: var(--brand-color-light); color: var(--text-color-brand); }
+.td-check-tag:focus-visible { outline: none; box-shadow: var(--focus-shadow-default); }
+.kc-filter-group__title {
+  margin: var(--spacing-16) 0 var(--spacing-12);
+  color: var(--text-color-primary);
+  font: var(--text-title-16-sb);
+}
+.kc-filter-group:first-child .kc-filter-group__title { margin-top: var(--spacing-4); }
+.kc-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-8);
+}
+.kc-filter-grid:lang(zh) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kc-filter-grid > .td-check-tag.is-wide { grid-column: 1 / -1; }
 
 </style>
 <style data-inlined-from="business-templates.mobile.css">
@@ -2854,6 +2935,7 @@ window.ONSITE_IAL_MOCK_EN = Object.freeze({
     '华东区': 'East China Region',
     '昆山某安装工程有限公司': 'Kunshan Installation Engineering Co., Ltd.',
     '昆山某电梯安装有限公司': 'Kunshan Elevator Installation Co., Ltd.',
+    '开发区炜赋集团有限公司': 'Weifu Group Co., Ltd.',
     '苏州某电梯工程有限公司': 'Suzhou Elevator Engineering Co., Ltd.',
     '苏州某机电安装有限公司': 'Suzhou M&E Installation Co., Ltd.',
     '苏州某建设工程有限公司': 'Suzhou Construction Engineering Co., Ltd.',
@@ -2872,6 +2954,7 @@ window.ONSITE_IAL_MOCK_EN = Object.freeze({
     '王磊': 'Leo Wang',
     '李敏': 'Mia Li',
     '王芳': 'Fiona Wang',
+    '分公司经理 王芳': 'Branch Manager Fiona Wang',
     'IM 李敏': 'IM Mia Li',
     /* 梯台名称（不按规则生成的） */
     '地下车库货梯': 'Underground Garage Freight Elevator',
@@ -3120,6 +3203,77 @@ window.ONSITE_IAL_MOCK_EN = Object.freeze({
 
     /* ── V1.9 演示面板说明 ── */
     /* ── 2026-11-12：取消特批、施工类别可改 ── */
+    /* ── 2026-11-17：作废不审批、施工类别前置、被授权方规则、搜索框、去掉 IM ── */
+    /* ── 2026-11-17 第二批：提示条「我知道了」、无数据时提示条下不留间距、授权对象说明改居中弹窗 ── */
+    "我知道了": "Got It",
+    "提示条（可提交）": "Notice (Ready to Submit)",
+    "显示": "Shown",
+    "已点「我知道了」": "Got It tapped",
+    "「可提交」页签顶部有一条说明：可提交条件：安装合同需已下 PO，右边有「我知道了」，点一下说明条就关闭（演示里本次打开期间不再显示；是否永久记住待业务确认，用面板“提示条”可以恢复）。满足条件的梯台才会进入「可提交」；「审批中」「已完结」页签不显示这条说明。没有数据（业务空态、搜索无结果）时，整块背景是白色，说明条下面不留间距。": "A notice sits at the top of the Ready to Submit tab: ready-to-submit condition: an installation contract needs its PO placed. It has a Got It button on the right; tapping it closes the notice (in this demo it stays closed until the page is reopened; whether to remember it permanently is to be confirmed with the business. Use the Notice setting in this panel to bring it back). Only elevators that meet the condition enter Ready to Submit; the Under Approval and Completed tabs do not show it. When there is no data (empty business state or no search result), the whole background is white and there is no gap below the notice.",
+    "只有一个可选项，所以该项默认已选中，直接点「确认」。需要授权给其他对象的，走线下流程；点标题行右侧的「授权对象说明」，会弹出居中的说明窗，点「我知道了」关闭。": "There is only one option, so it is already selected: just tap Confirm. To authorize another party, use the offline process; tap Authorized Party Rules on the right of the title row to open a centered dialog, and tap Got It to close it.",
+    "查看与作废": "View & Void",
+    "切换合作伙伴？": "Switch partner?",
+    "一份授权书只能选择同一个合作伙伴的梯台。切换后，将清空当前已选梯台。": "An authorization letter can only include elevators of the same partner. Switching clears the elevators you have selected.",
+    "作废授权书": "Void Letter",
+    "作废信息": "Void Information",
+    "授权对象说明": "Authorized Party Rules",
+    "施工类别为安装的安装合同：授权对象只能是 PO 上的分包商。": "Installation contracts with the Installation category: the authorized party can only be the subcontractor on the PO.",
+    "调试协议，以及施工类别为重大修理、一般修理：授权对象只能是 VA03 里的甲方。": "Commissioning agreements, and the Major Repair and General Repair categories: the authorized party can only be the client in VA03.",
+    "施工类别为改造：授权对象只能是通力电梯有限公司。": "Modernization category: the authorized party can only be KONE Elevator Co., Ltd.",
+    "如需授权给其他对象，请走线下流程。": "To authorize any other party, use the offline process.",
+    "搜索（当前页签）": "Search (current tab)",
+    "默认（不搜索）": "Default (no search)",
+    "按项目名称": "By project name",
+    "按订单号": "By order no.",
+    "按被授权方（审批中、已完结）": "By authorized party (Under Approval, Completed)",
+    "「可提交」页签顶部常驻一条说明（不可关闭）：可提交条件：安装合同需已下 PO。满足条件的梯台才会进入「可提交」；「审批中」「已完结」页签不显示这条说明。": "A fixed notice sits at the top of the Ready to Submit tab (it cannot be closed): ready-to-submit condition: an installation contract needs its PO placed. Only elevators that meet it enter Ready to Submit; the Under Approval and Completed tabs do not show it.",
+    "列表有三个页签：可提交 = 还没提交的梯台；审批中 = 任务还没结束（用印审批中）；已完结 = 任务已经结束或已生效（用印审批被拒绝、已撤回、用印审批通过、已作废）。授权书状态一变，会自动换到对应页签。": "The list has three tabs. Ready to Submit: elevators not yet submitted. Under Approval: the task has not ended (Seal Approval In Progress). Completed: the task has ended or the letter is in force (Seal Approval Rejected, Withdrawn, Seal Approval Passed, Voided). When a status changes, the letter moves to the matching tab automatically.",
+    "搜索框直接放在页签下面，输入即过滤当前页签：「可提交」按项目名称 / 订单号；「审批中」「已完结」按项目名称 / 订单号 / 被授权方。切换页签会清空输入；没有匹配结果时显示“未找到匹配结果”。": "The search box sits right under the tabs and filters the current tab as you type: Ready to Submit searches project name / order no.; Under Approval and Completed search project name / order no. / authorized party. Switching tabs clears the box; with no match it shows “No matching results”.",
+    "「审批中」「已完结」的授权书卡片带「被授权方」一行；搜索命中订单号而项目名称没命中时，卡片会多出一行「订单号」并高亮。": "Letter cards in Under Approval and Completed have an Authorized Party row; when a search matches the order no. but not the project name, the card shows an extra Order No. row with the match highlighted.",
+    "每张卡只有一个状态标签，取 5 种之一：用印审批中、用印审批被拒绝、已撤回、用印审批通过、已作废。演示数据覆盖了全部 5 种。": "Each card has one status tag, one of five: Seal Approval In Progress, Seal Approval Rejected, Withdrawn, Seal Approval Passed, Voided. The demo data covers all five.",
+    "用印审批被拒绝、已撤回、已作废的授权书都归在「已完结」，它们的梯台回到「可提交」。": "Letters with Seal Approval Rejected, withdrawn letters and voided letters all go to Completed, and their elevators go back to Ready to Submit.",
+    "一份授权书只能选同一个合作伙伴的梯台：选了不同合作伙伴的梯台，会提示切换并清空已选。施工类别不限制：同一份授权书可以同时选施工类别不同的梯台，在下一步「选择被授权方」统一确认。": "A letter can only include elevators of the same partner: selecting an elevator of a different partner asks you to switch and clears the current selection. Construction category is not restricted: one letter may include elevators with different categories, which you confirm together on the next step, Select Authorized Party.",
+    "本页只显示合作伙伴分组（分包商、经销商等）。": "This page only shows partner groups (subcontractors, distributors, and so on).",
+    "演示数据：昆山某电梯安装有限公司（安装）、苏州某电梯工程有限公司（L10，改造）、苏州某机电安装有限公司（安装）、昆山某安装工程有限公司（L2 重大修理、L3 一般修理）。把 L2、L3 一起选上点「下一步」，可以看到“施工类别不一致，必须先选一个”的情形。梯台卡上的施工类别来自 SAP，不能修改。": "Demo data: Kunshan Elevator Installation Co., Ltd. (Installation), Suzhou Elevator Engineering Co., Ltd. (L10, Modernization), Suzhou M&E Installation Co., Ltd. (Installation), Kunshan Installation Engineering Co., Ltd. (L2 Major Repair, L3 General Repair). Select L2 and L3 together and tap Next to see the case where the categories differ and one must be chosen first. The category on an elevator card comes from SAP and cannot be changed.",
+    "「基本信息」里的「施工类别」在上一步「选择被授权方」已经确定，这里只读展示，不能再改（要改就返回上一步）。它只影响授权书详情（「基本信息」里的施工类别、梯台卡）和 PDF 查看（大标题、正文最后一句）；表单里的梯台卡、选择梯台页、列表都不变。": "The Construction Category under Basic Information was confirmed on the previous step, Select Authorized Party. It is read-only here (go back to change it). It only affects the letter details (the category in Basic Information and the elevator cards) and the PDF (the big title and the last sentence of the body); elevator cards on the form, the Select Elevators page and the list are unchanged.",
+    "附件：安装合同和调试协议都是一个选填的附件入口（最多 5 个）；调试协议不再要求安全承诺函、人员清单。已取消「报开工类型」字段。": "Attachments: installation contracts and commissioning agreements both have one optional attachment entry (up to 5 files); commissioning agreements no longer require a safety commitment letter or a personnel list. The Installation Start Report Type field has been removed.",
+    "点「提交」先弹二次确认。提交时同时生成 PDF 并自动发起用印审批（分公司经理，泛微），PS 不需要再操作。提交后进入授权书详情，不再有“已提交，待生成 PDF”。": "Submit shows a confirmation first. Submitting generates the PDF and starts seal approval automatically (Branch Manager, Weaver), so the PS has nothing more to do. After submitting, the letter details open; there is no “submitted, PDF pending” state any more.",
+    "本页先确认施工类别，再选被授权方。施工类别默认带入所选梯台的；所选梯台的施工类别不一致时没有默认值，必须先点编辑图标选一个，才能点「确认」。改施工类别会刷新下面的被授权方。确认之后，表单里不能再改。": "This page confirms the construction category first, then the authorized party. The category defaults to the one on the selected elevators; when the selected elevators have different categories there is no default and you must tap the edit icon and choose one before you can tap Confirm. Changing the category refreshes the authorized parties below. After you confirm, the form cannot change it.",
+    "被授权方由「合同类型 × 施工类别」决定，不再有通力分公司，没有特批，也不能选 SFM 里的合作方：": "The authorized party depends on Contract Type × Construction Category. KONE branches are no longer an option, there is no special approval, and partners from SFM cannot be chosen:",
+    "施工类别 = 改造（安装合同、调试协议都一样）：只有通力电梯有限公司。": "Construction category = Modernization (the same for installation contracts and commissioning agreements): only KONE Elevator Co., Ltd.",
+    "安装合同 · 施工类别 = 安装：只有默认合作方（PO 上的分包商）。": "Installation contract · category = Installation: only the default partner (the subcontractor on the PO).",
+    "调试协议，以及施工类别为重大修理 / 一般修理：只有 VA03 里的甲方。": "Commissioning agreement, and the Major Repair / General Repair categories: only the client in VA03.",
+    "只有一个可选项，所以该项默认已选中，直接点「确认」。需要授权给其他对象的，走线下流程；点标题行右侧的「授权对象说明」可以看到这些规则。": "There is only one option, so it is already selected: just tap Confirm. To authorize another party, use the offline process; tap Authorized Party Rules on the right of the title row to see these rules.",
+    "本期不做资质校验，没有资质提示条，也没有资质明细页。「合同类型」只用于演示切换；正式流程里它来自上一步选中的梯台。": "Qualification checks are out of scope for this phase: there is no qualification notice and no qualification details page. Contract Type here is for demo switching only; in the real flow it comes from the elevators selected in the previous step.",
+    "授权书状态（5 种）": "Letter Status (5)",
+    "授权书只有一个状态标签，取 5 种之一；面板切换的是同一份授权书在不同阶段的样子。": "A letter has one status tag, one of five. The panel switches the same letter between stages.",
+    "提交时自动发起用印审批（分公司经理，泛微）：提交 → 用印审批中 → 用印审批通过；被拒绝则本次任务结束（用印审批被拒绝）。没有特批流程。": "Submitting starts seal approval automatically (Branch Manager, Weaver): Submit → Seal Approval In Progress → Seal Approval Passed. If it is rejected, the task ends (Seal Approval Rejected). There is no special approval flow.",
+    "提交后只有两个动作：用印审批中「撤回授权书」，用印审批通过之后「作废授权书」。没有“修改并重新提交”：要改就撤回或作废，再从「可提交」重新填写、重新提交（新编号，重新申请用印）。": "After submitting there are only two actions: Withdraw Letter while seal approval is in progress, and Void Letter after it passes. There is no “modify and resubmit”: to change anything, withdraw or void the letter, then fill it in and submit again from Ready to Submit (new number, new seal request).",
+    "撤回授权书：只有用印审批中可以撤回；二次确认后状态变“已撤回”，梯台回到「可提交」。": "Withdraw letter: only while seal approval is in progress. After a confirmation the status becomes Withdrawn and the elevators go back to Ready to Submit.",
+    "作废授权书：不需要审批，PS 二次确认后直接作废。作废原因必填，附件选填（最多 5 个）。作废后状态变“已作废”，梯台回到「可提交」，「查看PDF」置灰；作废的提交人、时间、原因都留痕。": "Void letter: no approval needed; the PS confirms and the letter is voided at once. Void reason is required; attachments are optional (up to 5). After voiding, the status is Voided, the elevators go back to Ready to Submit, and View PDF is greyed out. Who voided it, when, why and the attachments are kept on record.",
+    "点「作废授权书」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填）两项，没有分组标题。点「提交」先弹二次确认：作废后原授权书立即失效，梯台回到「可提交」，需要重新提交；确认后浮层关闭，授权书直接作废。没填作废原因就点提交，浮层停留并在输入框下提示。": "Void Letter opens a bottom sheet on the details page (no new page). It has only two items, Void Reason (required) and attachments (optional), and no section titles. Submit shows a confirmation first: the original letter becomes invalid at once and its elevators go back to Ready to Submit to be submitted again. Once confirmed, the sheet closes and the letter is voided. If you tap Submit without a void reason, the sheet stays and the field shows an error.",
+    "已作废的详情：头部状态说明条「原授权书已作废，梯台已回到「可提交」」，条后面有「查看更多」，点开底部浮层，显示作废的提交人、提交时间、作废原因和附件。作废不是审批，所以这些信息不放在「审批信息」里。": "Details of a voided letter: the status notice at the top reads “The original letter has been voided; its elevators are back in Ready to Submit” with View More after it. View More opens a bottom sheet showing who voided it, when, the void reason and attachments. Voiding is not an approval, so this information is not under Approval Information.",
+    "要换被授权方、改梯台或改内容时：作废 → 原授权书作废、梯台回到「可提交」→ 重新填写并提交，重新选被授权方。": "To change the authorized party, the elevators or the content: void the letter → the original letter is voided and the elevators go back to Ready to Submit → fill it in and submit again, choosing the authorized party again.",
+    "演示：把状态切到「用印审批通过」，点右上角「···」→「作废授权书」。": "Demo: switch the status to Seal Approval Passed, then tap the top-right “···” → Void Letter.",
+    "右上角「···」只对 PS 显示：用印审批中 →「撤回授权书」；用印审批通过 →「作废授权书」。用印审批被拒绝、已撤回、已作废只读，不显示「···」。": "The top-right “···” is shown to the PS only: Seal Approval In Progress → Withdraw Letter; Seal Approval Passed → Void Letter. Seal Approval Rejected, Withdrawn and Voided letters are read-only and show no “···”.",
+    "被拒绝、已撤回时，头部有一条状态说明条，点一下切到「审批信息」；已作废的说明条后面是「查看更多」。": "For rejected and withdrawn letters, a status notice at the top switches to Approval Information when tapped; on a voided letter the notice is followed by View More.",
+    "用印审批通过之后 PDF 顶部有一条 info 提示「用印申请已通过」；通过之前没有提示。线下盖章系统不感知，PDF 不加公章。": "Once seal approval has passed, an info notice “Seal request approved” sits at the top of the PDF; before that there is no notice. Offline stamping is not tracked by the system and the PDF carries no seal.",
+    "消息只发给提交申请的 PS，只有一种：用印审批被拒绝（分公司经理在泛微拒绝）。": "Messages go only to the PS who submitted the letter, in one case: seal approval rejected (Branch Manager in Weaver).",
+    "用印通过、PS 撤回、作废都不发消息，由授权书的状态标签和详情表达。": "Seal approval passed, PS withdrawals and voiding send no message; the status tag and the details show them.",
+    "搜索项目名称、订单号或被授权方": "Search project name, order no. or authorized party",
+    "项目名称 / 订单号 / 被授权方": "Project name / order no. / authorized party",
+    "一份授权书只能选择同一个合作伙伴的梯台": "An authorization letter can only include elevators of the same partner",
+    "查看作废信息": "View void information",
+    "查看更多": "View More",
+    "提交后将自动发起用印审批，由分公司经理在泛微处理。": "Submitting will start seal approval automatically; the Branch Manager handles it in Weaver.",
+    "施工类别决定可选的被授权方，也会显示在授权书详情和 PDF 上；不修改梯台数据，不回写 SAP": "The construction category decides which authorized parties can be chosen. It is also shown on the letter details and in the PDF; elevator data is not changed and nothing is written back to SAP.",
+    "授权书已作废，梯台已回到「可提交」": "The letter has been voided and its elevators are back in Ready to Submit",
+    "可提交条件：安装合同需已下 PO": "Ready-to-submit condition: an installation contract needs its PO placed",
+    "请先选择施工类别，再选择被授权方": "Select the construction category first, then the authorized party",
+    "分公司经理": "Branch Manager",
+    "确认作废授权书？": "Void this letter?",
+    "作废后原授权书立即失效，梯台回到「可提交」，需要重新提交。": "After voiding, the original letter becomes invalid at once and its elevators go back to Ready to Submit. They need to be submitted again.",
+    "确认作废": "Confirm Void",
     '点「申请作废」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填，最多 5 个）两项，没有分组标题。点「提交」先弹二次确认：审批通过后原授权书将整份作废，梯台回到「可提交」，需要重新提交；确认后浮层关闭，详情停在「审批信息」，看到刚提交的申请。没填作废原因就点提交，浮层停留并在输入框下提示。': 'Request Voiding opens a bottom sheet on the details page (no new page). It has only two items, Void Reason (required) and attachments (optional, up to 5), and no section titles. Submit shows a confirmation first: after approval the whole original letter is voided and its elevators go back to Ready to Submit to be submitted again. Once confirmed, the sheet closes and the details page stays on Approval Information, showing the request you just submitted. If you tap Submit without a void reason, the sheet stays and the field shows an error.',
     '演示：把状态切到「用印审批通过」或「作废审批被拒绝」，点右上角「···」→「申请作废」。': 'Demo: switch the status to Seal Approval Passed or Void Approval Rejected, then tap the top-right “···” → Request Voiding.',
     '梯台卡「型号规格」旁有编辑图标：点开底部浮层，可修改型号规格、载重、层数、站数。载重、层数、站数只输入数字，单位固定显示在输入框右侧。修改只对本次提交的授权书有效，不修改梯台数据。': 'Each elevator card has an edit icon next to Model / Specification. It opens a bottom sheet to change model, capacity, floors and stops. Capacity, floors and stops take numbers only; the unit stays fixed to the right of the field. Changes apply to this letter only and do not change elevator data.',
@@ -3886,22 +4040,20 @@ img, svg { display: block; }
 .pg-ph--pane { height: 200px; margin: var(--spacing-12) var(--page-padding); }
 /* 首页顶部 */
 .pg-hometop { background: var(--bg-color-container); }
-/* PS 与 IM 首页的状态栏和搜索区作为局部固定顶部栏；其流式高度为内容区保留滚动起点。 */
-#s-ip1-home .pg-hometop,
-#s-im1-home .pg-hometop {
+/* 首页的状态栏和搜索区作为局部固定顶部栏；其流式高度为内容区保留滚动起点。 */
+#s-ip1-home .pg-hometop {
   position: sticky;
   top: 0;
   z-index: 20;
 }
 /* Tabs 页面级吸顶：目标滚动容器是 .screen.active，不是 body。
-   td-header 当前总高 84（状态栏 44 + 导航栏 40）；搜索页 .os-search-header 当前总高 92（状态栏 44 + 搜索栏 48）。
+   td-header 当前总高 84（状态栏 44 + 导航栏 40）。
    吸顶元素保留原流式高度，后续内容自然预留 Tabs 高度；z-index 低于页头，避免覆盖状态栏与导航栏。 */
 .os-tabs-sticky {
   position: sticky;
   top: 84px;
   z-index: 19;
 }
-.os-search-page .os-tabs-sticky { top: 92px; }
 .pg-home { display: flex; flex-direction: column; gap: var(--spacing-12); padding: var(--spacing-12) var(--page-padding); }
 .pg-bell {
   display: flex;
@@ -3963,9 +4115,6 @@ img, svg { display: block; }
   object-fit: contain;
 }
 .os-home-entry__icon--badge { position: relative; }
-/* IM 首页安装授权书徽标：沿用 td-badge--corner 的圆心贴角结构，仅下移其锚点 4px。
-   实测后徽标顶边较 48×48 PNG 上移 4px、右边较 PNG 右边外扩 8px，与 QMP 移动端入口角标一致。 */
-#s-im1-home .os-home-entry__icon--badge .td-badge--corner { top: var(--spacing-4); }
 /* 既有模块 placeholder 保留 48×48 布局位；仅将可见灰色骨架收至内容区，与原图自身留白后的视觉重量对齐。 */
 .os-home-entry__icon--ph {
   padding: var(--spacing-4);
@@ -4100,59 +4249,11 @@ img, svg { display: block; }
 }
 .os-generated-card__submit .os-generated-card__value { white-space: nowrap; }
 
-/* 独立搜索页：按 QMP 搜索页把「返回 + 搜索框 + 取消」放进 Header，结果卡复用 os-generated-card。 */
-.os-search-header { height: 92px; }
-.os-search-bar {
-  display: flex;
-  align-items: center;
-  height: 48px;
-  padding: 0 var(--spacing-16) 0 var(--spacing-12);
-  gap: var(--spacing-12);
-  background: var(--bg-color-container);
-}
-.os-search-bar__back {
-  display: flex;
-  flex: 0 0 24px;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--text-color-primary);
-  cursor: pointer;
-}
-.os-search-bar__back svg { display: block; width: 24px; height: 24px; }
-.os-search-bar__cancel {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  min-width: 40px;
-  height: 48px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--text-color-brand);
-  font: var(--text-title-16);
-  cursor: pointer;
-  user-select: none;
-}
-.os-search-page { min-height: 100%; }
-.os-search-results { padding-bottom: var(--spacing-24); }
-.os-search-hint {
-  padding: var(--spacing-20) var(--page-padding);
-  color: var(--text-color-placeholder);
-  font: var(--text-foot-12);
-  text-align: center;
-}
 .os-search-hit {
   background: transparent;
   color: var(--brand-color);
   font: inherit;
 }
-.os-search-tabs { margin-top: 0; }
 .os-pending-search-list { padding: var(--spacing-16) var(--page-padding); }
 .os-pending-search-card {
   display: block;
@@ -4224,6 +4325,9 @@ img, svg { display: block; }
   padding: 0 0 var(--spacing-12);
   background: var(--bg-color-page);
 }
+/* 没有数据（业务空态 / 搜索无结果）时整块背景是白色：提示条下面不留灰色间距 */
+.os-ip2-rule-notice.is-flush,
+.os-ip3-rule-notice.is-flush { padding-bottom: 0; background: transparent; }
 .td-noticebar.os-noticebar--edge {
   border: 0.5px solid var(--component-stroke);
 }
@@ -4507,7 +4611,6 @@ img, svg { display: block; }
 .os-ip32-candidates .kc-pick-item + .kc-pick-item::after { right: var(--spacing-16); }
 .os-party-flow__title-row { display: flex; align-items: center; gap: var(--spacing-4); min-width: 0; }
 .os-party-flow__title { min-width: 0; overflow-wrap: anywhere; }
-.os-party-flow__edit,
 .os-spec-grid__edit {
   display: inline-flex;
   flex: 0 0 24px;
@@ -4521,14 +4624,22 @@ img, svg { display: block; }
   color: var(--text-color-secondary);
   -webkit-tap-highlight-color: transparent;
 }
-.os-party-flow__edit svg,
 .os-spec-grid__edit svg { width: 20px; height: 20px; }
-.os-party-edit__tips { display: flex; justify-content: space-between; gap: var(--spacing-8); }
 .os-party-edit__notice { margin-bottom: var(--spacing-12); }
-/* IP3.2 候选分类标题（默认合作方 / 通力分公司与办事处 / 通力总部）；IP3.1 型号规格编辑入口与弹层。 */
+/* IP3.2 候选分类标题（通力总部 / 默认合作方）；IP3.1 型号规格编辑入口与弹层。 */
 .os-ip32-caption { padding: var(--spacing-12) 0 var(--spacing-4); color: var(--text-color-placeholder); font: var(--text-foot-12); }
 /* IP3.1 基本信息里的「施工类别」：值 + 编辑图标，点开底部浮层改（只对本次授权书有效）。 */
 .os-constr-value { display: inline-flex; align-items: center; gap: var(--spacing-4); }
+.os-constr-value__ph { color: var(--text-color-placeholder); }
+/* IP3.2 被授权方分区标题行右侧的「授权对象说明」文字链接 + 问号图标，点开底部浮层 */
+.os-help-link { display: inline-flex; align-items: center; gap: var(--spacing-4); padding: 0; border: 0; background: transparent; color: var(--text-color-secondary); font: var(--text-body-14); -webkit-tap-highlight-color: transparent; }
+.os-help-link svg { display: block; width: 16px; height: 16px; }
+.os-ip32-empty { padding: var(--spacing-16) 0; color: var(--text-color-placeholder); font: var(--text-body-14); }
+.os-party-help { display: flex; flex-direction: column; gap: var(--spacing-8); margin: 0; padding: 0 0 0 var(--spacing-16); }
+/* NoticeBar 后面的「查看更多」（页面局部写法：库的 NoticeBar 没有右侧操作位） */
+.os-noticebar-more { flex: 0 0 auto; margin-left: var(--spacing-8); color: var(--brand-color); font: var(--text-body-14); white-space: nowrap; }
+button.os-noticebar-more { padding: 0; border: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.os-void-info { padding-bottom: var(--spacing-8); }
 .os-spec-grid__head { display: flex; align-items: center; gap: var(--spacing-4); }
 .os-spec-edit__unit { flex: 0 0 auto; color: var(--text-color-secondary); }
 /* 页面内所有底部 Popup：保留 QMP L2 标题栏的 24×24 点击盒子与右侧 16px 间距，图标单独使用轻量 ic-close（16×16）。 */
@@ -4544,47 +4655,11 @@ img, svg { display: block; }
   transform: translateY(-50%);
 }
 .td-popup__close svg { width: 16px; height: 16px; }
-.os-party-edit__error[hidden] { display: none; }
-.os-im-home { padding: var(--spacing-20) var(--page-padding); }
-.os-im-entry { display: flex; align-items: center; gap: var(--spacing-12); width: 100%; padding: var(--spacing-16); border: 0; border-radius: var(--radius-xxlarge); background: var(--bg-color-container); box-shadow: var(--shadow-1); color: var(--text-color-primary); text-align: left; }
-.os-im-entry__icon { display: flex; flex: 0 0 48px; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: var(--radius-extralarge); background: var(--brand-color-light); color: var(--brand-color); }
-.os-im-entry__icon svg { width: 24px; height: 24px; }
-.os-im-entry__body { flex: 1 1 auto; min-width: 0; }
-.os-im-entry__title { font: var(--text-title-16-sb); }
-.os-im-entry__desc { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-body-14); }
-.os-im-entry__tail { display: flex; flex: 0 0 auto; align-items: center; gap: var(--spacing-8); color: var(--text-color-primary); }
-.os-im-entry__badge { min-width: 24px; }
-.os-im-card { display: block; width: 100%; padding: var(--spacing-16); border: 0; border-radius: var(--radius-xxlarge); background: var(--bg-color-container); box-shadow: var(--shadow-1); color: var(--text-color-primary); text-align: left; }
-.os-im-card + .os-im-card { margin-top: var(--spacing-12); }
-.os-im-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-8); }
-.os-im-card__title { min-width: 0; color: var(--text-color-primary); font: var(--text-title-16-sb); }
-.os-im-card__meta { flex: 0 0 auto; color: var(--text-color-secondary); font: var(--text-foot-12); }
-.os-im-card__status { margin-top: var(--spacing-8); }
-.os-im-card__rows { margin-top: var(--spacing-12); }
-.os-im-card__row { display: flex; gap: var(--spacing-8); padding-top: var(--spacing-8); color: var(--text-color-primary); font: var(--text-body-14); }
-.os-im-card__row:first-child { padding-top: 0; }
-.os-im-card__label { flex: 0 0 auto; color: var(--text-color-secondary); }
-.os-im-card__value { min-width: 0; overflow-wrap: anywhere; }
-.os-im-detail { padding: var(--spacing-16); }
-.os-im-detail__status { margin-bottom: var(--spacing-12); }
-.os-im-detail__section { padding: var(--spacing-16); border-radius: var(--radius-xxlarge); background: var(--bg-color-container); }
-.os-im-detail__section + .os-im-detail__section { margin-top: var(--spacing-12); }
-.os-im-detail__section-title { color: var(--text-color-primary); font: var(--text-title-16-sb); }
-.os-im-detail__section-note { margin-top: var(--spacing-4); color: var(--text-color-secondary); font: var(--text-foot-12); }
-.os-im-detail__rows { margin-top: var(--spacing-12); }
-.os-im-detail__row { display: flex; gap: var(--spacing-8); padding-top: var(--spacing-8); font: var(--text-body-14); }
-.os-im-detail__row:first-child { padding-top: 0; }
-.os-im-detail__row-label { flex: 0 0 80px; color: var(--text-color-secondary); }
-.os-im-detail__row-value { min-width: 0; color: var(--text-color-primary); overflow-wrap: anywhere; }
-.os-im-detail__result { margin-top: var(--spacing-12); }
-.os-reject-popup__notice { margin-bottom: var(--spacing-12); }
 .os-confirm__body { color: var(--text-color-secondary); font: var(--text-body-14); }
 .os-confirm__body strong { color: var(--text-color-primary); font-weight: 600; }
-.os-im-approval-note { margin: var(--spacing-12) var(--page-padding) 0; color: var(--text-color-secondary); font: var(--text-foot-12); }
 
 /* IP5 详情页：摘要在文档流中滚动，紧贴头部栏（两个场景一致）；审批场景另有双信息 Tab 复用 QMP L2 连续摘要区。 */
-#s-ip5-letter-detail #ip5-main,
-#s-im3-approval-detail #im3-main { padding-top: 0; }
+#s-ip5-letter-detail #ip5-main { padding-top: 0; }
 .os-letter-detail-head__meta { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-12); }
 .os-letter-detail-head__no { min-width: 0; overflow-wrap: anywhere; color: var(--text-color-secondary); font: var(--text-foot-12); }
 .os-letter-detail-head__status { display: flex; flex: 0 0 auto; justify-content: flex-end; max-width: 60%; }
@@ -4733,7 +4808,6 @@ html[data-demo-screen="IP5"] #demo-panel .dp-body { height: var(--dp-body-height
 /* 业务逻辑说明：写给开发看的口径，放在对应屏的面板里 */
 #demo-panel .dp-note { color: var(--text-color-secondary); }
 #demo-panel .dp-note p + p { margin-top: var(--spacing-4); }
-#ip21-search input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
 html[data-demo-screen="IP2"] #demo-panel [data-for-screen="IP2"],
 html[data-demo-screen="IP4"] #demo-panel [data-for-screen="IP2"],
 html[data-demo-screen="IP2.1"] #demo-panel [data-for-screen="IP2.1"],
@@ -4781,6 +4855,7 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
   <symbol id="ic-check" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.3839 3.99994L6.76781 11.4419C6.52373 11.686 6.128 11.686 5.88392 11.4419L2.00003 7.38385L2.88391 6.49997L6.32586 10.1161L13.5 3.11606L14.3839 3.99994Z" fill="currentColor"/></symbol>
   <symbol id="ic-warning-circle-filled" viewBox="0 0 16 16"><path d="M15 8C15 4.13401 11.866 1 8 1C4.13401 0.999998 1 4.134 1 8C0.999998 11.866 4.134 15 8 15C11.866 15 15 11.866 15 8ZM8.5 4.0003V9.49999H7.5V4.0003H8.5ZM7.39429 11H8.59429V12.2H7.39429V11Z" fill="currentColor"/></symbol>
   <symbol id="ic-info-filled" viewBox="0 0 16 16"><path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM7.3999 4H8.59985V5.19995H7.3999V4ZM7.50562 6.5H8.50562V11.9998H7.50562V6.5Z" fill="currentColor"/></symbol>
+  <symbol id="ic-question-circle" viewBox="0 0 16 16"><path d="M7.99409 4.0061C6.65645 4.0061 5.56909 5.09346 5.56909 6.4311H6.56909C6.56909 5.64574 7.20873 5.0061 7.99409 5.0061C8.77945 5.0061 9.41909 5.64574 9.41909 6.4311C9.41909 6.96885 8.9746 7.50808 8.39445 7.74376L8.3919 7.74481C7.86235 7.96335 7.49414 8.48413 7.49414 9.0925V10H8.49414V9.0925C8.49414 8.89828 8.60945 8.73731 8.77236 8.66961C9.59969 8.33289 10.4191 7.49869 10.4191 6.4311C10.4191 5.09346 9.33173 4.0061 7.99409 4.0061Z" fill="currentColor"/><path d="M14.9941 8C14.9941 4.13401 11.8601 1 7.99414 1C4.12815 0.999998 0.994142 4.134 0.994141 8C0.994138 11.866 4.12815 15 7.99414 15C11.8601 15 14.9941 11.866 14.9941 8ZM13.9941 8C13.9941 11.3137 11.3078 14 7.99414 14C4.68043 14 1.99414 11.3137 1.99414 8C1.99414 4.68629 4.68043 2 7.99414 2C11.3079 2 13.9941 4.68629 13.9941 8Z" fill="currentColor"/><path d="M7.49414 11H8.49414V12H7.49414V11Z" fill="currentColor"/></symbol>
   <symbol id="ic-add" viewBox="0 0 16 16"><path d="M7.5 8.5V12H8.5V8.5H12V7.5H8.5V4H7.5V7.5H4V8.5H7.5Z" fill="currentColor"/></symbol>
   <symbol id="ic-edit" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.9124 2.14645C10.8186 2.05268 10.6914 2 10.5588 2C10.4262 2 10.299 2.05268 10.2053 2.14645L3.14645 9.20527C3.05268 9.29904 3 9.42622 3 9.55882V12.5C3 12.7761 3.22386 13 3.5 13H6.44118C6.57378 13 6.70096 12.9473 6.79473 12.8536L13.8536 5.79473C14.0488 5.59947 14.0488 5.28289 13.8536 5.08762L10.9124 2.14645ZM4 12V9.76593L8.52942 5.23651L10.7635 7.47058L6.23407 12H4ZM11.4706 6.76347L12.7929 5.44118L10.5588 3.20711L9.23653 4.5294L11.4706 6.76347Z" fill="currentColor"/></symbol>
   <symbol id="ic-document-1" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.625 2.5C3.58541 2.5 3.55135 2.51529 3.52932 2.53643C3.508 2.5569 3.5 2.58022 3.5 2.6V13.4C3.5 13.4198 3.508 13.4431 3.52932 13.4636C3.55135 13.4847 3.58541 13.5 3.625 13.5H12.375C12.4146 13.5 12.4487 13.4847 12.4707 13.4636C12.492 13.4431 12.5 13.4198 12.5 13.4V5.21311L9.67384 2.5H3.625ZM2.83679 1.81504C3.04919 1.61114 3.33307 1.5 3.625 1.5H9.875C10.0041 1.5 10.1282 1.54992 10.2213 1.63931L13.3463 4.63931C13.4445 4.73359 13.5 4.86385 13.5 5V13.4C13.5 13.6985 13.3763 13.9804 13.1632 14.185C12.9508 14.3889 12.6669 14.5 12.375 14.5H3.625C3.33307 14.5 3.04919 14.3889 2.83679 14.185C2.6237 13.9804 2.5 13.6985 2.5 13.4V2.6C2.5 2.30152 2.6237 2.01961 2.83679 1.81504ZM5 8H10V9H5V8ZM9 10.5H5V11.5H9V10.5Z" fill="currentColor"/></symbol>
@@ -4809,24 +4884,15 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
     <div class="screen-nav__group">提交任务</div>
     <button type="button" data-go="s-ip1-home" class="on">首页入口</button>
     <button type="button" data-go="s-ip2-project-list" data-i18n-short-term>安装授权书</button>
-    <div class="screen-nav__sub">
-      <button type="button" data-go="s-ip2-1-search">搜索</button>
-    </div>
     <button type="button" data-go="s-ip3-select-equipment">选择梯台</button>
     <div class="screen-nav__sub">
       <button type="button" data-go="s-ip3-2-party-select">候选被授权方</button>
     </div>
     <button type="button" data-go="s-ip3-1-form">表单填写</button>
-    <div class="screen-nav__group">查看与修改</div>
+    <div class="screen-nav__group">查看与作废</div>
     <button type="button" data-go="s-ip5-letter-detail">授权书详情</button>
     <div class="screen-nav__sub">
       <button type="button" data-go="s-ip6-pdf-detail">PDF 查看</button>
-    </div>
-    <div class="screen-nav__group">IM审批</div>
-    <button type="button" data-go="s-im1-home">首页入口</button>
-    <div class="screen-nav__sub">
-      <button type="button" data-go="s-im2-approval-list">审批列表</button>
-      <button type="button" data-go="s-im3-approval-detail">审批详情</button>
     </div>
     <div class="screen-nav__group">消息</div>
     <button type="button" data-go="s-ip7-message-center">消息中心</button>
@@ -4889,7 +4955,6 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <div class="td-header__bar">
         <button class="td-header__back" type="button" aria-label="返回" data-act="back"><svg aria-hidden="true"><use href="#ic-chevron-left"/></svg></button>
         <div class="td-header__title">安装授权书</div>
-        <button class="td-header__more" type="button" aria-label="搜索" data-go="s-ip2-1-search"><svg aria-hidden="true"><use href="#ic-search"/></svg></button>
       </div>
     </header>
     <div class="td-body">
@@ -4898,31 +4963,14 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
         <button class="td-tabs__item" type="button" role="tab" aria-selected="false" aria-controls="ip2-main" data-act="ip2-tab" data-tab="progress">审批中</button>
         <button class="td-tabs__item" type="button" role="tab" aria-selected="false" aria-controls="ip2-main" data-act="ip2-tab" data-tab="done">已完结</button>
       </div>
-      <div id="ip2-main"></div>
-    </div>
-  </section>
-
-  <!-- ═══════════════ IP2.1 独立搜索 ═══════════════ -->
-  <section class="screen" id="s-ip2-1-search" data-screen="IP2.1" aria-label="IP2.1 搜索">
-    <header class="td-header os-search-header">
-      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons" aria-hidden="true"><svg><use href="#ic-status"/></svg></span></div>
-      <div class="td-search os-search-bar is-active" id="ip21-search">
-        <button class="os-search-bar__back" type="button" aria-label="返回" data-act="back"><svg aria-hidden="true"><use href="#ic-chevron-left"/></svg></button>
+      <div class="td-search os-list-search" id="ip2-search">
         <div class="td-search__inner">
           <span class="td-search__icon" aria-hidden="true"><svg><use href="#ic-search"/></svg></span>
-          <input class="td-search__field" type="search" data-q="ip21" placeholder="项目名称 / 授权书编号 / 梯台名称或 Network" aria-label="搜索项目名称、授权书编号、梯台名称或 Network" autocomplete="off">
-          <span class="td-search__clear" role="button" tabindex="0" aria-label="清空" data-act="q-clear" data-q="ip21"><svg aria-hidden="true"><use href="#ic-close-circle-filled"/></svg></span>
+          <input class="td-search__field" type="search" data-q="ip2" placeholder="项目名称 / 订单号" aria-label="搜索项目名称或订单号" autocomplete="off">
+          <span class="td-search__clear" role="button" tabindex="0" aria-label="清空" data-act="q-clear" data-q="ip2"><svg aria-hidden="true"><use href="#ic-close-circle-filled"/></svg></span>
         </div>
-        <button class="os-search-bar__cancel" type="button" aria-label="取消搜索" data-act="ip21-cancel">取消</button>
       </div>
-    </header>
-    <div class="td-body os-search-page">
-      <div class="td-tabs td-tabs--line os-tabs-sticky td-tabs--emphasis os-search-tabs" id="ip21-tabs" role="tablist" aria-label="搜索数据类型">
-        <button class="td-tabs__item is-active" type="button" role="tab" aria-selected="true" aria-controls="ip21-results" data-act="ip21-tab" data-tab="pending">可提交</button>
-        <button class="td-tabs__item" type="button" role="tab" aria-selected="false" aria-controls="ip21-results" data-act="ip21-tab" data-tab="progress">审批中</button>
-        <button class="td-tabs__item" type="button" role="tab" aria-selected="false" aria-controls="ip21-results" data-act="ip21-tab" data-tab="done">已完结</button>
-      </div>
-      <div id="ip21-results" class="os-search-results"></div>
+      <div id="ip2-main"></div>
     </div>
   </section>
 
@@ -4992,75 +5040,6 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
     </div>
   </section>
 
-  <!-- ═══════════════ IM1 首页入口（独立正式屏） ═══════════════ -->
-  <section class="screen" id="s-im1-home" data-screen="IM1" aria-label="IM1 IM 首页入口">
-    <div class="td-body td-body--has-tab-bar">
-      <div class="pg-hometop">
-        <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons" aria-hidden="true"><svg><use href="#ic-status"/></svg></span></div>
-        <div class="td-search">
-          <div class="td-search__inner">
-            <span class="td-search__icon" aria-hidden="true"><svg><use href="#ic-search"/></svg></span>
-            <span class="td-search__field td-search__field--ph">项目/任务/即时报告/人员</span>
-          </div>
-          <button class="pg-bell" type="button" aria-label="消息中心，有未读消息" data-go="s-ip7-message-center">
-            <span class="pg-bell__ico"><svg aria-hidden="true"><use href="#ic-notification"/></svg><span class="td-badge td-badge--dot td-badge--corner"></span></span>
-          </button>
-        </div>
-      </div>
-      <div class="pg-home">
-        <div class="pg-ph pg-ph--banner">Banner（现有模块，不在本需求范围）</div>
-        <div class="os-home-entry">
-          <div class="os-home-entry__item os-home-entry__item--ph" aria-label="扫一扫"><span class="os-home-entry__icon os-home-entry__icon--ph" aria-hidden="true"></span><span class="os-home-entry__label"><span class="os-home-entry__label-ph os-home-entry__label-ph--scan" aria-hidden="true"></span></span></div>
-          <div class="os-home-entry__item os-home-entry__item--ph" aria-label="人员验证"><span class="os-home-entry__icon os-home-entry__icon--ph" aria-hidden="true"></span><span class="os-home-entry__label"><span class="os-home-entry__label-ph os-home-entry__label-ph--verify" aria-hidden="true"></span></span></div>
-          <div class="os-home-entry__item os-home-entry__item--ph" aria-label="签到管理"><span class="os-home-entry__icon os-home-entry__icon--ph" aria-hidden="true"></span><span class="os-home-entry__label"><span class="os-home-entry__label-ph os-home-entry__label-ph--check-in" aria-hidden="true"></span></span></div>
-          <button class="os-home-entry__item" type="button" data-go="s-im2-approval-list">
-            <span class="os-home-entry__icon os-home-entry__icon--image os-home-entry__icon--badge"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAydJREFUeAHt3L1PFEEYx/HnmVtecohEARuI7yE2GhNjoaVYEmuNBqjQWGhBYkNDZWFCTIyJYiMxGv4BWiksaKTQWGkijRjB8BLDy3K7OzPeYowaRXBv756d9fep7nJbzffm9nZnd4kAAAAAAAAAAAAAACDvmFI2PGCLTb7uZuKu8tsuyokw1C3LS0FL4EfK96MSk3pj2UyOvmx7ThVINcD9XttasmbQErVSjvhr4f65T+schSb4/VM1Pjq9d5wSUpSiPA7+hh+1bz34MXNp4NTccUootQB3e+2ZvA1+bHmpVNh68L9RXH+REkotQETmPOVQUNLF7beyhymh1AKwpU7KoXIAf7ttLNkmSijVfQD8OwQQhgDCEECYR/BXo9NtF6iKMAOEIYAwBBCGAMIQQBgCCEMAYWLHAeWVoEViNTb4hN9RDd27bDtDZa5n5dS53Azw1INaD37sxjOejcNTRogFGHzMH0iIRPitiAUY6bViC/Z3+u1Jygi5c0HW9I9cCSci0otUQ54tdJI2PZayQSzA5k6QVV+hxpPQpn4hTmXwN1QYAghDAGEIIAwBhCGAMAQQhgDCEEAYAghzfj0gPrFW0KavfGpjB1cxZ4/z6wG3xvgVGTNBjsrFekDEepYclYv1AMWeszcDOr8eEA8+E/eQo/679YCswd9QYQggDAGEIYAwBBCGAMIQQBgCCEMAYQggDAGEIYCwxCfjrp1d2UdBeNOS2Xxa1NpqeIIcUCx6L1jxto+gqZXkM6BUGvo++C6JNO2hDEkcwDIdIgdpY3ZThiQOUF4EWSMH6dB0UIYeUlLBTphnyE1eEJgDlBEV/ASZyZ/fh4FdJUeEgT5IO5sFVb+RMHGA+ImxbH/MglIQuvST5G34+th2G7H99UtWDZUdBzTU32bm+fjl2pdwQWsbkCO0Nh3Bhjmy1efxhWODT+umqMoqCvBwqvkz1dUPxRG0sXpx3p9xKUIY6aN/ihAPfgOrEaqB1O4ZvHp6oZutOhc/xLS4q66zqdlr9zzVSA4oFNTHhgb1vnyA9ppZvV1ppMnhR7xOAAAAAABAAAAAAAAAAACV+Qp7Bgbjkq3diAAAAABJRU5ErkJggg==" alt="" aria-hidden="true"><span class="td-badge td-badge--corner" id="im-approval-badge" aria-label="2 个待审批任务">2</span></span>
-            <span class="os-home-entry__label"><span class="os-home-entry__text" data-i18n-short-term>安装授权书</span></span>
-          </button>
-        </div>
-        <div class="pg-ph pg-ph--report">即时报告（现有模块，不在本需求范围）</div>
-        <div class="pg-ph pg-ph--work">我的工作 · 日历（现有模块，不在本需求范围）</div>
-        <div class="pg-ph pg-ph--todo">待办工作（现有模块，不在本需求范围）</div>
-      </div>
-    </div>
-    <nav class="td-tab-bar" aria-label="主导航">
-      <button class="td-tab-bar__item is-active" type="button" data-act="tab" data-tab="home" aria-current="page"><span class="td-tab-bar__icon"><svg aria-hidden="true"><use href="#ic-home"/></svg></span><span class="td-tab-bar__text">Home</span></button>
-      <button class="td-tab-bar__item" type="button" data-act="tab" data-tab="project"><span class="td-tab-bar__icon"><svg aria-hidden="true"><use href="#ic-elevator"/></svg></span><span class="td-tab-bar__text">Project</span></button>
-      <button class="td-tab-bar__item" type="button" data-act="tab" data-tab="me"><span class="td-tab-bar__icon"><svg aria-hidden="true"><use href="#ic-user"/></svg></span><span class="td-tab-bar__text">Me</span></button>
-    </nav>
-  </section>
-
-  <!-- ═══════════════ IM2 审批列表 ═══════════════ -->
-  <section class="screen" id="s-im2-approval-list" data-screen="IM2" aria-label="IM2 安装授权书审批列表">
-    <header class="td-header">
-      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg aria-hidden="true"><use href="#ic-status"/></svg></span></div>
-      <div class="td-header__bar">
-        <button class="td-header__back" type="button" aria-label="返回" data-act="back"><svg aria-hidden="true"><use href="#ic-chevron-left"/></svg></button>
-        <div class="td-header__title">安装授权书审批</div>
-      </div>
-    </header>
-    <div class="td-body" id="im2-main"></div>
-  </section>
-
-  <!-- ═══════════════ IM3 审批详情 ═══════════════ -->
-  <section class="screen" id="s-im3-approval-detail" data-screen="IM3" aria-label="IM3 安装授权书审批详情">
-    <header class="td-header">
-      <div class="td-header__status"><span class="status-time">9:41</span><span class="status-icons"><svg aria-hidden="true"><use href="#ic-status"/></svg></span></div>
-      <div class="td-header__bar">
-        <button class="td-header__back" type="button" aria-label="返回" data-act="back"><svg aria-hidden="true"><use href="#ic-chevron-left"/></svg></button>
-        <div class="td-header__title">审批详情</div>
-      </div>
-    </header>
-    <div class="td-body td-body--has-footer" id="im3-main"></div>
-    <div class="td-footer-bar" id="im3-footer">
-      <div class="td-footer-bar__inner">
-        <button class="td-button td-button--danger td-button--size-large" type="button" data-act="im-reject-open">拒绝</button>
-        <button class="td-button td-button--primary td-button--size-large" type="button" data-act="im-approve">通过</button>
-      </div>
-      <div class="home-indicator"></div>
-    </div>
-  </section>
-
   <!-- ═══════════════ IP4 安装授权书 · 项目列表（默认审批中） ═══════════════ -->
   <section class="screen" id="s-ip4-letter-list" data-screen="IP4" aria-label="IP4 安装授权书项目列表">
     <header class="td-header">
@@ -5068,7 +5047,6 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <div class="td-header__bar">
         <button class="td-header__back" type="button" aria-label="返回" data-act="back"><svg aria-hidden="true"><use href="#ic-chevron-left"/></svg></button>
         <div class="td-header__title">安装授权书</div>
-        <button class="td-header__more" type="button" aria-label="搜索" data-go="s-ip2-1-search"><svg aria-hidden="true"><use href="#ic-search"/></svg></button>
       </div>
     </header>
     <div class="td-body">
@@ -5129,10 +5107,10 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       </div>
       <div id="ip7-pane-task" role="tabpanel">
         <div id="ip7-rows">
-        <div class="os-message-item" role="button" tabindex="0" data-go="s-ip7-1-message-detail" aria-label="安装授权书消息，2 条未读">
+        <div class="os-message-item" role="button" tabindex="0" data-go="s-ip7-1-message-detail" aria-label="安装授权书消息，1 条未读">
           <div class="os-message-item__avatar">
             <span class="td-avatar" aria-hidden="true"><svg><use href="#ic-contract"/></svg></span>
-            <span class="td-badge td-badge--corner">2</span>
+            <span class="td-badge td-badge--corner">1</span>
           </div>
           <div class="os-message-item__body">
             <div class="os-message-item__top"><span class="os-message-item__title">安装授权书</span><span class="os-message-item__time">2026-10-26</span></div>
@@ -5164,20 +5142,10 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
         <div class="os-message-card__title">你提交的安装授权书用印审批已被拒绝，本次任务已结束，梯台已回到「可提交」。</div>
         <div class="os-message-card__fields">
           <div class="os-message-card__field"><span class="os-message-card__label">授权书编号：</span><span class="os-message-card__value os-message-card__no">IAL20261026013M</span></div>
-          <div class="os-message-card__field"><span class="os-message-card__label">拒绝人：</span><span class="os-message-card__value">BGM / 分公司经理 王芳</span></div>
+          <div class="os-message-card__field"><span class="os-message-card__label">拒绝人：</span><span class="os-message-card__value">分公司经理 王芳</span></div>
           <div class="os-message-card__field"><span class="os-message-card__label">拒绝原因：</span><span class="os-message-card__value">授权书信息与项目备案资料不一致，请核对后重新提交</span></div>
         </div>
         <div class="os-message-card__time">2026-10-26 16:30</div>
-      </div>
-      <div class="os-date-chip"><span class="os-date-chip__text">2026-10-24</span></div>
-      <div class="os-message-card" role="button" tabindex="0" data-act="msg" data-no="IAL20261024014M" aria-label="查看授权书 IAL20261024014M">
-        <div class="os-message-card__title">你提交的安装授权书作废申请已被拒绝，原授权书继续有效，可再次申请作废。</div>
-        <div class="os-message-card__fields">
-          <div class="os-message-card__field"><span class="os-message-card__label">授权书编号：</span><span class="os-message-card__value os-message-card__no">IAL20261024014M</span></div>
-          <div class="os-message-card__field"><span class="os-message-card__label">拒绝人：</span><span class="os-message-card__value">IM 李敏</span></div>
-          <div class="os-message-card__field"><span class="os-message-card__label">拒绝原因：</span><span class="os-message-card__value">层站门数据与土建变更图纸不一致，请核对后重新提交</span></div>
-        </div>
-        <div class="os-message-card__time">2026-10-24 16:40</div>
       </div>
     </div>
   </section>
@@ -5207,8 +5175,8 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
   <div class="td-overlay" id="dlg-ip3-switch-party" role="dialog" aria-modal="true" aria-labelledby="dlg-ip3-switch-party-t" aria-hidden="true">
     <div class="td-dialog">
       <div class="td-dialog__content">
-        <div class="td-dialog__header" id="dlg-ip3-switch-party-t">切换被授权方？</div>
-        <div class="td-dialog__body"><div class="td-dialog__body-text">一份授权书只能选择同一授权方的梯台。切换后，将清空当前已选梯台。</div></div>
+        <div class="td-dialog__header" id="dlg-ip3-switch-party-t">切换合作伙伴？</div>
+        <div class="td-dialog__body"><div class="td-dialog__body-text">一份授权书只能选择同一个合作伙伴的梯台。切换后，将清空当前已选梯台。</div></div>
       </div>
       <div class="td-dialog__footer">
         <button class="td-button td-button--light td-button--rectangle td-dialog__button" type="button" data-act="ip3-switch-cancel">取消</button>
@@ -5231,20 +5199,7 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
     </div>
   </div>
 
-  <!-- IP3-a · 施工类别限制提示 -->
-  <div class="td-overlay" id="dlg-ip3-mixed-construction" role="dialog" aria-modal="true" aria-labelledby="dlg-ip3-mixed-construction-t" aria-hidden="true">
-    <div class="td-dialog">
-      <div class="td-dialog__content">
-        <div class="td-dialog__header" id="dlg-ip3-mixed-construction-t">提示</div>
-        <div class="td-dialog__body"><div class="td-dialog__body-text">一份授权书只能选择同一授权方且施工类别相同的梯台</div></div>
-      </div>
-      <div class="td-dialog__footer">
-        <button class="td-button td-button--primary td-button--rectangle td-dialog__button" type="button" data-act="ip3-mixed-close">知道了</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 通用二次确认：提交授权书、撤回授权书、提交作废申请、撤回作废申请共用；标题、正文、按钮文案由脚本填入 -->
+  <!-- 通用二次确认：提交授权书、撤回授权书、作废授权书共用；标题、正文、按钮文案由脚本填入 -->
   <div class="td-overlay" id="dlg-confirm" role="dialog" aria-modal="true" aria-labelledby="dlg-confirm-t" aria-hidden="true">
     <div class="td-dialog">
       <div class="td-dialog__content">
@@ -5258,27 +5213,7 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
     </div>
   </div>
 
-  <!-- IP3.2-a · 修改候选被授权方名称 -->
-  <div class="td-popup" id="pop-party-edit" role="dialog" aria-modal="true" aria-labelledby="pop-party-edit-t" aria-hidden="true">
-    <div class="td-popup__mask" data-act="party-edit-cancel"></div>
-    <div class="td-popup__body">
-      <div class="td-popup__head" id="pop-party-edit-t">修改被授权方名称<button class="td-popup__close" type="button" aria-label="关闭" data-act="party-edit-cancel"><svg aria-hidden="true"><use href="#ic-close"/></svg></button></div>
-      <div class="td-popup__scroll">
-        <div class="td-noticebar td-noticebar--info td-noticebar--rounded os-party-edit__notice" role="status"><span class="td-noticebar__prefix-icon" aria-hidden="true"><svg><use href="#ic-info-filled"/></svg></span><span class="td-noticebar__content">修改名称只针对本次提交的授权书有效，不修改系统数据</span></div>
-        <div class="td-input" id="party-edit-field">
-          <label class="td-input__label" for="party-edit-input">被授权方名称<span class="td-input__required">*</span></label>
-          <div class="td-input__wrap"><input class="td-input__field" id="party-edit-input" type="text" maxlength="20" aria-describedby="party-edit-tips" autocomplete="off"></div>
-          <div class="td-input__tips os-party-edit__tips" id="party-edit-tips"><span class="os-party-edit__error" id="party-edit-error" hidden>请输入被授权方名称</span><span id="party-edit-count">0/20</span></div>
-        </div>
-      </div>
-      <div class="td-popup__foot">
-        <button class="td-button td-button--light td-button--size-large" type="button" data-act="party-edit-cancel">取消</button>
-        <button class="td-button td-button--primary td-button--size-large" type="button" data-act="party-edit-confirm">确认</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- IP3.1-b · 选择施工类别：默认带入所选梯台的施工类别，可改成其他类别；只改本次授权书，不回写梯台和 SAP -->
+  <!-- IP3.2-a · 选择施工类别：默认带入所选梯台的施工类别；梯台施工类别不一致时没有默认值，必须先选一个；它决定可选的被授权方；只改本次授权书，不回写梯台和 SAP -->
   <div class="td-popup" id="pop-construction" role="dialog" aria-modal="true" aria-labelledby="pop-construction-t" aria-hidden="true">
     <div class="td-popup__mask" data-act="pop-close"></div>
     <div class="td-popup__body">
@@ -5287,15 +5222,44 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
     </div>
   </div>
 
-  <!-- IP5.2 · 申请作废：授权书详情页的底部浮层，不打开新页面；只填作废原因（必填）和附件（选填），没有分组标题 -->
+  <!-- IP5.2 · 作废授权书：授权书详情页的底部浮层，不打开新页面；只填作废原因（必填）和附件（选填），没有分组标题；不需要审批，二次确认后直接作废 -->
   <div class="td-popup" id="pop-void" role="dialog" aria-modal="true" aria-labelledby="pop-void-t" aria-hidden="true">
     <div class="td-popup__mask" data-act="void-cancel"></div>
     <div class="td-popup__body">
-      <div class="td-popup__head" id="pop-void-t">申请作废<button class="td-popup__close" type="button" aria-label="关闭" data-act="void-cancel"><svg aria-hidden="true"><use href="#ic-close"/></svg></button></div>
+      <div class="td-popup__head" id="pop-void-t">作废授权书<button class="td-popup__close" type="button" aria-label="关闭" data-act="void-cancel"><svg aria-hidden="true"><use href="#ic-close"/></svg></button></div>
       <div class="td-popup__scroll" id="void-body"></div>
       <div class="td-popup__foot">
         <button class="td-button td-button--light td-button--size-large" type="button" data-act="void-cancel">取消</button>
         <button class="td-button td-button--primary td-button--size-large" type="button" data-act="f52-submit">提交</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IP5-b · 作废信息：已作废的授权书，点状态说明条后面的「查看更多」，底部浮层显示作废的提交人、提交时间、作废原因、附件 -->
+  <div class="td-popup" id="pop-void-info" role="dialog" aria-modal="true" aria-labelledby="pop-void-info-t" aria-hidden="true">
+    <div class="td-popup__mask" data-act="pop-close"></div>
+    <div class="td-popup__body">
+      <div class="td-popup__head" id="pop-void-info-t">作废信息<button class="td-popup__close" type="button" aria-label="关闭" data-act="pop-close"><svg aria-hidden="true"><use href="#ic-close"/></svg></button></div>
+      <div class="td-popup__scroll" id="void-info-body"></div>
+    </div>
+  </div>
+
+  <!-- IP3.2-b · 授权对象说明：居中弹窗，只有一个按钮「我知道了」；说明被授权方怎么定，超出范围的走线下 -->
+  <div class="td-overlay" id="dlg-party-help" role="dialog" aria-modal="true" aria-labelledby="dlg-party-help-t" aria-hidden="true">
+    <div class="td-dialog">
+      <div class="td-dialog__content">
+        <div class="td-dialog__header" id="dlg-party-help-t">授权对象说明</div>
+        <div class="td-dialog__body">
+          <ul class="os-party-help">
+            <li>施工类别为安装的安装合同：授权对象只能是 PO 上的分包商。</li>
+            <li>调试协议，以及施工类别为重大修理、一般修理：授权对象只能是 VA03 里的甲方。</li>
+            <li>施工类别为改造：授权对象只能是通力电梯有限公司。</li>
+            <li>如需授权给其他对象，请走线下流程。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="td-dialog__footer">
+        <button class="td-button td-button--primary td-button--rectangle td-dialog__button" type="button" data-act="party-help-close">我知道了</button>
       </div>
     </div>
   </div>
@@ -5309,44 +5273,6 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <div class="td-popup__foot">
         <button class="td-button td-button--light td-button--size-large" type="button" data-act="spec-edit-cancel">取消</button>
         <button class="td-button td-button--primary td-button--size-large" type="button" data-act="spec-edit-confirm">确认</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- IM3-a · 通过安装授权书审批的二次确认 -->
-  <div class="td-overlay" id="dlg-im-approve" role="dialog" aria-modal="true" aria-labelledby="dlg-im-approve-t" aria-hidden="true">
-    <div class="td-dialog">
-      <div class="td-dialog__content">
-        <div class="td-dialog__header" id="dlg-im-approve-t">确认通过审批？</div>
-        <div class="td-dialog__body"><div class="os-confirm__body">通过后原授权书将整份作废，梯台回到「可提交」，由 PS 重新提交。</div></div>
-      </div>
-      <div class="td-dialog__footer">
-        <button class="td-button td-button--light td-button--rectangle td-dialog__button" type="button" data-act="im-approve-cancel">取消</button>
-        <button class="td-button td-button--primary td-button--rectangle td-dialog__button" type="button" data-act="im-approve-confirm">确认通过</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- IM3-b · 拒绝安装授权书审批：底部 Popup，必填多行理由；默认中性样式，没填就点确认才显示错误 -->
-  <div class="td-popup" id="pop-im-reject" role="dialog" aria-modal="true" aria-labelledby="pop-im-reject-t" aria-hidden="true">
-    <div class="td-popup__mask" data-act="im-reject-cancel"></div>
-    <div class="td-popup__body">
-      <div class="td-popup__head" id="pop-im-reject-t">拒绝安装授权书审批<button class="td-popup__close" type="button" aria-label="关闭" data-act="im-reject-cancel"><svg aria-hidden="true"><use href="#ic-close"/></svg></button></div>
-      <div class="td-popup__scroll">
-        <div class="td-noticebar td-noticebar--info td-noticebar--rounded os-reject-popup__notice" role="status"><span class="td-noticebar__prefix-icon" aria-hidden="true"><svg><use href="#ic-info-filled"/></svg></span><span class="td-noticebar__content">拒绝后原授权书继续有效，并通知 PS（含拒绝原因）。</span></div>
-        <!-- 多行文本：基础库第 32 件 .td-textarea；默认中性，提交校验失败才加 .is-error 并显示 tips -->
-        <div class="td-textarea" id="im-reject-field">
-          <label class="td-textarea__label" for="im-reject-reason">拒绝原因<span class="td-textarea__required">*</span></label>
-          <div class="td-textarea__wrap">
-            <textarea class="td-textarea__field" id="im-reject-reason" maxlength="100" placeholder="请输入拒绝原因" aria-describedby="im-reject-error"></textarea>
-            <div class="td-textarea__count" id="im-reject-count">0/100</div>
-          </div>
-          <div class="td-textarea__tips" id="im-reject-error" hidden>请填写拒绝原因</div>
-        </div>
-      </div>
-      <div class="td-popup__foot">
-        <button class="td-button td-button--light td-button--size-large" type="button" data-act="im-reject-cancel">取消</button>
-        <button class="td-button td-button--danger td-button--size-large" type="button" id="im-reject-confirm" data-act="im-reject-confirm">确认拒绝</button>
       </div>
     </div>
   </div>
@@ -5368,46 +5294,42 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <div class="dp-label">数据</div>
       <label><input type="radio" name="ip2Data" value="normal" checked> 默认</label>
       <label><input type="radio" name="ip2Data" value="empty"> 业务空态</label>
+      <div class="dp-label">搜索（当前页签）</div>
+      <label><input type="radio" name="ip2Search" value="default" checked> 默认（不搜索）</label>
+      <label><input type="radio" name="ip2Search" value="name"> 按项目名称</label>
+      <label><input type="radio" name="ip2Search" value="order"> 按订单号</label>
+      <label><input type="radio" name="ip2Search" value="party"> 按被授权方（审批中、已完结）</label>
+      <label><input type="radio" name="ip2Search" value="empty"> 无结果</label>
+      <div class="dp-label">提示条（可提交）</div>
+      <label><input type="radio" name="ip2Notice" value="show" checked> 显示</label>
+      <label><input type="radio" name="ip2Notice" value="closed"> 已点「我知道了」</label>
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>「可提交」页签顶部常驻一条说明（不可关闭）：调试协议需已完成分包商建议表，安装合同需已下 PO。满足条件的梯台才会进入「可提交」；「审批中」「已完结」页签不显示这条说明。</p>
-        <p>列表有三个页签：可提交 = 还没提交的梯台；审批中 = 任务还没结束（用印审批中、作废审批中）；已完结 = 任务已经结束或已生效（用印审批被拒绝、已撤回、用印审批通过、作废审批被拒绝、已作废）。授权书状态一变，会自动换到对应页签。</p>
+        <p>「可提交」页签顶部有一条说明：可提交条件：安装合同需已下 PO，右边有「我知道了」，点一下说明条就关闭（演示里本次打开期间不再显示；是否永久记住待业务确认，用面板“提示条”可以恢复）。满足条件的梯台才会进入「可提交」；「审批中」「已完结」页签不显示这条说明。没有数据（业务空态、搜索无结果）时，整块背景是白色，说明条下面不留间距。</p>
+        <p>列表有三个页签：可提交 = 还没提交的梯台；审批中 = 任务还没结束（用印审批中）；已完结 = 任务已经结束或已生效（用印审批被拒绝、已撤回、用印审批通过、已作废）。授权书状态一变，会自动换到对应页签。</p>
+        <p>搜索框直接放在页签下面，输入即过滤当前页签：「可提交」按项目名称 / 订单号；「审批中」「已完结」按项目名称 / 订单号 / 被授权方。切换页签会清空输入；没有匹配结果时显示“未找到匹配结果”。</p>
+        <p>「审批中」「已完结」的授权书卡片带「被授权方」一行；搜索命中订单号而项目名称没命中时，卡片会多出一行「订单号」并高亮。</p>
       </div>
-    </div>
-    <div class="dp-group" data-for-screen="IP2.1">
-      <div class="dp-label">可提交</div>
-      <label><input type="radio" name="ip21State" value="pending:default" checked> 默认</label>
-      <label><input type="radio" name="ip21State" value="pending:result"> 有结果</label>
-      <label><input type="radio" name="ip21State" value="pending:empty"> 无结果</label>
-      <div class="dp-label">审批中</div>
-      <label><input type="radio" name="ip21State" value="progress:default"> 默认</label>
-      <label><input type="radio" name="ip21State" value="progress:result"> 有结果</label>
-      <label><input type="radio" name="ip21State" value="progress:multi"> 多设备</label>
-      <label><input type="radio" name="ip21State" value="progress:empty"> 无结果</label>
-      <div class="dp-label">已完结</div>
-      <label><input type="radio" name="ip21State" value="done:default"> 默认</label>
-      <label><input type="radio" name="ip21State" value="done:result"> 有结果</label>
-      <label><input type="radio" name="ip21State" value="done:multi"> 多设备</label>
-      <label><input type="radio" name="ip21State" value="done:empty"> 无结果</label>
     </div>
 
     <div class="dp-group" data-for-screen="IP4">
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>每张卡只有一个状态标签，取 7 种之一：用印审批中、用印审批被拒绝、已撤回、用印审批通过、作废审批中、作废审批被拒绝、已作废。演示数据覆盖了全部 7 种。</p>
-        <p>用印审批被拒绝、已撤回、已作废（IM 通过作废申请）的授权书都归在「已完结」，它们的梯台回到「可提交」。</p>
+        <p>每张卡只有一个状态标签，取 5 种之一：用印审批中、用印审批被拒绝、已撤回、用印审批通过、已作废。演示数据覆盖了全部 5 种。</p>
+        <p>用印审批被拒绝、已撤回、已作废的授权书都归在「已完结」，它们的梯台回到「可提交」。</p>
         <p>卡片上没有审批提醒条（V1.9）：状态标签已经表达当前进度，拒绝原因在授权书详情的「审批信息」里。</p>
       </div>
     </div>
+
     <div class="dp-group" data-for-screen="IP3">
       <div class="dp-label">合同类型</div>
       <label><input type="radio" name="ip3Proj" value="A" checked> 安装合同</label>
       <label><input type="radio" name="ip3Proj" value="B"> 调试协议</label>
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>一份授权书只能选同一分包商、同一施工类别的梯台：选了不同分包商，会提示切换并清空已选；选了不同施工类别，会弹窗提示，且无法选中。</p>
-        <p>本页只显示分包商分组。通力分公司、同级分公司和办事处，在下一步「选择被授权方」中选择。</p>
-        <p>演示数据：昆山某电梯安装有限公司（安装）、苏州某电梯工程有限公司（L10，改造）、苏州某机电安装有限公司（安装）、昆山某安装工程有限公司（L2 重大修理、L3 一般修理，施工类别不同，不能一起选）。梯台卡上的施工类别来自 SAP，不能修改；进入表单后，PS 可以改这份授权书的施工类别，只影响授权书详情和 PDF 查看。</p>
+        <p>一份授权书只能选同一个合作伙伴的梯台：选了不同合作伙伴的梯台，会提示切换并清空已选。施工类别不限制：同一份授权书可以同时选施工类别不同的梯台，在下一步「选择被授权方」统一确认。</p>
+        <p>本页只显示合作伙伴分组（分包商、经销商等）。</p>
+        <p>演示数据：昆山某电梯安装有限公司（安装）、苏州某电梯工程有限公司（L10，改造）、苏州某机电安装有限公司（安装）、昆山某安装工程有限公司（L2 重大修理、L3 一般修理）。把 L2、L3 一起选上点「下一步」，可以看到“施工类别不一致，必须先选一个”的情形。梯台卡上的施工类别来自 SAP，不能修改。</p>
       </div>
     </div>
 
@@ -5417,9 +5339,9 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <label><input type="radio" name="ip31Type" value="debug"> 调试协议</label>
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>「基本信息」里的「施工类别」默认带入所选梯台的施工类别，点右侧编辑图标，在底部弹层改成其他类别（安装、改造、重大修理、一般修理）；安装合同和调试协议都有。只对本次授权书有效，不回写梯台和 SAP，只影响授权书详情（「基本信息」里的施工类别、梯台卡）和 PDF 查看（大标题、正文最后一句）；表单里的梯台卡、选择梯台页、列表都不变。改了施工类别，不会重新校验已选的被授权方。</p>
-        <p>调试协议的附件是两个独立的必传项：安全承诺函、人员清单。只校验有没有上传，不校验内容；任一项没传，提交时都会在对应项下提示。已取消「报开工类型」字段。</p>
-        <p>点「提交」先弹二次确认。提交时同时生成 PDF 并自动发起用印审批（BGM / 分公司经理，泛微），PS 不需要再操作。提交后进入授权书详情，不再有“已提交，待生成 PDF”。</p>
+        <p>「基本信息」里的「施工类别」在上一步「选择被授权方」已经确定，这里只读展示，不能再改（要改就返回上一步）。它只影响授权书详情（「基本信息」里的施工类别、梯台卡）和 PDF 查看（大标题、正文最后一句）；表单里的梯台卡、选择梯台页、列表都不变。</p>
+        <p>附件：安装合同和调试协议都是一个选填的附件入口（最多 5 个）；调试协议不再要求安全承诺函、人员清单。已取消「报开工类型」字段。</p>
+        <p>点「提交」先弹二次确认。提交时同时生成 PDF 并自动发起用印审批（分公司经理，泛微），PS 不需要再操作。提交后进入授权书详情，不再有“已提交，待生成 PDF”。</p>
         <p>梯台卡「型号规格」旁有编辑图标：点开底部浮层，可修改型号规格、载重、层数、站数。载重、层数、站数只输入数字，单位固定显示在输入框右侧。修改只对本次提交的授权书有效，不修改梯台数据。</p>
         <p>梯台没有型号规格数据时显示「-」：演示里 L7 的数据为空，点它的编辑图标可以补填。</p>
       </div>
@@ -5429,47 +5351,40 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <div class="dp-label">合同类型</div>
       <label><input type="radio" name="ip32Ctype" value="install" checked> 安装合同</label>
       <label><input type="radio" name="ip32Ctype" value="debug"> 调试协议</label>
-      <div class="dp-label">施工类别</div>
-      <label><input type="radio" name="ip32Constr" value="安装" checked> 安装</label>
-      <label><input type="radio" name="ip32Constr" value="改造"> 改造</label>
-      <label><input type="radio" name="ip32Constr" value="重大修理"> 重大修理</label>
-      <label><input type="radio" name="ip32Constr" value="一般修理"> 一般修理</label>
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>可选的被授权方由「合同类型 × 施工类别」决定，全部走正常流程（没有特批，也没有 SFM 里的合作方可选）：</p>
-        <p>安装合同 · 安装：默认合作方（PO 上的分包商）、通力分公司。</p>
-        <p>安装合同 · 改造：只有通力电梯有限公司，已选中。</p>
-        <p>安装合同 · 重大 / 一般修理：只能选通力分公司，不能选合作方。</p>
-        <p>调试协议：只有默认合作方（VA03 里的甲方），已选中；不能选通力分公司。</p>
-        <p>只有一个可选项（改造、调试协议）时仍进入本页，该项已选中，直接点「确认」。</p>
-        <p>通力分公司、同级分公司和办事处由后端维护，列表显示 Code，可点编辑图标改名，只对本次授权书有效。本期不做资质校验，没有资质提示条，也没有资质明细页。</p>
-        <p>「合同类型」「施工类别」只用于演示切换；正式流程里它们来自上一步选中的梯台。</p>
+        <p>本页先确认施工类别，再选被授权方。施工类别默认带入所选梯台的；所选梯台的施工类别不一致时没有默认值，必须先点编辑图标选一个，才能点「确认」。改施工类别会刷新下面的被授权方。确认之后，表单里不能再改。</p>
+        <p>被授权方由「合同类型 × 施工类别」决定，不再有通力分公司，没有特批，也不能选 SFM 里的合作方：</p>
+        <p>施工类别 = 改造（安装合同、调试协议都一样）：只有通力电梯有限公司。</p>
+        <p>安装合同 · 施工类别 = 安装：只有默认合作方（PO 上的分包商）。</p>
+        <p>调试协议，以及施工类别为重大修理 / 一般修理：只有 VA03 里的甲方。</p>
+        <p>只有一个可选项，所以该项默认已选中，直接点「确认」。需要授权给其他对象的，走线下流程；点标题行右侧的「授权对象说明」，会弹出居中的说明窗，点「我知道了」关闭。</p>
+        <p>本期不做资质校验，没有资质提示条，也没有资质明细页。「合同类型」只用于演示切换；正式流程里它来自上一步选中的梯台。</p>
       </div>
     </div>
 
     <div class="dp-group" data-for-screen="IP5">
-      <div class="dp-label">授权书状态（7 种）</div>
+      <div class="dp-label">授权书状态（5 种）</div>
       <label><input type="radio" name="ip5Status" value="用印审批中" checked> 用印审批中</label>
       <label><input type="radio" name="ip5Status" value="用印审批被拒绝"> 用印审批被拒绝</label>
       <label><input type="radio" name="ip5Status" value="已撤回"> 已撤回</label>
       <label><input type="radio" name="ip5Status" value="用印审批通过"> 用印审批通过</label>
-      <label><input type="radio" name="ip5Status" value="作废审批中"> 作废审批中</label>
-      <label><input type="radio" name="ip5Status" value="作废审批被拒绝"> 作废审批被拒绝</label>
       <label><input type="radio" name="ip5Status" value="已作废"> 已作废</label>
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>授权书只有一个状态标签，取 7 种之一；面板切换的是同一份授权书在不同阶段的样子。</p>
-        <p>提交时自动发起用印审批（BGM / 分公司经理，泛微）：提交 → 用印审批中 → 用印审批通过；被拒绝则本次任务结束（用印审批被拒绝）。没有特批流程。</p>
-        <p>提交后只有两个动作：用印审批中「撤回授权书」，用印审批通过之后「申请作废」。没有“修改并重新提交”：要改就撤回或作废，再从「可提交」重新填写、重新提交（新编号，重新申请用印）。</p>
-        <p>撤回授权书：只有用印审批中可以撤回；二次确认后状态变“已撤回”，梯台回到「可提交」，不需要 IM 审批。</p>
+        <p>授权书只有一个状态标签，取 5 种之一；面板切换的是同一份授权书在不同阶段的样子。</p>
+        <p>提交时自动发起用印审批（分公司经理，泛微）：提交 → 用印审批中 → 用印审批通过；被拒绝则本次任务结束（用印审批被拒绝）。没有特批流程。</p>
+        <p>提交后只有两个动作：用印审批中「撤回授权书」，用印审批通过之后「作废授权书」。没有“修改并重新提交”：要改就撤回或作废，再从「可提交」重新填写、重新提交（新编号，重新申请用印）。</p>
+        <p>撤回授权书：只有用印审批中可以撤回；二次确认后状态变“已撤回”，梯台回到「可提交」。</p>
         <p>用印审批被拒绝：本次任务结束，记录归在「已完结」，梯台回到「可提交」，发消息提醒 PS；没有任何操作，要继续就从「可提交」重新填写、重新提交（新授权书、新编号）。</p>
-        <p>申请作废：作废原因必填、附件选填，由 IM 审批。通过 → 原授权书“已作废”，梯台回到「可提交」；拒绝 → “作废审批被拒绝”，原授权书继续有效，可再次申请。作废审批中可「撤回作废申请」。</p>
-        <p>点「申请作废」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填，最多 5 个）两项，没有分组标题。点「提交」先弹二次确认：审批通过后原授权书将整份作废，梯台回到「可提交」，需要重新提交；确认后浮层关闭，详情停在「审批信息」，看到刚提交的申请。没填作废原因就点提交，浮层停留并在输入框下提示。</p>
-        <p>要换被授权方、改梯台或改内容时：申请作废 → IM 通过 → 原授权书作废、梯台回到「可提交」→ 重新填写并提交，重新选被授权方。</p>
-        <p>演示：把状态切到「用印审批通过」或「作废审批被拒绝」，点右上角「···」→「申请作废」。</p>
-        <p>右上角「···」只对 PS 显示：用印审批中 →「撤回授权书」；用印审批通过 / 作废审批被拒绝 →「申请作废」；作废审批中 →「撤回作废申请」。用印审批被拒绝、已撤回、已作废只读，不显示「···」。</p>
+        <p>作废授权书：不需要审批，PS 二次确认后直接作废。作废原因必填，附件选填（最多 5 个）。作废后状态变“已作废”，梯台回到「可提交」，「查看PDF」置灰；作废的提交人、时间、原因都留痕。</p>
+        <p>点「作废授权书」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填）两项，没有分组标题。点「提交」先弹二次确认：作废后原授权书立即失效，梯台回到「可提交」，需要重新提交；确认后浮层关闭，授权书直接作废。没填作废原因就点提交，浮层停留并在输入框下提示。</p>
+        <p>已作废的详情：头部状态说明条「原授权书已作废，梯台已回到「可提交」」，条后面有「查看更多」，点开底部浮层，显示作废的提交人、提交时间、作废原因和附件。作废不是审批，所以这些信息不放在「审批信息」里。</p>
+        <p>要换被授权方、改梯台或改内容时：作废 → 原授权书作废、梯台回到「可提交」→ 重新填写并提交，重新选被授权方。</p>
+        <p>演示：把状态切到「用印审批通过」，点右上角「···」→「作废授权书」。</p>
+        <p>右上角「···」只对 PS 显示：用印审批中 →「撤回授权书」；用印审批通过 →「作废授权书」。用印审批被拒绝、已撤回、已作废只读，不显示「···」。</p>
         <p>用印审批被拒绝、已撤回、已作废的授权书：详情底部「查看PDF」置灰，不可点击。</p>
-        <p>被拒绝、已撤回、已作废时，头部有一条状态说明条，点一下切到「审批信息」。</p>
+        <p>被拒绝、已撤回时，头部有一条状态说明条，点一下切到「审批信息」；已作废的说明条后面是「查看更多」。</p>
       </div>
     </div>
 
@@ -5477,7 +5392,7 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
         <p>PDF 在提交授权书时生成，版式按 KF127 样张：纸张大标题 = 这份授权书的施工类别 + “安装授权书”（改造安装授权书、重大修理安装授权书、一般修理安装授权书）；施工类别是“安装”时不重复，就是“安装授权书”；调试协议也有施工类别，同样处理。正文最后一句的工作类型：调试协议写“调试”，其余随施工类别变化。附表为序号 / 梯号 / 出厂编号 / 型号 / 载重 / 速度 / 层·站·门，不含数量。</p>
-        <p>用印审批通过之后（包括随后申请作废、作废被拒绝）PDF 顶部有一条 info 提示「用印申请已通过」；通过之前没有提示。线下盖章系统不感知，PDF 不加公章。</p>
+        <p>用印审批通过之后 PDF 顶部有一条 info 提示「用印申请已通过」；通过之前没有提示。线下盖章系统不感知，PDF 不加公章。</p>
         <p>用印审批被拒绝、已撤回、已作废的授权书没有 PDF 入口：详情里「查看PDF」置灰。</p>
       </div>
     </div>
@@ -5485,9 +5400,8 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
     <div class="dp-group" data-for-screen="IP7">
       <div class="dp-label">业务逻辑</div>
       <div class="dp-note">
-        <p>消息只发给提交申请的 PS，有两种：用印审批被拒绝（BGM / 分公司经理在泛微拒绝）、作废审批被拒绝（IM 在 OnSite 拒绝）。</p>
-        <p>用印通过、作废通过、PS 撤回都不发消息，由授权书的状态标签和「审批信息」表达。</p>
-        <p>IM 不是接收方：从 IM 首页点铃铛进来，消息中心里没有安装授权书消息，任务消息显示空态。</p>
+        <p>消息只发给提交申请的 PS，只有一种：用印审批被拒绝（分公司经理在泛微拒绝）。</p>
+        <p>用印通过、PS 撤回、作废都不发消息，由授权书的状态标签和详情表达。</p>
       </div>
     </div>
 
@@ -5497,32 +5411,6 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
         <p>每张卡：标题句、授权书编号、拒绝人、拒绝原因、推送时间。拒绝原因是单独一个字段，不并在标题句里。</p>
         <p>拒绝人写「角色 + 姓名」。用印的拒绝原因要泛微回传；泛微没有回传时，不显示「拒绝原因」这一行。</p>
         <p>点整张卡进入对应授权书详情，看到的是最新状态；那次拒绝记录在「审批信息」里。</p>
-      </div>
-    </div>
-
-    <div class="dp-group" data-for-screen="IM2">
-      <div class="dp-label">数据</div>
-      <label><input type="radio" name="im2Data" value="default" checked> 默认</label>
-      <label><input type="radio" name="im2Data" value="empty"> 空态</label>
-      <div class="dp-label">业务逻辑</div>
-      <div class="dp-note">
-        <p>IM 审批的是「用印审批通过的授权书上的一次作废申请」，列表里每张卡就是一份授权书。BGM / 分公司经理不参与。</p>
-        <p>IM 通过：原授权书整份作废并留档，梯台回到 PS 的「可提交」，由 PS 重新填写提交（新编号）。IM 拒绝：原授权书继续有效，通知 PS 并含拒绝理由。</p>
-        <p>卡片标签只显示这条申请的审批状态（待审批 / 审批通过 / 已拒绝），不显示授权书状态；「梯台」显示整份授权书的梯台。通过或拒绝后，这张卡移到「已审批」。</p>
-        <p>演示：PS 在授权书详情提交「申请作废」后，这里会多一张待审批的卡。</p>
-      </div>
-    </div>
-
-    <div class="dp-group" data-for-screen="IM3">
-      <div class="dp-label">拒绝浮层</div>
-      <label><input type="radio" name="im3Reject" value="empty" checked> 空值</label>
-      <label><input type="radio" name="im3Reject" value="filled"> 已填写</label>
-      <div class="dp-label">业务逻辑</div>
-      <div class="dp-note">
-        <p>与 PS 的「授权书详情」是同一张页面、同一份授权书的数据；唯一区别是右上角标签：PS 显示授权书状态，IM 显示这条申请的审批状态（同外侧列表）。</p>
-        <p>IM 进入后默认停在「审批信息」，看这次申请的作废原因和附件（作废原因必填，附件选填）；「基本信息」可切换查看授权书全貌。</p>
-        <p>底部「拒绝 / 通过」只在待审批时出现；拒绝要填拒绝原因（必填）；「查看PDF」放在「基本信息」底部，授权书已作废时置灰。</p>
-        <p>通过后原授权书整份作废，「审批信息」里记“原授权书已作废，梯台已回到「可提交」”。IM 审批详情不显示状态说明条，通过右上角审批状态标签及「审批信息」里的 Steps 查看状态。</p>
       </div>
     </div>
 
@@ -5543,11 +5431,12 @@ function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function 
 function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
 /* ── 运行时状态（演示面板可改写 role / ip2Empty） ── */
-var APP = { role: 'ps', ip2Empty: false, ip2Tab: 'pending', ip21Tab: 'pending', ip21Q: '', ip21StateProgress: 'default', ip21StateDone: 'default', ip21StatePending: 'default', ip3Proj: 'A', ip3Q: '', fold: {} };
-var IP21_PRESETS = {
-  progress: { default: '', result: '开发区炜赋', multi: '4112727', empty: '不存在的授权书关键词' },
-  done: { default: '', result: '开发区炜赋', multi: '4112727', empty: '不存在的授权书关键词' },
-  pending: { default: '', result: '开发区', empty: '不存在的订单号' }
+var APP = { role: 'ps', ip2Empty: false, ip2Tab: 'pending', ip2Q: '', ip2NoticeClosed: false, ip3Proj: 'A', ip3Q: '', fold: {} };
+/* 演示面板「搜索」：每个页签的示例关键词（「可提交」不搜被授权方） */
+var IP2_SEARCH_DEMO = {
+  pending: { name: '开发区', order: '789789798835', party: '', empty: '不存在的订单号' },
+  progress: { name: '开发区炜赋', order: '789789798798', party: '昆山某安装工程有限公司', empty: '不存在的关键词' },
+  done: { name: '开发区炜赋', order: '789789798798', party: '昆山某电梯安装有限公司', empty: '不存在的关键词' }
 };
 
 /* ── 梯台 ── */
@@ -5593,7 +5482,7 @@ var EL = {
 
 /* ── 项目：可提交 = 各授权方分组里尚未进入提交流程的梯台；已生成 = 本项目授权书涉及的梯台（去重） ── */
 var PROJ = {
-  A: { name: '开发区炜赋集团CR22005地块住宅，昆地网挂字4号[2023]地块项目', contract: 'SV89798798', order: '789789798798',
+  A: { name: '开发区炜赋集团CR22005地块住宅，昆地网挂字4号[2023]地块项目', contract: 'SV89798798', order: '789789798798', client: '开发区炜赋集团有限公司',
        groups: [{ party: '昆山某电梯安装有限公司', ptype: '安装合作方', ctype: '安装合同', els: ['A-L9', 'A-L7', 'A-L8', 'A-L1'] },
                 { party: '苏州某电梯工程有限公司', ptype: '安装合作方', ctype: '安装合同', els: ['A-L10'] },
                 { party: '苏州某机电安装有限公司', ptype: '安装合作方', ctype: '安装合同', els: ['A-L11', 'A-L12'] },
@@ -5633,46 +5522,40 @@ var SEL = {
   J: { g: null, ids: [] }
 };
 var PARTY_FLOW = { mode: 'first', pid: 'A', gi: 0, ids: [], selected: '昆山某电梯安装有限公司', selectedKey: null, sourceParty: null, candidates: null, debug: false, returnId: 's-ip3-select-equipment' };
-var PARTY_EDIT = null;
 var IP3_PENDING_SWITCH = null;
 var FDEL_PENDING = null;
-var IM_STATE = { tab: 'pending', empty: { pending: false, approved: false }, current: null };
 
-/* 被授权方可选项（需求文档 9.1.1，2026-11-12 业务确认）：合同类型 × 施工类别，全部走正常流程，没有特批，也不能选 SFM 里的合作方。
-   sub = 默认合作方（安装合同是 PO 上的分包商；调试协议是 VA03 里的甲方）；branch = 通力分公司 / 办事处；hq = 通力电梯有限公司。
-   安装合同 · 安装：sub + branch；安装合同 · 改造：只有 hq；安装合同 · 重大 / 一般修理：只有 branch（不能选合作方）；调试协议：只有 sub（不看施工类别）。 */
+/* 被授权方可选项（需求文档 9.1.1，2026-11-17 内部会议 + BA 记录，待业务确认）：只看合同类型和施工类别，全部走正常流程；
+   不再有通力分公司，没有特批，也不能选 SFM 里的合作方；需要授权给其他对象的，走线下流程。
+   hq = 通力电梯有限公司；sub = 默认合作方：va03 为真是 VA03 里的甲方，否则是 PO 上的分包商。
+   施工类别 = 改造（安装合同、调试协议都一样）：只有 hq；安装合同 · 安装：PO 上的分包商；调试协议，以及施工类别为重大 / 一般修理：VA03 里的甲方。 */
 var KONE_HQ = '通力电梯有限公司';
 function partyRule(ctype, construction) {
-  if (ctype === '调试协议') return { sub: true, branch: false, hq: false };
-  if (construction === '改造') return { sub: false, branch: false, hq: true };
-  if (construction === '重大修理' || construction === '一般修理') return { sub: false, branch: true, hq: false };
-  return { sub: true, branch: true, hq: false };
+  if (construction === '改造') return { hq: true, sub: false, va03: false };
+  if (ctype === '调试协议' || construction === '重大修理' || construction === '一般修理') return { hq: false, sub: true, va03: true };
+  return { hq: false, sub: true, va03: false };
 }
 var REJ_MOD = '层站门数据与土建变更图纸不一致，请核对后重新提交';
 var REJ_SEAL = '授权书信息与项目备案资料不一致，请核对后重新提交';
 
 function F(n, s) { return { name: n, size: s }; }
 var SCAN = function () { return F('安装合同扫描件.pdf', '1.2MB'); };
-var MAX_UPLOAD_FILES = 5;   /* 所有上传入口（IP3.1 / IP5.2）附件个数上限 */
+var MAX_UPLOAD_FILES = 5;   /* 所有上传入口（IP3.1 / 作废浮层）附件个数上限 */
 var FILE_POOL = {
   files: [F('安装合同扫描件.pdf', '1.2MB'), F('补充说明.pdf', '356KB'), F('现场交底记录.pdf', '624KB')],
   mfiles: [F('土建变更说明.pdf', '326KB'), F('安装合同扫描件.pdf', '1.2MB'), F('补充说明.pdf', '356KB')]
 };
 
-/* ── 授权书数据（V1.9）──
-   一份授权书只有一个状态（需求文档 13.1），由它的审批记录 recs 推导。recs 按时间倒序，最新一条在最前，三种：
-     seal  用印审批（BGM / 分公司经理，泛微）　void  作废申请（IM，OnSite）　withdraw  撤回授权书（PS）
+/* ── 授权书数据（V1.11）──
+   一份授权书只有一个状态（需求文档 13.1），由它的审批记录 recs 推导。recs 按时间倒序，最新一条在最前，两种：
+     seal  用印审批（分公司经理，泛微）　withdraw  撤回授权书（PS）
    record.status：approving / approved / rejected / withdrawn
-   L.voided = IM 通过作废申请后，原授权书整份作废（梯台回到「可提交」）；
-   L.construction = 这份授权书的施工类别（提交时由所选梯台带入，PS 可在表单里改；不回写梯台和 SAP，只影响授权书详情和 PDF 查看）。 */
-var SEAL_APPROVER = 'BGM / 分公司经理 王芳';   /* 用印审批已有结果时的审批人：角色 + 姓名（与消息中心的「拒绝人」一致） */
-var SEAL_APPROVER_PENDING = 'BGM / 分公司经理';
-var IM_APPROVER = '李敏（IM）';
+   L.voided = PS 作废授权书（不需要审批，二次确认后直接作废，梯台回到「可提交」）；作废的提交人、时间、原因、附件记在 L.voidInfo；
+   L.construction = 这份授权书的施工类别（在「选择被授权方」页确定，之后不能再改；不回写梯台和 SAP，只影响授权书详情和 PDF 查看）。 */
+var SEAL_APPROVER = '分公司经理 王芳';   /* 用印审批已有结果时的审批人：角色 + 姓名（与消息中心的「拒绝人」一致） */
+var SEAL_APPROVER_PENDING = '分公司经理';
 function E(id) { return { id: id }; }
 function recSeal(time, status, at, reason, auto) { return { kind: 'seal', time: time, status: status, at: at || '', reason: reason || '', auto: !!auto }; }
-function recVoid(time, status, at, reason, rejectReason, files) {
-  return { kind: 'void', time: time, status: status, at: at || '', reason: reason || '', rejectReason: rejectReason || '', files: files || [] };
-}
 function L0(o) {
   var base = { proj: 'A', ctype: '安装合同', ptype: '分公司', to: '昆山市市场监督管理局', executor: '张强（PS）',
     remark: '', files: [], safety: [], people: [], specs: {}, tech: {},
@@ -5689,39 +5572,35 @@ function addLetter(pid, no) { var a = PROJ[pid].letters; if (a.indexOf(no) < 0) 
 put(L0({ no: 'IAL20261022001M', party: '昆山某安装工程有限公司', ptype: '安装合作方', exec: '2026-10-22', submit: '2026-10-22 10:15',
   remark: '1号楼、2号楼同步进场', files: [SCAN()], els: [E('A-L1'), E('A-L2'), E('A-L3')],
   recs: [recSeal('2026-10-22 10:15', 'approved', '2026-10-22 15:20')] }));
-put(L0({ no: 'IAL20261022002M', party: '昆山分公司', exec: '2026-10-22', submit: '2026-10-22 14:30', remark: '2号楼2单元先行进场', files: [SCAN()], els: [E('A-L4')],
-  voided: true,
-  recs: [recVoid('2026-10-25 09:00', 'approved', '2026-10-25 16:20', '2号楼2单元改由分包商施工，需要更换被授权方'),
-         recSeal('2026-10-22 14:30', 'approved', '2026-10-23 11:00')] }));
-put(L0({ no: 'IAL20261022003M', party: '昆山分公司', exec: '2026-10-22', submit: '2026-10-22 16:20', remark: '3号楼客梯、消防梯同步进场', files: [SCAN()], els: [E('A-L5'), E('A-L6')],
-  recs: [recVoid('2026-10-26 09:40', 'approving', '', '3号楼客梯、消防梯层站门数据按土建变更更新，需要重新授权', '', [F('土建变更说明.pdf', '326KB')]),
-         recSeal('2026-10-22 16:20', 'approved', '2026-10-23 10:00')] }));
+put(L0({ no: 'IAL20261022002M', party: '昆山某电梯安装有限公司', ptype: '安装合作方', exec: '2026-10-22', submit: '2026-10-22 14:30', remark: '2号楼2单元先行进场', files: [SCAN()], els: [E('A-L4')],
+  voided: true, voidInfo: { by: '张强（PS）', time: '2026-10-25 09:00', reason: '2号楼2单元需要更换被授权方，原授权书作废后重新提交', files: [] },
+  recs: [recSeal('2026-10-22 14:30', 'approved', '2026-10-23 11:00')] }));
+put(L0({ no: 'IAL20261022003M', party: '苏州某机电安装有限公司', ptype: '安装合作方', exec: '2026-10-22', submit: '2026-10-22 16:20', remark: '3号楼客梯、消防梯同步进场', files: [SCAN()], els: [E('A-L5'), E('A-L6')],
+  recs: [recSeal('2026-10-22 16:20', 'approved', '2026-10-23 10:00')] }));
 put(L0({ no: 'IAL20261024004M', party: '昆山某安装工程有限公司', ptype: '安装合作方', exec: '2026-10-26', submit: '2026-10-26 09:30', remark: '5号楼先行进场', files: [SCAN()], els: [E('A-L7')],
   recs: [recSeal('2026-10-26 09:30', 'approving')] }));
-put(L0({ no: 'IAL20261025005M', party: '昆山分公司', exec: '2026-10-26', submit: '2026-10-26 08:50', remark: 'L4 梯型按合同变更更新', files: [SCAN()], els: [E('A-L4')],
+put(L0({ no: 'IAL20261025005M', party: '昆山某电梯安装有限公司', ptype: '安装合作方', exec: '2026-10-26', submit: '2026-10-26 08:50', remark: 'L4 梯型按合同变更更新', files: [SCAN()], els: [E('A-L4')],
   specs: { 'A-L4': sp('MonoSpace 700', '1.75 m/s', '18/18/18') },
   recs: [recSeal('2026-10-26 08:50', 'approved', '2026-10-26 11:00')] }));
 put(L0({ no: 'IAL20261026013M', party: '昆山某安装工程有限公司', ptype: '安装合作方', exec: '2026-10-26', submit: '2026-10-26 14:00', remark: '地下车库货梯', files: [SCAN()], els: [E('A-L9')],
   recs: [recSeal('2026-10-26 14:00', 'rejected', '2026-10-26 16:30', REJ_SEAL)] }));
-put(L0({ no: 'IAL20261026015M', party: '昆山分公司', exec: '2026-10-26', submit: '2026-10-26 10:30', remark: '4号楼消防梯', files: [SCAN()], els: [E('A-L10')], withdrawn: true,
+put(L0({ no: 'IAL20261026015M', party: '通力电梯有限公司', exec: '2026-10-26', submit: '2026-10-26 10:30', remark: '4号楼消防梯', files: [SCAN()], els: [E('A-L10')], withdrawn: true, construction: '改造',
   recs: [recSeal('2026-10-26 10:30', 'withdrawn', '2026-10-26 11:00')] }));
 put(L0({ no: 'IAL20261024014M', party: '昆山某安装工程有限公司', ptype: '安装合作方', exec: '2026-10-24', submit: '2026-10-24 14:10', remark: '7号楼两台同步进场', files: [SCAN()], els: [E('A-L7'), E('A-L8')],
-  recs: [recVoid('2026-10-24 14:10', 'rejected', '2026-10-24 16:40', '7号楼两台梯需要更换被授权方，申请作废', REJ_MOD, [F('土建变更说明.pdf', '326KB')]),
-         recSeal('2026-10-23 09:00', 'approved', '2026-10-23 11:20')] }));
+  recs: [recSeal('2026-10-24 14:10', 'approved', '2026-10-24 16:40')] }));
 put(L0({ no: 'IAL20260915001M', proj: 'C', party: '苏州某电梯工程有限公司', ptype: '安装合作方', to: '苏州市吴中区市场监督管理局',
   exec: '2026-09-15', submit: '2026-09-15 14:00', remark: '两栋楼四台同步进场', files: [SCAN()],
   els: [E('C-L1'), E('C-L2'), E('C-L3'), E('C-L4')], recs: [recSeal('2026-09-15 14:00', 'approved', '2026-09-16 10:30')] }));
-/* IM 待审批的调试协议：用印审批通过后 PS 申请作废 */
+/* 调试协议：用印审批通过 */
 put(L0({ no: 'IAL20261027009C', proj: 'B', ctype: '调试协议', party: '昆山某电梯安装有限公司', ptype: '安装合作方', executor: '王磊（PS）',
   exec: '2026-10-26', submit: '2026-10-26 15:00', taskNo: 'TASK-20261026-009', taskCreated: '2026-10-26 09:20', applicationDate: '2026-10-26', applyCount: 2,
-  remark: 'A座两台同步进场', safety: [F('安全承诺函_昆山某电梯安装有限公司.pdf', '418KB')], people: [F('人员清单_昆山某电梯安装有限公司.pdf', '286KB')], els: [E('B-L1'), E('B-L2')],
-  recs: [recVoid('2026-10-27 10:10', 'approving', '', 'A座2号梯层站门数据更新，需要重新授权', '', []),
-         recSeal('2026-10-26 15:00', 'approved', '2026-10-26 17:00')] }));
+  remark: 'A座两台同步进场', files: [F('现场交底记录.pdf', '624KB')], els: [E('B-L1'), E('B-L2')],
+  recs: [recSeal('2026-10-26 15:00', 'approved', '2026-10-26 17:00')] }));
 PROJ.A.letters = ['IAL20261026013M', 'IAL20261026015M', 'IAL20261024004M', 'IAL20261025005M', 'IAL20261024014M',
   'IAL20261022003M', 'IAL20261022002M', 'IAL20261022001M'];
 PROJ.C.letters = ['IAL20260915001M'];
 
-/* IP5 详情演示用的授权书：按 13.1 的 7 种状态生成，不加入列表 */
+/* IP5 详情演示用的授权书：按 13.1 的 5 种状态生成，不加入列表 */
 function demoLetter(status) {
   var L = L0({ no: 'IAL20261028011M', demo: true, party: '昆山某安装工程有限公司', ptype: '安装合作方',
     exec: '2026-10-28', submit: '2026-10-28 09:00', taskNo: 'TASK-20261028-001', taskCreated: '2026-10-28 08:30', applicationDate: '2026-10-28',
@@ -5737,11 +5616,9 @@ function demoLetter(status) {
       : status === '用印审批被拒绝' ? recSeal(submitAt, 'rejected', '2026-10-28 10:20', REJ_SEAL)
       : recSeal(submitAt, 'approved', '2026-10-28 10:20');
     recs = [seal];
-    if (status === '作废审批中') recs.unshift(recVoid('2026-10-28 11:00', 'approving', '', voidReason, '', [F('土建变更说明.pdf', '326KB')]));
-    else if (status === '作废审批被拒绝') recs.unshift(recVoid('2026-10-28 11:00', 'rejected', '2026-10-28 11:40', voidReason, REJ_MOD, []));
-    else if (status === '已作废') {
-      recs.unshift(recVoid('2026-10-28 11:00', 'approved', '2026-10-28 11:40', voidReason, '', []));
+    if (status === '已作废') {
       L.voided = true;
+      L.voidInfo = { by: '张强（PS）', time: '2026-10-28 11:00', reason: voidReason, files: [F('土建变更说明.pdf', '326KB')] };
     }
   }
   L.recs = recs;
@@ -5790,9 +5667,8 @@ function fileSummary(L) {
   return a.length ? a.map(function (f) { return f.name; }).join('、') : '-';
 }
 var STATUS_TH = { '用印审批中': 'primary', '用印审批被拒绝': 'danger', '已撤回': 'default',
-  '用印审批通过': 'success', '作废审批中': 'primary', '作废审批被拒绝': 'danger', '已作废': 'default' };
-/* 授权书只有一个状态标签（13.1）：已作废 / 已撤回优先；否则从最新的审批记录往回找，作废申请被撤回等于没发生，回到上一条记录的状态。
- */
+  '用印审批通过': 'success', '已作废': 'danger' };
+/* 授权书只有一个状态标签（13.1，5 种）：已作废 / 已撤回优先；否则取最新一条审批记录的状态。 */
 function statusOf(L) {
   if (L.voided) return '已作废';
   if (L.withdrawn) return '已撤回';
@@ -5800,20 +5676,14 @@ function statusOf(L) {
   for (var i = 0; i < recs.length; i++) {
     var r = recs[i], st = r.status;
     if (r.kind === 'withdraw') return '已撤回';
-    if (r.kind === 'void') {
-      if (st === 'approving') return '作废审批中';
-      if (st === 'rejected') return '作废审批被拒绝';
-      continue;
-    }
     if (r.kind === 'seal') return st === 'approving' ? '用印审批中' : st === 'approved' ? '用印审批通过' : st === 'rejected' ? '用印审批被拒绝' : '已撤回';
   }
   return '用印审批中';
 }
 function statusTag(L) { var s = statusOf(L); return tagHtml(s, STATUS_TH[s]); }
-/* 右上「···」出项：仅 PS，提交后只有两个动作——用印审批通过之前「撤回授权书」，用印审批通过之后「申请作废」。
+/* 右上「···」出项：仅 PS，提交后只有两个动作——用印审批中「撤回授权书」，用印审批通过之后「作废授权书」（不需要审批）。
    没有“修改并重新提交”：要改就撤回 / 作废，再从「可提交」重新填写、重新提交。用印审批被拒绝（任务已结束）、已撤回、已作废只读 */
-var ACTS_BY_STATUS = { '用印审批中': ['withdraw'], '用印审批通过': ['void'],
-  '作废审批被拒绝': ['void'], '作废审批中': ['void-withdraw'] };
+var ACTS_BY_STATUS = { '用印审批中': ['withdraw'], '用印审批通过': ['void'] };
 function acts(L, asPs) {
   if (!L) return [];
   if (!asPs && APP.role !== 'ps') return [];
@@ -5835,9 +5705,9 @@ function kv(rows, justify, ip32) {
   }).join('') + '</dl>';
 }
 var NICON = { info: 'ic-info-filled', warning: 'ic-warning-circle-filled', error: 'ic-warning-circle-filled', success: 'ic-check' };
-function notice(th, html, rounded) {
+function notice(th, html, rounded, suffix) {
   var m = rounded ? 'td-noticebar--rounded' : 'os-noticebar--edge';
-  return '<div class="td-noticebar td-noticebar--' + th + ' ' + m + '" role="status"><span class="td-noticebar__prefix-icon" aria-hidden="true"><svg><use href="#' + NICON[th] + '"/></svg></span><span class="td-noticebar__content">' + html + '</span></div>';
+  return '<div class="td-noticebar td-noticebar--' + th + ' ' + m + '" role="status"><span class="td-noticebar__prefix-icon" aria-hidden="true"><svg><use href="#' + NICON[th] + '"/></svg></span><span class="td-noticebar__content">' + html + '</span>' + (suffix || '') + '</div>';
 }
 function artHtml(name, lines) {
   return '<div class="pg-fill"><div class="list-art"><div class="list-art__img" data-art="' + name + '"></div>' +
@@ -5883,9 +5753,9 @@ function secForm(title, extra, body, extraHtml) {
   return '<section class="kc-section"><div class="kc-section__head"><h2 class="kc-section__title">' + esc(title) + '</h2>' +
     (extraHtml || (extra ? '<span class="kc-section__extra">' + esc(extra) + '</span>' : '')) + '</div><div class="td-divider" role="separator" aria-orientation="horizontal"></div><div class="kc-section__body">' + body + '</div></section>';
 }
-function secDetail(title, extra, body, id) {
+function secDetail(title, extra, body, id, extraHtml) {
   return '<section class="kc-section"' + (id ? ' id="' + id + '"' : '') + '><div class="kc-section__head"><h2 class="kc-section__title">' + esc(title) + '</h2>' +
-    (extra ? '<span class="kc-section__extra">' + esc(extra) + '</span>' : '') + '</div><div class="td-divider" role="separator" aria-orientation="horizontal"></div><div class="kc-section__body">' + body + '</div></section>';
+    (extraHtml || (extra ? '<span class="kc-section__extra">' + esc(extra) + '</span>' : '')) + '</div><div class="td-divider" role="separator" aria-orientation="horizontal"></div><div class="kc-section__body">' + body + '</div></section>';
 }
 function groupHead(o) {
   var m = o.disabled ? 'is-disabled' : '';
@@ -5930,15 +5800,16 @@ function generatedLetterCard(L, opts) {
   var statusTags = opts && opts.statusTags ? opts.statusTags : statusTag(L);
   var numberHtml = opts && opts.numberHtml ? opts.numberHtml : esc(number);
   var projectHtml = opts && opts.projectHtml ? opts.projectHtml : esc(P.name || '-');
+  var partyHtml = opts && opts.partyHtml ? opts.partyHtml : esc(L.party || '-');
+  var orderHtml = opts && opts.orderHtml ? opts.orderHtml : '';
   var elevatorHtml = opts && opts.elevatorHtml ? opts.elevatorHtml : letterElevatorSummary(L);
   var action = opts && opts.action ? opts.action : 'card';
   var timeLabel = opts && opts.timeLabel ? opts.timeLabel : '提交时间';
   var time = opts && opts.time ? opts.time : (L.submit || '-');
   return '<div class="kc-card kc-card--shadow os-generated-card" role="button" tabindex="0" data-act="' + action + '" data-no="' + esc(L.no) + '" aria-label="查看授权书详情 ' + esc(number) + '">' +
     '<div class="os-generated-card__meta"><span class="os-generated-card__no">' + numberHtml + '</span><span class="os-generated-card__status">' + statusTags + '</span></div>' +
-    '<div class="os-generated-card__party">' + esc(L.party || '-') + '</div>' +
     '<div class="os-generated-card__divider"><div class="td-divider" role="separator" aria-orientation="horizontal"></div></div>' +
-    '<div class="os-generated-card__rows">' + generatedRow('项目名称', projectHtml) + generatedRow('梯台', elevatorHtml, 'os-generated-card__elevator-value') + generatedRow('提交人', esc(L.executor || '-')) + '</div>' +
+    '<div class="os-generated-card__rows">' + generatedRow('被授权方', partyHtml) + generatedRow('项目名称', projectHtml) + (orderHtml ? generatedRow('订单号', orderHtml) : '') + generatedRow('梯台', elevatorHtml, 'os-generated-card__elevator-value') + generatedRow('提交人', esc(L.executor || '-')) + '</div>' +
     '<div class="os-generated-card__divider"><div class="td-divider" role="separator" aria-orientation="horizontal"></div></div>' +
     '<div class="os-generated-card__submit"><span class="os-generated-card__submit-icon" aria-hidden="true"><svg><use href="#ic-calendar"/></svg></span><span class="os-generated-card__label">' + esc(timeLabel) + '</span><span class="os-generated-card__value">' + esc(time) + '</span></div>' +
   '</div>';
@@ -5958,57 +5829,27 @@ function searchHighlightText(value, query) {
   var pattern = new RegExp(String(safeQuery).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig');
   return safeValue.replace(pattern, '<span class="os-search-hit">$&</span>');
 }
+/* 搜索范围（2026-11-17）：「审批中」「已完结」按项目名称 / 订单号 / 被授权方；「可提交」按项目名称 / 订单号 */
 function searchRecordText(L) {
   var P = PROJ[L.proj] || {};
-  var projectName = P.name || '';
-  var authorizationNo = authNo(L) || '';
-  var elevatorNames = [], equipmentNos = [], networks = [];
-  (L.els || []).forEach(function (record) {
-    var e = EL[record.id];
-    if (!e) return;
-    elevatorNames.push(e.name || '');
-    equipmentNos.push(e.no || '');
-    networks.push(e.net || '');
-  });
-  return i18nSearchable([projectName, authorizationNo].concat(elevatorNames, equipmentNos, networks));
-}
-function searchMatchContext(L, query) {
-  var q = String(query || '').toLowerCase(), match = null;
-  (L.els || []).some(function (record) {
-    var e = EL[record.id];
-    if (!e) return false;
-    var network = String(e.net || '').toLowerCase();
-    var elevatorName = i18nSearchable([String(e.name || '')]).toLowerCase();
-    var equipmentNo = String(e.no || '').toLowerCase();
-    if (network.indexOf(q) >= 0) { match = { elevator: e, kind: 'network' }; return true; }
-    if (elevatorName.indexOf(q) >= 0 || equipmentNo.indexOf(q) >= 0) { match = { elevator: e, kind: 'name' }; return true; }
-    return false;
-  });
-  return match;
-}
-function searchElevatorSummary(L, query, match) {
-  if (!match || !match.elevator) return letterElevatorSummary(L);
-  var e = match.elevator, main = match.kind === 'network'
-    ? searchHighlightText(e.net, query)
-    : searchHighlightText(e.no + ' · ' + e.name, query);
-  var extra = L.els.length > 1 ? ' ' + tagHtml('+' + (L.els.length - 1) + '台', 'default') : '';
-  return '<span class="os-generated-card__elevator-main">' + main + '</span>' + extra;
+  return i18nSearchable([P.name || '', P.order || '', L.party || '']);
 }
 function generatedLetterCardSearch(L, query) {
-  var P = PROJ[L.proj] || {}, number = authNo(L), match = searchMatchContext(L, query);
+  var P = PROJ[L.proj] || {}, q = String(query || '').toLowerCase();
+  var nameHit = i18nSearchable([P.name || '']).toLowerCase().indexOf(q) >= 0;
+  var orderHit = i18nSearchable([P.order || '']).toLowerCase().indexOf(q) >= 0;
   return generatedLetterCard(L, {
-    numberHtml: searchHighlightText(number, query),
     projectHtml: searchHighlightText(P.name || '-', query),
-    elevatorHtml: searchElevatorSummary(L, query, match)
+    partyHtml: searchHighlightText(L.party || '-', query),
+    orderHtml: orderHit && !nameHit ? searchHighlightText(P.order || '-', query) : ''   /* 订单号命中而项目名称没命中：多出一行订单号，让人看到为什么命中 */
   });
 }
 /* 列表三个页签（2026-11-12 设计师定）：可提交 / 审批中 / 已完结。
    审批中 = 任务还没结束（有审批在跑）；已完结 = 任务已经结束（含用印审批被拒绝）或已生效。状态一变，授权书自动换页签。 */
-var TAB_OF_STATUS = { '用印审批中': 'progress', '作废审批中': 'progress',
-  '用印审批被拒绝': 'done', '已撤回': 'done', '用印审批通过': 'done', '作废审批被拒绝': 'done', '已作废': 'done' };
+var TAB_OF_STATUS = { '用印审批中': 'progress',
+  '用印审批被拒绝': 'done', '已撤回': 'done', '用印审批通过': 'done', '已作废': 'done' };
 function letterTab(L) { return TAB_OF_STATUS[statusOf(L)] || 'done'; }
 function listTab(t) { return t === 'progress' || t === 'done' ? t : 'pending'; }
-function ip21StateKey(tab) { return tab === 'progress' ? 'ip21StateProgress' : tab === 'done' ? 'ip21StateDone' : 'ip21StatePending'; }
 function generatedLetters(tab) {
   var all = [];
   Object.keys(PROJ).forEach(function (pid) {
@@ -6036,79 +5877,59 @@ function pendingSearchCard(pid, query) {
     '<div class="pg-gap8">' + kv([['合同号', esc(P.contract)], ['订单号', orderHtml], ['业务类型', esc(type)]]) + '</div>' +
     '<div class="pg-gap12">' + entryRow('可提交', count + '台', 'pend', pid, m1) + '</div></div>';
 }
-function syncIP21Tab() {
-  var tab = APP.ip21Tab || 'pending', pending = tab === 'pending', input = $('input[data-q="ip21"]');
-  $$('#ip21-tabs .td-tabs__item').forEach(function (item) {
-    var on = item.getAttribute('data-tab') === tab;
-    item.classList.toggle('is-active', on);
-    item.setAttribute('aria-selected', String(on));
-  });
-  if (input) {
-    input.placeholder = pending ? '项目名称 / 订单号' : '项目名称 / 授权书编号 / 梯台名称或 Network';
-    input.setAttribute('aria-label', pending ? '搜索项目名称或订单号' : '搜索项目名称、授权书编号、梯台名称或 Network');
-  }
-}
-function renderIP21() {
-  var box = $('#ip21-results'), tab = APP.ip21Tab || 'pending', q = APP.ip21Q.trim().toLowerCase();
-  syncIP21Tab();
-  if (!q) {
-    box.innerHTML = '<div class="os-search-hint">' + (tab === 'pending' ? '输入项目名称或订单号查找可提交项目' : '输入项目名称、授权书编号、梯台名称或 Network 查找') + '</div>';
-    emit('ip21', { state: APP[ip21StateKey(tab)], tab: tab });
-    return;
-  }
-  if (tab === 'pending') {
-    var pids = pendingProjectIds().filter(function (pid) { return pendingProjectSearchText(pid).toLowerCase().indexOf(q) >= 0; });
-    if (!pids.length) {
-      box.innerHTML = artHtml('no-search-result', ['未找到匹配的可提交项目']);
-      fillArt(box);
-      emit('ip21', { state: APP[ip21StateKey(tab)], tab: tab });
-      return;
-    }
-    box.innerHTML = '<div class="pg-pad">' + pids.map(function (pid) { return pendingSearchCard(pid, q); }).join('') + '<div class="kc-nomore">已经到底了</div></div>';
-    emit('ip21', { state: APP[ip21StateKey(tab)], tab: tab });
-    return;
-  }
-  var records = generatedLetters(tab).filter(function (L) { return searchRecordText(L).toLowerCase().indexOf(q) >= 0; });
-  if (!records.length) {
-    box.innerHTML = artHtml('no-search-result', ['未找到匹配的授权书']);
-    fillArt(box);
-    emit('ip21', { state: APP[ip21StateKey(tab)], tab: tab });
-    return;
-  }
-  box.innerHTML = '<div class="os-generated-list">' + records.map(function (L) { return generatedLetterCardSearch(L, q); }).join('') + '<div class="kc-nomore">已经到底了</div></div>';
-  emit('ip21', { state: APP[ip21StateKey(tab)], tab: tab });
-}
 /* 「可提交」页签顶部常驻说明：梯台满足哪些条件才会进入可提交（2026-11-10 业务讨论，设计师确认常驻） */
-function ip2RuleNotice() {
-  return '<div class="os-ip2-rule-notice">' + notice('info', '可提交条件：调试协议需已完成分包商建议表；安装合同需已下 PO', false) + '</div>';
+/* 提示条右边有「我知道了」：点一下关闭；演示里本次打开期间不再显示（是否永久记住待业务确认）。
+   没有数据（业务空态 / 搜索无结果）时整块背景是白色，提示条下面不留间距：flush = true */
+function ip2RuleNotice(flush) {
+  if (APP.ip2NoticeClosed) return '';
+  return '<div class="os-ip2-rule-notice' + (flush ? ' is-flush' : '') + '">' + notice('info', '可提交条件：安装合同需已下 PO', false,
+    '<button class="os-noticebar-more" type="button" data-act="ip2-notice-close">我知道了</button>') + '</div>';
+}
+/* 页签下的搜索框：切换页签时占位符随之变化并清空输入；输入即过滤当前页签 */
+function ip2SearchState() {
+  var d = IP2_SEARCH_DEMO[listTab(APP.ip2Tab)] || {}, q = APP.ip2Q;
+  if (!q) return 'default';
+  for (var k in d) if (d[k] === q) return k;
+  return '';
+}
+function syncIP2Search() {
+  var tab = listTab(APP.ip2Tab), input = $('input[data-q="ip2"]'), box = $('#ip2-search');
+  if (input) {
+    input.placeholder = tab === 'pending' ? '项目名称 / 订单号' : '项目名称 / 订单号 / 被授权方';
+    input.setAttribute('aria-label', tab === 'pending' ? '搜索项目名称或订单号' : '搜索项目名称、订单号或被授权方');
+    if (input.value !== APP.ip2Q) input.value = APP.ip2Q;
+  }
+  if (box) box.classList.toggle('has-value', !!APP.ip2Q);
 }
 function renderIP2() {
-  var box = $('#ip2-main'), tab = APP.ip2Tab || 'pending';
+  var box = $('#ip2-main'), tab = listTab(APP.ip2Tab), q = (APP.ip2Q || '').trim().toLowerCase();
   $$('#ip2-tabs .td-tabs__item').forEach(function (item) {
     var on = item.getAttribute('data-tab') === tab;
     item.classList.toggle('is-active', on);
     item.setAttribute('aria-selected', String(on));
   });
+  syncIP2Search();
+  emit('ip2', { tab: tab, state: ip2SearchState(), notice: APP.ip2NoticeClosed ? 'closed' : 'show' });
   if (tab !== 'pending') {
-    var records = APP.ip2Empty ? [] : generatedLetters(tab);
+    var all = APP.ip2Empty ? [] : generatedLetters(tab);
+    var records = q ? all.filter(function (L) { return searchRecordText(L).toLowerCase().indexOf(q) >= 0; }) : all;
     if (!records.length) {
-      box.innerHTML = artHtml('empty', tab === 'progress' ? ['暂无审批中的授权书', '提交安装授权书后，审批中的记录会显示在这里'] : ['暂无已完结的授权书', '授权书审批完成、撤回或作废后，记录会显示在这里']);
+      box.innerHTML = q ? artHtml('no-search-result', ['未找到匹配的授权书'])
+        : artHtml('empty', tab === 'progress' ? ['暂无审批中的授权书', '提交安装授权书后，审批中的记录会显示在这里'] : ['暂无已完结的授权书', '授权书审批完成、撤回或作废后，记录会显示在这里']);
       fillArt(box);
       return;
     }
-    box.innerHTML = '<div class="os-generated-list">' + records.map(generatedLetterCard).join('') + '<div class="kc-nomore">已经到底了</div></div>';
+    box.innerHTML = '<div class="os-generated-list">' + records.map(function (L) { return q ? generatedLetterCardSearch(L, q) : generatedLetterCard(L); }).join('') + '<div class="kc-nomore">已经到底了</div></div>';
     return;
   }
-  var ids = APP.ip2Empty ? [] : Object.keys(PROJ).filter(function (pid) { return pendIds(pid).length > 0; });
-  if (!ids.length) { box.innerHTML = ip2RuleNotice() + artHtml('empty', ['暂无可提交项目', '系统识别到符合条件的梯台后，会自动推送安装授权书任务']); fillArt(box); return; }
-  box.innerHTML = ip2RuleNotice() + '<div class="pg-pad">' + ids.map(function (pid) {
-    var P = PROJ[pid], n1 = pendIds(pid).length;
-    var m1 = APP.role === 'ps' ? 'go' : 'ro';
-    var type = P.groups.length ? P.groups[0].ctype : '-';
-    return '<div class="kc-card kc-card--shadow"><div class="pg-cttl">' + esc(P.name) + '</div>' +
-      '<div class="pg-gap8">' + kv([['合同号', esc(P.contract)], ['订单号', esc(P.order)], ['业务类型', esc(type)]]) + '</div>' +
-      '<div class="pg-gap12">' + entryRow('可提交', n1 + '台', 'pend', pid, m1) + '</div></div>';
-  }).join('') + '<div class="kc-nomore">已经到底了</div></div>';
+  var ids = APP.ip2Empty ? [] : pendingProjectIds();
+  if (q) ids = ids.filter(function (pid) { return pendingProjectSearchText(pid).toLowerCase().indexOf(q) >= 0; });
+  if (!ids.length) {
+    box.innerHTML = ip2RuleNotice(true) + (q ? artHtml('no-search-result', ['未找到匹配的可提交项目']) : artHtml('empty', ['暂无可提交项目', '系统识别到符合条件的梯台后，会自动推送安装授权书任务']));
+    fillArt(box);
+    return;
+  }
+  box.innerHTML = ip2RuleNotice() + '<div class="pg-pad">' + ids.map(function (pid) { return pendingSearchCard(pid, q); }).join('') + '<div class="kc-nomore">已经到底了</div></div>';
 }
 
 /* ═══ IP3 选择梯台 ═══ */
@@ -6183,7 +6004,7 @@ function elevCard(pid, id, on) {
 }
 function renderIP3() {
   var pid = ip3SourcePid(), P = PROJ[pid], S = SEL[pid], q = APP.ip3Q.trim().toLowerCase();
-  var h = '<div class="os-ip3-rule-notice">' + notice('info', '一份授权书只能选择同一授权方且施工类别相同的梯台', false) + '</div>', any = false;
+  var h = '', any = false;
   P.groups.forEach(function (g, gi) {
     var els = g.els.filter(function (id) { return !q || i18nSearchable([EL[id].no, EL[id].name]).toLowerCase().indexOf(q) >= 0; });
     if (!els.length) return;
@@ -6193,6 +6014,7 @@ function renderIP3() {
     h += '<div' + (folded ? ' hidden' : '') + '>' +
       '<div class="pg-cards">' + els.map(function (id) { return elevCard(pid, id, S.ids.indexOf(id) >= 0); }).join('') + '</div></div>';
   });
+  h = '<div class="os-ip3-rule-notice' + (any ? '' : ' is-flush') + '">' + notice('info', '一份授权书只能选择同一个合作伙伴的梯台', false) + '</div>' + h;
   if (any) h += '<div class="kc-nomore">已经到底了</div>';
   else h += q ? artHtml('no-search-result', ['未找到匹配的梯台']) : artHtml('empty', ['暂无待提交的梯台']);
   var box = $('#ip3-main'); box.innerHTML = h; fillArt(box);
@@ -6228,28 +6050,21 @@ function renderIP31() {
     return specItem('f31', id, F.specs[id], false, '', null, i >= 2, F.tech[id], true);
   }).join('');
   var elevatorMore = restCount ? '<div class="os-form-more" role="button" tabindex="0" id="f31ElevatorToggle" aria-expanded="false" data-act="elev-toggle"><span>展开剩余 ' + restCount + ' 台</span><svg aria-hidden="true"><use href="#ic-chevron-down"/></svg></div>' : '';
-  /* 施工类别：默认带入所选梯台的，点编辑图标在底部弹层改成其他类别；只对本次授权书有效、不回写梯台和 SAP，
-     只影响授权书详情和 PDF 查看——表单里的梯台卡仍显示梯台自己的施工类别（安装合同、调试协议都有） */
-  var constrValue = '<span class="os-constr-value"><span>' + esc(F.construction) + '</span><button class="os-spec-grid__edit" type="button" aria-label="修改施工类别" data-act="constr-edit"><svg aria-hidden="true"><use href="#ic-edit"/></svg></button></span>';
+  /* 施工类别：在上一步「选择被授权方」页已确定，这里只读；只影响授权书详情和 PDF 查看——表单里的梯台卡仍显示梯台自己的施工类别（安装合同、调试协议都有） */
+  var constrValue = esc(F.construction);
   var h = secForm('基本信息', '', '<div class="pg-pb16">' + kv([['项目名称', esc(P.name)], ['合同类型', esc(F.ctype)], ['施工类别', constrValue], ['合同号', esc(P.contract)], ['订单号', esc(P.order)]]) + '</div>');
   h += secForm('被授权方（' + F.ids.length + '台）', '', '<div class="os-form-elevator-area">' + partyBlock + '<div id="f31ElevatorRows">' + elevatorRows + '</div>' + elevatorMore + '</div>');
   h += secForm('授权信息', '',
     input({ p: 'f31', id: 'f31-to', label: '致（选填）', ph: '请输入受文单位', val: F.to, f: 'to' }) +
     textarea({ p: 'f31', id: 'f31-remark', label: '备注（选填）', ph: '请输入', val: F.remark, f: 'remark' }));
-  /* V1.9：调试协议的附件是两个独立必传项（安全承诺函、人员清单），只校验有没有上传；安装合同的附件选填 */
-  h += secForm('附件', '', debug ? upload('f31', '安全承诺函', true, 'safety', F.safety, F.err.safety, false) + upload('f31', '人员清单', true, 'people', F.people, F.err.people, true)
-    : upload('f31', '上传附件（选填）', false, 'files', F.files, null, true));
+  /* V1.11：安装合同、调试协议都是一个选填的附件入口（调试协议不再要求安全承诺函、人员清单） */
+  h += secForm('附件', '', upload('f31', '上传附件（选填）', false, 'files', F.files, null, true));
   $('#ip31-main').innerHTML = h;
   emit('ip31', { type: debug ? 'debug' : 'install' });
 }
 function validate(F, ctype) {
   var err = {};
-  if (F.voidApply) {
-    if (!(F.reason || '').trim()) err.reason = '请输入作废原因';   /* 申请作废：作废原因必填，附件选填 */
-  } else if (ctype === '调试协议') {
-    if (!F.safety.length) err.safety = '请上传安全承诺函';
-    if (!F.people.length) err.people = '请上传人员清单';
-  }
+  if (F.voidApply && !(F.reason || '').trim()) err.reason = '请输入作废原因';   /* 作废授权书：作废原因必填，附件选填；表单（IP3.1）没有必填项 */
   F.err = err;
   return !Object.keys(err).length;
 }
@@ -6262,12 +6077,12 @@ function scrollToErr(screenId, boxSel) {
   });
   if (first && sc) sc.scrollTop += first.getBoundingClientRect().top - sc.getBoundingClientRect().top - 84 - 12;
 }
-/* 提交 = 生成 PDF + 自动发起用印审批（BGM / 分公司经理，泛微），二次确认后执行；没有特批 */
+/* 提交 = 生成 PDF + 自动发起用印审批（分公司经理，泛微），二次确认后执行；没有特批 */
 function submit31() {
   var F = FORM31;
   if (!validate(F, F.ctype)) { renderIP31(); scrollToErr('s-ip3-1-form', '#ip31-main'); return; }
   confirmDlg({ title: '确认提交安装授权书？',
-    body: '提交后将自动发起用印审批，由 BGM / 分公司经理在泛微处理。',
+    body: '提交后将自动发起用印审批，由分公司经理在泛微处理。',
     ok: '确认提交', run: commit31 });
 }
 function commit31() {
@@ -6278,7 +6093,7 @@ function commit31() {
   SEL[F.pid] = { g: null, ids: [] };
   var L = put(L0({ no: newNo(F.pid, F.ctype), taskNo: taskNo, taskCreated: t, applicationDate: t.slice(0, 10), proj: F.pid, ctype: F.ctype, party: F.party, ptype: F.ptype,
     to: F.to.trim(), exec: t.slice(0, 10), submit: t, region: '华东区', branch: '昆山分公司', applicant: '张强', applicantRole: 'PS', applyCount: F.ids.length,
-    remark: F.remark.trim(), files: debug ? [] : F.files, safety: debug ? F.safety : [], people: debug ? F.people : [],
+    remark: F.remark.trim(), files: F.files, safety: [], people: [],
     els: F.ids.map(function (id) { return { id: id }; }), specs: F.specs, tech: clone(F.tech), construction: F.construction, srcGi: F.gi, recs: [first] }));
   addLetter(F.pid, L.no);
   FORM31 = null;
@@ -6322,7 +6137,6 @@ var REC_ST = {
   withdrawn: { key: 'withdrawn', text: '已撤回', theme: 'default', step: '' }
 };
 function recApprover(r) {
-  if (r.kind === 'void') return IM_APPROVER;
   return r.status === 'approved' || r.status === 'rejected' ? SEAL_APPROVER : SEAL_APPROVER_PENDING;
 }
 /* 审批节点：标题 + 「姓名 | 时间」+ 可选说明 */
@@ -6341,21 +6155,13 @@ function normRec(r) {
     return { kind: 'withdraw', title: '撤回授权书', status: REC_ST.withdrawn, time: r.time, changes: [],
       steps: [{ s: 'done', t: '撤回授权书', meta: ['张强（PS）', r.time] }] };
   }
-  var st = REC_ST[r.status], who = recApprover(r), title, first, changes = [], note = '';
-  if (r.kind === 'seal') {
-    title = '用印审批';
-    first = { s: 'done', t: '提交授权书', meta: ['张强（PS）', r.time] };
-  } else {
-    title = '作废申请'; first = { s: 'done', t: '提交作废申请', meta: ['张强（PS）', r.time] };
-    changes.push({ k: '作废原因', text: r.reason });
-    if (r.files && r.files.length) changes.push({ k: '附件', files: r.files.map(function (f) { return f.name; }) });
-    if (r.status === 'approved') note = '原授权书已作废，梯台已回到「可提交」';
-  }
+  var st = REC_ST[r.status], who = recApprover(r), title = '用印审批', changes = [], note = '';
+  var first = { s: 'done', t: '提交授权书', meta: ['张强（PS）', r.time] };
   var steps = [first];
   if (r.status === 'approving') steps.push({ s: 'current', t: '待审批', meta: [who] });
   else if (r.status === 'withdrawn') steps.push({ s: '', t: '已撤回', meta: ['张强（PS）', r.at] });
   else {
-    if (r.status === 'rejected') note = '拒绝原因：' + (r.kind === 'void' ? r.rejectReason : r.reason);
+    if (r.status === 'rejected') note = '拒绝原因：' + r.reason;
     steps.push({ s: st.step, t: st.text, meta: [who, r.at], note: note });
   }
   return { kind: r.kind, title: title, status: st, time: r.time, steps: steps, changes: changes };
@@ -6366,12 +6172,14 @@ function approvalRecords(L) { return (L.recs || []).map(normRec); }
 var STATUS_NOTICE = {
   '用印审批被拒绝': ['error', '用印审批被拒绝，本次任务已结束，梯台已回到「可提交」'],
   '已撤回': ['info', '授权书已撤回，梯台已回到「可提交」，请重新填写提交'],
-  '作废审批被拒绝': ['error', '作废申请被拒绝，原授权书继续有效'],
   '已作废': ['info', '原授权书已作废，梯台已回到「可提交」']
 };
 function statusNoticeHtml(L) {
-  var n = STATUS_NOTICE[statusOf(L)];
-  return n ? '<div class="os-approval-notice" data-act="detail-notice" data-host="ip5">' + notice(n[0], esc(n[1]), true) + '</div>' : '';
+  var s = statusOf(L), n = STATUS_NOTICE[s];
+  if (!n) return '';
+  /* 已作废不是审批：说明条后面有「查看更多」，点开底部浮层看作废的提交人、时间、原因和附件；其余状态点一下切到「审批信息」 */
+  if (s === '已作废') return '<div class="os-approval-notice" role="button" tabindex="0" data-act="void-info" aria-label="查看作废信息">' + notice(n[0], esc(n[1]), true, '<span class="os-noticebar-more">查看更多</span>') + '</div>';
+  return '<div class="os-approval-notice" data-act="detail-notice" data-host="ip5">' + notice(n[0], esc(n[1]), true) + '</div>';
 }
 /* 审批记录分组：与「基本信息」各分组同一套通栏白底分组（标题 + 分割线 + 内容）；状态由下方 Steps 表达 */
 function approvalRecordSectionHtml(rec) {
@@ -6394,8 +6202,7 @@ function approvalRecordsHtml(L) {
 }
 function letterSummaryHtml(L, host) {
   var number = authNo(L), s = statusOf(L);
-  /* IM 与 PS 是同一张详情页，唯一区别是右上角标签：IM 显示这条申请的审批状态（与外侧列表一致），PS 显示授权书状态 */
-  var tag = host === 'im3' ? imApprovalTag(L.no) : [s, STATUS_TH[s]];
+  var tag = [s, STATUS_TH[s]];
   var h = '<section class="kc-section"><div class="kc-section__body"><div class="os-letter-detail-head">' +
     '<div class="os-letter-detail-head__meta"><span class="os-letter-detail-head__no">' + esc(number) + '</span><span class="os-letter-detail-head__status">' + tagHtml(tag[0], tag[1]) + '</span></div>' +
     '<div class="os-letter-detail-head__party">' + esc(L.party || '-') + '</div>' +
@@ -6412,19 +6219,14 @@ function detailElevatorItem(L, e, hidden) {
 }
 /* 基本信息四组：PS 首次提交与有审批信息两种场景内容一致 */
 function letterBasicInfoHtml(L) {
-  var P = PROJ[L.proj] || {}, n = L.els.length, rest = Math.max(n - 2, 0), debug = L.ctype === '调试协议';
+  var P = PROJ[L.proj] || {}, n = L.els.length, rest = Math.max(n - 2, 0);
   var h = secDetail('基本信息', '', '<div class="pg-pb20">' + kv([['项目名称', esc(P.name || '-')], ['合同类型', esc(L.ctype)], ['施工类别', esc(letterConstruction(L))], ['合同号', esc(P.contract || '-')], ['订单号', esc(P.order || '-')]]) + '</div>');
   var more = rest ? '<div class="os-form-more" role="button" tabindex="0" aria-expanded="false" data-act="elev-toggle"><span>展开剩余 ' + rest + ' 台</span><svg aria-hidden="true"><use href="#ic-chevron-down"/></svg></div>' : '';
   h += secDetail('被授权方（' + n + '台）', '', '<div class="os-form-elevator-area"><div class="os-form-party">' + kv([['被授权方', esc(L.party || '-')]]) + '</div>' +
     '<div class="os-form-elevator-rows">' + L.els.map(function (e, i) { return detailElevatorItem(L, e, i >= 2); }).join('') + '</div>' + more + '</div>');
   var info = [['致受文单位', esc(L.to || '-')], ['备注', esc(L.remark || '-')]], fileHtml = '';
-  if (debug && ((L.safety || []).length || (L.people || []).length)) {
-    /* V1.9：调试协议的安全承诺函、人员清单是两个独立附件项，分开展示 */
-    fileHtml = fieldFiles('安全承诺函', L.safety || []) + fieldFiles('人员清单', L.people || []);
-  } else {
-    var files = filesOf(L);
-    if (!files.length) info.push(['附件', '-']); else fileHtml = fieldFiles('附件', files);
-  }
+  var files = filesOf(L);
+  if (!files.length) info.push(['附件', '-']); else fileHtml = fieldFiles('附件', files);
   h += secDetail('授权信息', '', '<div class="pg-pb20">' + kv(info) + fileHtml + '</div>');
   h += secDetail('提交信息', '', '<div class="pg-pb20">' + kv([['提交人', esc(applicantOf(L))], ['提交日期', esc(applicationDateOf(L))]]) + '</div>');
   return h;
@@ -6482,7 +6284,7 @@ function renderIP5(ctx) {
   emit('ip5', { no: L.no, status: statusOf(L), demo: !!L.demo });
 }
 
-/* ═══ IP5.2 申请作废（用印审批通过后）：授权书详情页的底部浮层，不打开新页面；只填作废原因（必填）和附件（选填） ═══ */
+/* ═══ IP5.2 作废授权书（用印审批通过后，V1.11 不需要审批）：授权书详情页的底部浮层，不打开新页面；只填作废原因（必填）和附件（选填） ═══ */
 var FORM52 = null;
 function newForm52(L) {
   return { no: L.no, ctype: L.ctype, voidApply: true, reason: '', files: [], safety: [], people: [], err: {} };
@@ -6494,6 +6296,14 @@ function renderIP52() {
 }
 function openVoid(L) { FORM52 = newForm52(L); renderIP52(); openLayer('#pop-void'); }
 function cancelVoid() { FORM52 = null; closeLayers(); }
+/* 已作废：说明条后面的「查看更多」→ 底部浮层，显示作废的提交人、提交时间、作废原因、附件 */
+function openVoidInfo(L) {
+  var v = (L && L.voidInfo) || {}, files = v.files || [];
+  var rows = [['提交人', esc(v.by || '-')], ['提交时间', esc(v.time || '-')], ['作废原因', esc(v.reason || '-')]];
+  if (!files.length) rows.push(['附件', '-']);
+  $('#void-info-body').innerHTML = '<div class="os-void-info">' + kv(rows) + (files.length ? fieldFiles('附件', files) : '') + '</div>';
+  openLayer('#pop-void-info');
+}
 /* ═══ IP3.1-a 编辑梯台型号规格：底部浮层，四个字段，只改本次授权书 ═══ */
 var SPEC_EDIT = null;
 var SPEC_LABELS = ['型号规格', '载重', '层数', '站数'];
@@ -6514,13 +6324,13 @@ function openSpecEdit(id) {
     }).join('') + '</div>';
   openLayer('#pop-spec-edit');
 }
-/* IP3.1-b 选择施工类别：底部弹层单选，只改本次授权书，不回写梯台和 SAP；只影响授权书详情和 PDF 查看 */
+/* IP3.2-a 选择施工类别：底部弹层单选；它决定可选的被授权方，也会显示在授权书详情和 PDF 上；不回写梯台和 SAP */
 var CONSTRUCTION_OPTIONS = ['安装', '改造', '重大修理', '一般修理'];
 function openConstructionPick() {
-  var F = FORM31; if (!F) return;
-  $('#construction-body').innerHTML = '<div class="td-noticebar td-noticebar--info td-noticebar--rounded os-party-edit__notice" role="status"><span class="td-noticebar__prefix-icon" aria-hidden="true"><svg><use href="#ic-info-filled"/></svg></span><span class="td-noticebar__content">修改只针对本次提交的授权书有效，只影响授权书详情和 PDF 查看，不修改梯台数据，不回写 SAP</span></div>' +
+  var chosen = partyContext().construction;
+  $('#construction-body').innerHTML = '<div class="td-noticebar td-noticebar--info td-noticebar--rounded os-party-edit__notice" role="status"><span class="td-noticebar__prefix-icon" aria-hidden="true"><svg><use href="#ic-info-filled"/></svg></span><span class="td-noticebar__content">施工类别决定可选的被授权方，也会显示在授权书详情和 PDF 上；不修改梯台数据，不回写 SAP</span></div>' +
     '<div role="listbox" aria-label="施工类别">' + CONSTRUCTION_OPTIONS.map(function (v) {
-      var on = v === F.construction;
+      var on = v === chosen;
       return '<button class="kc-pick-item kc-pick-item--single kc-pick-item--compact ' + (on ? 'is-active' : '') + '" type="button" role="option" aria-selected="' + on + '" data-act="constr-pick" data-v="' + v + '"><span class="kc-pick-item__body"><span class="kc-pick-item__title">' + v + '</span></span><svg class="kc-pick-item__check" aria-hidden="true"><use href="#ic-check"/></svg></button>';
     }).join('') + '</div>';
   openLayer('#pop-construction');
@@ -6543,17 +6353,19 @@ function submit52() {
   var F = FORM52;
   if (!F) return;
   if (!validate(F, F.ctype)) { renderIP52(); var ta = $('#f52-reason'); if (ta) ta.focus(); return; }   /* 没填作废原因：浮层停留，错误提示在输入框下 */
-  confirmDlg({ title: '确认提交作废申请？', body: '审批通过后，原授权书将整份作废，梯台回到「可提交」，需要重新提交。', ok: '确认提交', run: commit52, keep: true });
+  confirmDlg({ title: '确认作废授权书？', body: '作废后原授权书立即失效，梯台回到「可提交」，需要重新提交。', ok: '确认作废', run: commit52, keep: true });
 }
+/* 作废不需要审批：二次确认后直接作废，梯台回到「可提交」；作废的提交人、时间、原因、附件留痕在 L.voidInfo */
 function commit52() {
   var F = FORM52, L = STORE[F.no], t = now();
-  L.recs.unshift(recVoid(t, 'approving', '', F.reason.trim(), '', clone(F.files)));
+  L.voided = true;
+  L.voidInfo = { by: applicantOf(L) + '（PS）', time: t, reason: F.reason.trim(), files: clone(F.files) };
+  restorePending(L);
   FORM52 = null;
-  APP.ip5DetailTab = 'approval';   /* 提交后浮层关闭，详情直接停在审批信息，让 PS 看到刚提交的申请 */
+  APP.ip5DetailTab = 'basic';
   closeLayers();
   renderIP5(cur().ctx);
-  syncIMApprovalBadge();
-  toast('作废申请已提交，等待 IM 审批');
+  toast('授权书已作废，梯台已回到「可提交」');
 }
 /* 撤回授权书（只有用印审批中可撤回）：授权书失效、梯台回到「可提交」，要改就重新填写、重新提交；
    正在审批的那条用印记录变成“已撤回”。用印审批被拒绝时任务已经结束，不再有撤回 */
@@ -6563,14 +6375,6 @@ function withdrawLetter(L) {
   L.withdrawn = true;
   restorePending(L);
 }
-/* 撤回作废申请：原授权书保持用印审批通过 */
-function withdrawVoid(L) {
-  var r = L.recs.filter(function (x) { return x.kind === 'void' && x.status === 'approving'; })[0];
-  if (!r) return;
-  r.status = 'withdrawn'; r.at = now();
-  syncIMApprovalBadge();
-}
-
 /* ═══ IP6 PDF 查看 ═══ */
 /* 正文最后一句的工作类型：调试协议写“调试”，其余取这份授权书的施工类别 */
 function letterKind(L) { return L.ctype === '调试协议' ? '调试' : letterConstruction(L); }
@@ -6578,8 +6382,8 @@ function letterKind(L) { return L.ctype === '调试协议' ? '调试' : letterCo
 function paperTitle(L) { var c = letterConstruction(L); return (c && c !== '安装' ? c : '') + '安装授权书'; }
 /* 用印审批被拒绝、已撤回、已作废的授权书不再提供 PDF：详情里「查看PDF」置灰，不可点击 */
 function pdfAvailable(L) { var s = statusOf(L); return s !== '用印审批被拒绝' && s !== '已撤回' && s !== '已作废'; }
-/* 用印审批通过之后（含随后申请作废、作废被拒绝）：PDF 顶部提示「用印申请已通过」；通过之前没有提示 */
-var PDF_SEALED = ['用印审批通过', '作废审批中', '作废审批被拒绝'];
+/* 用印审批通过之后：PDF 顶部提示「用印申请已通过」；通过之前没有提示 */
+var PDF_SEALED = ['用印审批通过'];
 function intNum(x) { var n = parseFloat(x); return isNaN(n) ? '-' : String(Math.round(n)); }
 /* 纸张版式按 KF127 样张：致 → 正文 → 附表（序号 / 梯号 / 出厂编号 / 型号 / 载重 / 速度 / 层·站·门，不含数量）→ 以下无正文 → 落款 → 授权书编号 */
 function paper(L) {
@@ -6613,199 +6417,51 @@ function renderIP6(ctx) {
   $('#ip6-main').innerHTML = h;
 }
 
-/* ═══ V1.4 新增屏：候选被授权方、IM 审批 ═══ */
-/* 候选被授权方分两类：① 当前梯台所属的分包商公司（不可改名）；② 通力分公司、同级分公司和办事处（后端维护，显示 sales group Code，可改名）。
-   第②类用业务提供的 sales group 数据（2026-11-10）；同名多 Code（如昆山办事处有 3 个）靠 Code 区分。 */
-var BRANCH_SALES_GROUPS = [
-  ['CS0', '苏州'], ['CSU', '苏州'], ['CKS', '昆山办事处'], ['CCH', '昆山办事处'], ['CTC', '昆山办事处'], ['CNT', '南通办事处'],
-  ['CN0', '盐城办事处'], ['CWX', '无锡办事处'], ['CNJ', '南京'], ['CN1', '镇江办事处'], ['CN2', '扬州办事处'], ['CCZ', '常州办事处'],
-  ['CTZ', '泰州办事处'], ['CXZ', '徐州'], ['CSQ', '徐州'], ['CYG', '连云港办事处']
-];
-/* 当前选择的上下文：合同类型 + 施工类别 → 哪几类被授权方可选。施工类别取自已选梯台（演示面板可覆盖）。 */
+/* ═══ IP3.2 选择被授权方（V1.11）：先确认施工类别，再选被授权方 ═══ */
+/* 当前选择的上下文：合同类型 + 施工类别 → 可选的被授权方。施工类别默认带入所选梯台的；所选梯台的施工类别不一致时没有默认值，PS 必须先选一个。 */
 function partyContext() {
   var g = PROJ[PARTY_FLOW.pid].groups[PARTY_FLOW.gi] || PROJ.A.groups[0];
   var ctype = PARTY_FLOW.debug ? '调试协议' : (g.ctype || '安装合同');
-  var ids = PARTY_FLOW.ids && PARTY_FLOW.ids.length ? PARTY_FLOW.ids : g.els.slice(0, 1);
-  var construction = PARTY_FLOW.construction || constructionValues(ids)[0] || '安装';
-  return { g: g, ctype: ctype, construction: construction, rule: partyRule(ctype, construction), source: PARTY_FLOW.sourceParty || g.party };
+  var construction = PARTY_FLOW.construction || '';
+  var source = PARTY_FLOW.sourceParty || g.party;
+  return { g: g, ctype: ctype, construction: construction, rule: construction ? partyRule(ctype, construction) : null, source: source, va03: (PROJ[PARTY_FLOW.pid] && PROJ[PARTY_FLOW.pid].client) || source };
 }
-/* 候选被授权方分三类（2026-11-12）：① 默认合作方（安装合同是 PO 上的分包商，调试协议是 VA03 里的甲方）；
-   ② 通力分公司、同级分公司和办事处（后端维护，显示 sales group Code，可改名）；③ 通力电梯有限公司（改造）。
-   哪几类可选由 partyRule 决定，没有特批。第②类用业务提供的 sales group 数据（2026-11-10）；同名多 Code（如昆山办事处有 3 个）靠 Code 区分。 */
+/* 候选被授权方最多两类：通力电梯有限公司（改造）、默认合作方（PO 上的分包商 / VA03 里的甲方）；每种组合只有一个可选项，默认选中。 */
 function partyCandidates() {
+  var cx = partyContext();
+  if (!cx.rule) { PARTY_FLOW.candidates = []; PARTY_FLOW.selectedKey = null; PARTY_FLOW.selected = ''; return PARTY_FLOW.candidates; }
   if (!PARTY_FLOW.candidates) {
-    var cx = partyContext(), list = [];
+    var list = [];
     if (cx.rule.hq) list.push({ key: 'hq', src: 'hq', kind: '分公司', name: KONE_HQ, code: '' });
-    if (cx.rule.sub) list.push({ key: 'sub', src: 'sub', kind: '安装合作方', name: cx.source, code: '' });
-    var branches = cx.rule.branch ? BRANCH_SALES_GROUPS.map(function (r) { return { key: r[0], src: 'branch', kind: '分公司', name: r[1], code: r[0] }; }) : [];
-    PARTY_FLOW.candidates = list.concat(branches);
+    if (cx.rule.sub) list.push({ key: 'sub', src: 'sub', kind: '安装合作方', name: cx.rule.va03 ? cx.va03 : cx.source, code: '', va03: !!cx.rule.va03 });
+    PARTY_FLOW.candidates = list;
   }
   var cands = PARTY_FLOW.candidates;
-  var valid = PARTY_FLOW.selectedKey && cands.some(function (c) { return c.key === PARTY_FLOW.selectedKey; });
-  if (!valid) {
-    /* 默认选中默认合作方；只有一个可选项（改造、调试协议）时直接选中它；重大 / 一般修理有多个分公司可选、没有默认项，不预选，PS 必须自己选 */
-    var hit = cands.filter(function (c) { return c.name && c.name === PARTY_FLOW.selected; })[0];
-    if (!hit && cands.length === 1) hit = cands[0];
+  if (!PARTY_FLOW.selectedKey || !cands.some(function (c) { return c.key === PARTY_FLOW.selectedKey; })) {
+    var hit = cands.length === 1 ? cands[0] : null;
     PARTY_FLOW.selectedKey = hit ? hit.key : null; PARTY_FLOW.selected = hit ? hit.name : '';
   }
   return cands;
 }
 function partySelected() { return partyCandidates().filter(function (c) { return c.key === PARTY_FLOW.selectedKey; })[0] || null; }
-function syncEditedPartyName(oldName, newName) {
-  var c = PARTY_EDIT ? partyCandidates()[PARTY_EDIT.index] : null;
-  if (c && c.key === PARTY_FLOW.selectedKey) PARTY_FLOW.selected = newName;
-}
-function syncPartyEdit() {
-  var input = $('#party-edit-input'), field = $('#party-edit-field'), error = $('#party-edit-error'), count = $('#party-edit-count');
-  if (!input || !PARTY_EDIT) return;
-  if (input.value.length > 20) input.value = input.value.slice(0, 20);
-  var valid = !!input.value.trim();
-  PARTY_EDIT.error = valid ? '' : '请输入被授权方名称';
-  field.classList.toggle('is-error', !valid && !!PARTY_EDIT.touched);
-  error.hidden = valid || !PARTY_EDIT.touched;
-  count.textContent = input.value.length + '/20';
-}
-function openPartyEdit(index) {
-  var candidate = partyCandidates()[index];
-  if (!candidate) return;
-  PARTY_EDIT = { index: index, touched: false };
-  var input = $('#party-edit-input');
-  input.value = candidate.name;
-  syncPartyEdit();
-  openLayer('#pop-party-edit');
-  setTimeout(function () { input.focus(); input.select(); }, 0);
-}
-function cancelPartyEdit() {
-  PARTY_EDIT = null;
-  var pop = $('#pop-party-edit');
-  if (pop) { pop.classList.remove('is-open'); pop.setAttribute('aria-hidden', 'true'); }
-}
-function commitPartyEdit() {
-  var input = $('#party-edit-input');
-  if (!PARTY_EDIT || !input) return;
-  PARTY_EDIT.touched = true;
-  if (!input.value.trim()) { syncPartyEdit(); return; }
-  var candidate = partyCandidates()[PARTY_EDIT.index], oldName = candidate.name, newName = input.value.trim();
-  if (newName.length > 20) newName = newName.slice(0, 20);
-  candidate.name = newName;
-  syncEditedPartyName(oldName, newName);
-  cancelPartyEdit();
-  renderIP32();
-}
 function renderIP32() {
-  var cx = partyContext(), rule = cx.rule, debug = cx.ctype === '调试协议', cands = partyCandidates();
+  var cx = partyContext(), cands = partyCandidates();
   function row(p, i) {
     var on = p.key === PARTY_FLOW.selectedKey;
-    var edit = p.src === 'branch' ? '<button class="os-party-flow__edit" type="button" aria-label="修改' + esc(p.name) + '名称" data-act="party-flow-edit" data-party-index="' + i + '"><svg aria-hidden="true"><use href="#ic-edit"/></svg></button>' : '';
-    var descText = p.src === 'sub' ? (debug ? 'VA03 里的甲方' : 'PO 上的分包商') : (p.code ? 'Code：' + p.code : '');
+    var descText = p.src === 'sub' ? (p.va03 ? 'VA03 里的甲方' : 'PO 上的分包商') : '';
     var desc = descText ? '<span class="kc-pick-item__desc">' + esc(descText) + '</span>' : '';
-    return '<div class="kc-pick-item kc-pick-item--single ' + (on ? 'is-active' : '') + '" role="option" tabindex="0" aria-selected="' + on + '" data-act="party-flow-pick" data-party-index="' + i + '"><span class="kc-pick-item__body"><span class="os-party-flow__title-row"><span class="kc-pick-item__title os-party-flow__title">' + esc(p.name) + '</span>' + edit + '</span>' + desc + '</span><svg class="kc-pick-item__check" aria-hidden="true"><use href="#ic-check"/></svg></div>';
+    return '<div class="kc-pick-item kc-pick-item--single ' + (on ? 'is-active' : '') + '" role="option" tabindex="0" aria-selected="' + on + '" data-act="party-flow-pick" data-party-index="' + i + '"><span class="kc-pick-item__body"><span class="os-party-flow__title-row"><span class="kc-pick-item__title os-party-flow__title">' + esc(p.name) + '</span></span>' + desc + '</span><svg class="kc-pick-item__check" aria-hidden="true"><use href="#ic-check"/></svg></div>';
   }
-  function group(title, src, fn) {
-    return '<div class="os-ip32-caption">' + esc(title) + '</div><div class="os-ip32-candidates" role="listbox" aria-label="' + esc(title) + '">' +
-      cands.map(function (p, i) { return p.src === src ? fn(p, i) : ''; }).join('') + '</div>';
+  function group(title, src) {
+    var items = cands.map(function (p, i) { return p.src === src ? row(p, i) : ''; }).join('');
+    return items ? '<div class="os-ip32-caption">' + esc(title) + '</div><div class="os-ip32-candidates" role="listbox" aria-label="' + esc(title) + '">' + items + '</div>' : '';
   }
-  var tip = debug ? '调试协议的被授权方为 VA03 里的甲方'
-    : rule.hq ? '改造授权书的被授权方为通力电梯有限公司'
-    : !rule.sub ? '重大修理、一般修理的被授权方只能是通力分公司、同级分公司或办事处，不能选合作方'
-    : '被授权方可选默认合作方、通力分公司、同级分公司或办事处';
-  var info = [['合同类型', esc(cx.ctype)]];
-  if (!debug) info.push(['施工类别', esc(cx.construction)]);
-  if (rule.sub) info.push(['默认合作方', esc(cx.source)]);
-  var h = notice('info', tip, false);
-  h += secDetail('基本信息', '', '<div class="os-ip32-basic-info">' + kv(info) + '</div>', 'ip32-basic-info');
-  h += secDetail('被授权方', '',
-    (rule.hq ? group('通力总部', 'hq', row) : '') +
-    (rule.sub ? group('默认合作方', 'sub', row) : '') +
-    (rule.branch ? group('通力分公司与办事处', 'branch', row) : ''), 'ip32-party');
+  var constrValue = '<span class="os-constr-value"><span' + (cx.construction ? '' : ' class="os-constr-value__ph"') + '>' + esc(cx.construction || '请选择') + '</span><button class="os-spec-grid__edit" type="button" aria-label="选择施工类别" data-act="constr-edit"><svg aria-hidden="true"><use href="#ic-edit"/></svg></button></span>';
+  var help = '<button class="os-help-link" type="button" data-act="party-help"><span>授权对象说明</span><svg aria-hidden="true"><use href="#ic-question-circle"/></svg></button>';
+  var h = secDetail('基本信息', '', '<div class="os-ip32-basic-info">' + kv([['合同类型', esc(cx.ctype)], ['施工类别', constrValue]]) + '</div>', 'ip32-basic-info');
+  h += secDetail('被授权方', '', cx.construction ? (group('通力总部', 'hq') + group('默认合作方', 'sub')) : '<div class="os-ip32-empty">请先选择施工类别，再选择被授权方</div>', 'ip32-party', help);
   $('#ip32-main').innerHTML = h;
-  emit('ip32', { ctype: debug ? 'debug' : 'install', construction: cx.construction });
-}
-function imSource() { return STORE['IAL20261022003M'] || M003(); }
-/* IM 审批的是「用印审批通过的授权书上的一次作废申请」：每份授权书取最新一条没被撤回的作废申请。
-   通过 → 原授权书整份作废、梯台回到「可提交」；拒绝 → 原授权书继续有效，通知 PS（含拒绝理由）。 */
-function imRecOf(L) {
-  return (L && L.recs || []).filter(function (r) { return r.kind === 'void' && r.status !== 'withdrawn'; })[0] || null;
-}
-function imLetters() {
-  return Object.keys(STORE).map(function (k) { return STORE[k]; }).filter(function (L) { return L && !L.demo && imRecOf(L); });
-}
-function imLetterByNo(no) {
-  if (STORE[no]) return STORE[no];
-  var first = imPendingRecords()[0];
-  return first ? first.letter : STORE['IAL20261022003M'];
-}
-function imRecordStatus(no) {
-  var r = imRecOf(STORE[no]);
-  return r ? (r.status === 'approving' ? 'pending' : r.status) : 'pending';
-}
-function imPendingRecords() {
-  return imLetters().filter(function (L) { return imRecOf(L).status === 'approving'; })
-    .sort(function (a, b) { return imRecOf(b).time.localeCompare(imRecOf(a).time); })
-    .map(function (L) { return { letter: L, status: 'pending', approvalTime: '' }; });
-}
-function imApprovedRecords() {
-  return imLetters().filter(function (L) { return imRecOf(L).status !== 'approving'; })
-    .sort(function (a, b) { return imRecOf(b).at.localeCompare(imRecOf(a).at); })
-    .map(function (L) { var r = imRecOf(L); return { letter: L, status: r.status, approvalTime: r.at }; });
-}
-function syncIMApprovalBadge() {
-  var badge = $('#im-approval-badge');
-  if (!badge) return;
-  var count = imPendingRecords().length;
-  badge.textContent = String(count);
-  badge.setAttribute('aria-label', count + ' 个待审批任务');
-}
-/* IM 这条申请的审批状态标签：外侧列表卡片和详情头部右上角共用 */
-function imApprovalTag(no) {
-  var st = imRecordStatus(no);
-  return st === 'approved' ? ['审批通过', 'success'] : st === 'rejected' ? ['已拒绝', 'danger'] : ['待审批', 'primary'];
-}
-function imApprovalCard(record) {
-  var L = record.letter, status = record.status;
-  var approval = imApprovalTag(L.no);
-  /* IM 只关心这条申请的审批状态：不显示授权书状态；梯台是整份授权书的梯台（修改通过后整份作废） */
-  return generatedLetterCard(L, { action: 'im-task', statusTags: tagHtml(approval[0], approval[1]), timeLabel: status === 'pending' ? '提交时间' : '审批时间', time: status === 'pending' ? imRecOf(L).time : record.approvalTime });
-}
-function renderIM2() {
-  var tab = IM_STATE.tab, records = tab === 'pending' ? imPendingRecords() : imApprovedRecords();
-  var isEmpty = !!IM_STATE.empty[tab];
-  var emptyLines = tab === 'pending'
-    ? ['暂无待审批作废申请', 'PS 申请作废后会在此显示']
-    : ['暂无已审批作废申请', '审批完成后会在此显示'];
-  var h = '<div class="td-tabs td-tabs--line os-tabs-sticky td-tabs--emphasis" role="tablist" aria-label="安装授权书审批状态"><button class="td-tabs__item ' + (tab === 'pending' ? 'is-active' : '') + '" type="button" role="tab" aria-selected="' + (tab === 'pending') + '" data-act="im-tab" data-tab="pending">待审批</button><button class="td-tabs__item ' + (tab === 'approved' ? 'is-active' : '') + '" type="button" role="tab" aria-selected="' + (tab === 'approved') + '" data-act="im-tab" data-tab="approved">已审批</button></div>';
-  if (isEmpty || !records.length) h += artHtml('empty', emptyLines);
-  else h += '<div class="os-generated-list">' + records.map(imApprovalCard).join('') + '<div class="kc-nomore">已经到底了</div></div>';
-  var main = $('#im2-main');
-  main.innerHTML = h;
-  fillArt(main);
-  syncIMApprovalBadge();
-  emit('im2', { tab: tab, empty: isEmpty });
-}
-function renderIM3() {
-  var L = imLetterByNo(IM_STATE.current), status = imRecordStatus(L.no), footer = $('#im3-footer'), main = $('#im3-main');
-  IM_STATE.current = L.no;
-  main.classList.toggle('td-body--has-footer', status === 'pending');
-  main.classList.add('os-letter-detail--with-tabs');
-  main.innerHTML = letterDetailHtml(L, 'im3');
-  syncDetailTab('im3');
-  fillArt(main);
-  footer.hidden = status !== 'pending';
-}
-function openIMReject(prefill) {
-  var ta = $('#im-reject-reason'); if (!ta) return;
-  ta.value = prefill ? '作废原因不够充分，请补充说明后重新申请' : '';
-  syncIMReject(false); openLayer('#pop-im-reject');
-}
-/* 默认是中性样式；只有提交校验失败（showError 为真且没填）才显示红色错误态 */
-function syncIMReject(showError) {
-  var ta = $('#im-reject-reason'), field = $('#im-reject-field'), err = $('#im-reject-error'), count = $('#im-reject-count');
-  if (!ta) return;
-  var has = !!ta.value.trim(), invalid = !!showError && !has;
-  count.textContent = ta.value.length + '/100';
-  field.classList.toggle('is-error', invalid);
-  ta.setAttribute('aria-invalid', String(invalid));
-  err.hidden = !invalid;
+  emit('ip32', { ctype: cx.ctype === '调试协议' ? 'debug' : 'install' });
 }
 /* 梯台回到「可提交」：放回提交时所在的分组（没有记录就放第一组），已经在可提交里的不重复加 */
 function restorePending(L) {
@@ -6813,49 +6469,23 @@ function restorePending(L) {
   var gi = L.srcGi != null && gs[L.srcGi] ? L.srcGi : 0;
   L.els.forEach(function (e) { if (groupOf(L.proj, e.id) == null) gs[gi].els.push(e.id); });
 }
-function approveIM() {
-  var L = imLetterByNo(IM_STATE.current), r = imRecOf(L);
-  if (!r || r.status !== 'approving') return;
-  r.status = 'approved'; r.at = now();
-  L.voided = true;
-  restorePending(L);
-  IM_STATE.tab = 'approved';
-  popTo('s-im2-approval-list'); toast('审批通过，原授权书已作废，梯台已回到「可提交」');
-}
-function rejectIM() {
-  var ta = $('#im-reject-reason'), reason = ta ? ta.value.trim() : '';
-  if (!reason) { syncIMReject(true); if (ta) ta.focus(); return; }
-  var L = imLetterByNo(IM_STATE.current), r = imRecOf(L);
-  if (!r || r.status !== 'approving') return;
-  r.status = 'rejected'; r.at = now(); r.rejectReason = reason;
-  IM_STATE.tab = 'approved';
-  closeLayers(); popTo('s-im2-approval-list'); toast('已拒绝作废申请，已通知 PS');
-}
-
 /* ═══ 导航：返回栈（Push 进入、返回出栈） ═══ */
 APP.ip31Type = 'install'; APP.ip5No = 'IAL20261028011M'; APP.ip6No = 'IAL20261022001M';
 var STACK = [{ id: 's-ip1-home', ctx: {} }];
 var LISTENERS = [];
 function emit(evt, data) { LISTENERS.forEach(function (fn) { try { fn(evt, data || {}); } catch (e) { /* 演示监听出错不影响产品逻辑 */ } }); }
 function cur() { return STACK[STACK.length - 1]; }
-/* IP7 消息中心：消息只发给 PS；IM 不是接收方，从 IM 首页进来时没有安装授权书消息，显示空态 */
+/* IP7 消息中心：消息只发给提交申请的 PS，只有「用印审批被拒绝」一种 */
 function renderIP7() {
-  var im = APP.role === 'im', box = $('#ip7-empty');
-  $('#ip7-rows').hidden = im;
-  box.hidden = !im;
-  box.innerHTML = im ? artHtml('empty', ['暂无任务消息']) : '';
-  if (im) fillArt(box);
-  $('[data-act="ip7-tab"][data-t="task"]').textContent = '任务消息 (' + (im ? 0 : 24) + ')';
+  $('#ip7-rows').hidden = false;
+  $('#ip7-empty').hidden = true;
+  $('[data-act="ip7-tab"][data-t="task"]').textContent = '任务消息 (24)';
 }
 var RENDER = {
   's-ip2-project-list': function () { renderIP2(); },
-  's-ip2-1-search': function () { renderIP21(); },
   's-ip3-select-equipment': function (c) { if (c.pid) APP.ip3Proj = c.pid; renderIP3(); },
   's-ip3-1-form': function () { renderIP31(); },
   's-ip3-2-party-select': function () { renderIP32(); },
-  's-im1-home': function () { syncIMApprovalBadge(); },
-  's-im2-approval-list': function () { renderIM2(); },
-  's-im3-approval-detail': function () { renderIM3(); },
   's-ip4-letter-list': renderIP4,
   's-ip5-letter-detail': function (c) { APP.ip5No = c.no; renderIP5(c); },
   's-ip6-pdf-detail': function (c) { APP.ip6No = c.no; renderIP6(c); },
@@ -6867,45 +6497,24 @@ function show(entry, keepScroll) {
   $$('.phone > .screen').forEach(function (s) { s.classList.toggle('active', s.id === entry.id); });
   var sc = document.getElementById(entry.id);
   if (sc && !keepScroll) sc.scrollTop = 0;
-  if (entry.id === 's-ip2-1-search') {
-    var field = $('input[data-q="ip21"]');
-    if (field) field.focus();
-  }
   emit('screen', { id: entry.id, screen: sc ? sc.getAttribute('data-screen') : '' });
 }
 function push(id, ctx) {
-  if (id === 's-im2-approval-list') IM_STATE.tab = 'pending';
-  if (id === 's-ip2-project-list' && cur().id === 's-ip1-home') { APP.ip2Tab = 'pending'; clearIP21(); }
+  if (id === 's-ip2-project-list' && cur().id === 's-ip1-home') { APP.ip2Tab = 'pending'; APP.ip2Q = ''; }
   if (id === 's-ip4-letter-list') APP.ip2Tab = 'progress';
   if (id === 's-ip5-letter-detail') APP.ip5DetailTab = 'basic';
-  if (id === 's-ip2-1-search') clearIP21();
   STACK.push({ id: id, ctx: ctx || {} }); show(cur());
 }
 function leave(e) {
   if (e.id === 's-ip3-1-form') FORM31 = null;            /* 表单内容不保存，IP3 勾选保留 */
 }
-function clearIP21() {
-  APP.ip21Tab = 'pending';
-  APP.ip21Q = '';
-  APP.ip21StateProgress = 'default';
-  APP.ip21StateDone = 'default';
-  APP.ip21StatePending = 'default';
-  var input = $('input[data-q="ip21"]');
-  if (input) input.value = '';
-  var search = $('#ip21-search');
-  if (search) search.classList.remove('has-value');
-  syncIP21Tab();
-}
 function back() {
-  if (cur().id === 's-ip2-1-search') clearIP21();
   if (STACK.length < 2) return;
   leave(STACK.pop());
-  if (cur().id === 's-im2-approval-list') IM_STATE.tab = 'pending';
   show(cur());
 }
 function popTo(id) {
   while (STACK.length > 1 && cur().id !== id) leave(STACK.pop());
-  if (cur().id === 's-im2-approval-list') IM_STATE.tab = 'pending';
   show(cur());
 }
 function scrollToRec() {
@@ -6931,7 +6540,7 @@ function closeLayers() {
 function openAS5() {
   var L = STORE[cur().ctx.no], a = acts(L);
   if (!a.length) return;
-  var lab = { void: '申请作废', withdraw: '撤回授权书', 'void-withdraw': '撤回作废申请' };
+  var lab = { void: '作废授权书', withdraw: '撤回授权书' };
   $('#as-ip5-list').innerHTML = a.map(function (k) {
     return '<button class="td-action-sheet__list-item" type="button" role="menuitem" data-act="as-item" data-k="' + k + '">' + lab[k] + '</button>';
   }).join('');
@@ -6959,12 +6568,9 @@ function addFile(p, k) {
   rerender(p);
 }
 function setQuery(q, v) {
-  if (q === 'ip21') {
-    APP.ip21Q = v;
-    if (!v) APP[ip21StateKey(APP.ip21Tab)] = 'default';
-  } else APP.ip3Q = v;
-  var s = $('#' + q + '-search'); if (s) s.classList.toggle('has-value', !!v);
-  if (q === 'ip21') renderIP21(); else renderIP3();
+  if (q === 'ip2') APP.ip2Q = v; else APP.ip3Q = v;
+  var box = $('#' + q + '-search'); if (box) box.classList.toggle('has-value', !!v);
+  if (q === 'ip2') renderIP2(); else renderIP3();
 }
 function sortIds(pid, ids) { var order = pendIds(pid); return ids.slice().sort(function (a, b) { return order.indexOf(a) - order.indexOf(b); }); }
 
@@ -6977,7 +6583,6 @@ document.addEventListener('click', function (ev) {
   var L, k;
   switch (act) {
     case 'back': back(); break;
-    case 'ip21-cancel': back(); break;
     case 'tab':
       var tabNav = a.closest('.td-tab-bar');
       if (tabNav) {
@@ -6989,11 +6594,10 @@ document.addEventListener('click', function (ev) {
       }
       break;
     case 'ip2-tab':
-      APP.ip2Tab = a.getAttribute('data-tab') || 'pending'; renderIP2(); break;
+      APP.ip2Tab = a.getAttribute('data-tab') || 'pending'; APP.ip2Q = ''; renderIP2(); break;
     case 'ip4-tab':
       APP.ip2Tab = a.getAttribute('data-tab') || 'progress'; renderIP4(cur().ctx); break;
-    case 'ip21-tab':
-      IA.setIP21Tab(a.getAttribute('data-tab') || 'pending'); break;
+    case 'ip2-notice-close': APP.ip2NoticeClosed = true; renderIP2(); break;
     case 'q-clear':
       var qn = a.getAttribute('data-q'), inp = $('input[data-q="' + qn + '"]');
       inp.value = ''; setQuery(qn, ''); inp.focus(); break;
@@ -7006,20 +6610,16 @@ document.addEventListener('click', function (ev) {
       PARTY_FLOW.selected = pfPick.name; PARTY_FLOW.selectedKey = pfPick.key;
       renderIP32();
       break;
-    case 'party-flow-edit':
-      openPartyEdit(+a.getAttribute('data-party-index'));
-      break;
     case 'constr-edit': openConstructionPick(); break;
     case 'constr-pick':
-      if (FORM31) { FORM31.construction = a.getAttribute('data-v'); closeLayers(); renderIP31(); }
+      PARTY_FLOW.construction = a.getAttribute('data-v');
+      PARTY_FLOW.candidates = null; PARTY_FLOW.selectedKey = null;   /* 施工类别变了，可选的被授权方跟着变 */
+      closeLayers(); renderIP32();
       break;
-    case 'party-edit-cancel':
-      cancelPartyEdit();
-      break;
-    case 'party-edit-confirm':
-      commitPartyEdit();
-      break;
+    case 'party-help': openLayer('#dlg-party-help'); break;
+    case 'party-help-close': closeLayers(); break;
     case 'ip32-confirm':
+      if (!partyContext().construction) { toast('请选择施工类别'); break; }
       var pfSel = partySelected();
       if (!pfSel || !pfSel.name) { toast('请选择被授权方'); break; }
       FORM31 = newForm31(PARTY_FLOW.pid, PARTY_FLOW.gi, PARTY_FLOW.ids.slice());
@@ -7043,15 +6643,12 @@ document.addEventListener('click', function (ev) {
         renderIP3();
       }
       break;
-    case 'ip3-mixed-close':
-      $('#dlg-ip3-mixed-construction').classList.remove('is-show');
-      $('#dlg-ip3-mixed-construction').setAttribute('aria-hidden', 'true');
-      break;
     case 'ip3-next':
       var ip3Pid = ip3SourcePid(), S = SEL[ip3Pid]; if (!S.ids.length) return;
       var G = PROJ[ip3Pid].groups[S.g];
-      /* 所有分组统一进入「选择被授权方」：默认选中当前分包商，也可改选通力分公司 / 同级分公司 / 办事处 */
-      PARTY_FLOW = { mode: 'first', pid: ip3Pid, gi: S.g, ids: S.ids.slice(), selected: G.party, selectedKey: null, sourceParty: G.party, candidates: null, debug: ip3IsDebug(), returnId: 's-ip3-select-equipment' };
+      /* 所有分组统一进入「选择被授权方」：先确认施工类别（梯台施工类别不一致时必须先选一个），再选被授权方 */
+      var ip3Cv = constructionValues(S.ids);
+      PARTY_FLOW = { mode: 'first', pid: ip3Pid, gi: S.g, ids: S.ids.slice(), construction: ip3Cv.length === 1 ? ip3Cv[0] : '', selected: G.party, selectedKey: null, sourceParty: G.party, candidates: null, debug: ip3IsDebug(), returnId: 's-ip3-select-equipment' };
       push('s-ip3-2-party-select', {});
       break;
     case 'spec-edit': openSpecEdit(a.getAttribute('data-el')); break;
@@ -7105,14 +6702,13 @@ document.addEventListener('click', function (ev) {
       APP[detailHost + 'DetailTab'] = a.getAttribute('data-tab') === 'approval' ? 'approval' : 'basic';
       syncDetailTab(detailHost);
       break;
+    case 'void-info': openVoidInfo(STORE[cur().ctx.no]); break;
     case 'as-close': closeLayers(); break;
     case 'as-item':
       L = STORE[cur().ctx.no]; k = a.getAttribute('data-k'); closeLayers();
       if (k === 'void') openVoid(L);
       else if (k === 'withdraw') confirmDlg({ title: '撤回授权书？', body: '撤回后授权书失效，梯台回到「可提交」，需要重新填写并提交。', ok: '确认撤回',
         run: function () { withdrawLetter(L); renderIP5(cur().ctx); toast('已撤回授权书，梯台已回到「可提交」'); } });
-      else if (k === 'void-withdraw') confirmDlg({ title: '撤回作废申请？', body: '撤回后本次作废申请不再继续审批，原授权书保持用印审批通过。', ok: '确认撤回',
-        run: function () { withdrawVoid(L); renderIP5(cur().ctx); toast('已撤回作废申请'); } });
       break;
     case 'pop-close': closeLayers(); break;
     case 'confirm-cancel':
@@ -7127,7 +6723,7 @@ document.addEventListener('click', function (ev) {
     case 'f52-submit': submit52(); break;
     case 'void-cancel': cancelVoid(); break;
     case 'ip5-pdf':
-      L = cur().id === 's-im3-approval-detail' ? imLetterByNo(IM_STATE.current) : STORE[cur().ctx.no];
+      L = STORE[cur().ctx.no];
       if (!L) { toast('任务不存在'); break; }
       push('s-ip6-pdf-detail', { no: L.no });
       break;
@@ -7138,14 +6734,6 @@ document.addEventListener('click', function (ev) {
       $$('[data-act="ip7-tab"]').forEach(function (b) { var on = b === a; b.classList.toggle('is-active', on); b.setAttribute('aria-selected', String(on)); });
       $('#ip7-pane-task').hidden = tk !== 'task'; $('#ip7-pane-notice').hidden = tk !== 'notice';
       break;
-    case 'im-tab': IM_STATE.tab = a.getAttribute('data-tab') === 'pending' ? 'pending' : 'approved'; renderIM2(); break;
-    case 'im-task': APP.im3DetailTab = 'approval';   /* IM 来就是看这次申请：默认停在审批信息 */ IM_STATE.current = a.getAttribute('data-no'); push('s-im3-approval-detail', {}); break;
-    case 'im-approve': if (imRecordStatus(imLetterByNo(IM_STATE.current).no) === 'pending') openLayer('#dlg-im-approve'); break;
-    case 'im-approve-cancel': closeLayers(); break;
-    case 'im-approve-confirm': closeLayers(); approveIM(); break;
-    case 'im-reject-open': openIMReject(false); break;
-    case 'im-reject-cancel': closeLayers(); break;
-    case 'im-reject-confirm': rejectIM(); break;
     default: break;
   }
 });
@@ -7162,11 +6750,6 @@ document.addEventListener('change', function (ev) {
       openLayer('#dlg-ip3-switch-party');
       return;
     }
-    if (t.checked && S.ids.length && constructionOf(S.ids[0]) !== constructionOf(id)) {
-      renderIP3();
-      openLayer('#dlg-ip3-mixed-construction');
-      return;
-    }
     if (t.checked) {
       if (S.g == null) S.g = targetGi;
       if (S.ids.indexOf(id) < 0) S.ids.push(id);
@@ -7181,8 +6764,6 @@ document.addEventListener('change', function (ev) {
 document.addEventListener('input', function (ev) {
   var t = ev.target;
   if (!t.getAttribute) return;
-  if (t.id === 'im-reject-reason') { syncIMReject(false); return; }
-  if (t.id === 'party-edit-input') { syncPartyEdit(); return; }
   if (t.hasAttribute('data-spec-num')) {   /* 规格浮层的数字输入：只留数字和一个小数点，最多两位小数 */
     var sv = t.value.replace(/[^\d.]/g, ''), dot = sv.indexOf('.');
     if (dot >= 0) sv = sv.slice(0, dot + 1) + sv.slice(dot + 1).replace(/\./g, '').slice(0, 2);
@@ -7214,28 +6795,25 @@ function onScreen(id) { return cur().id === id; }
 /* 演示：切换合同类型 / 施工类别后，候选与选中项回到默认状态 */
 function resetPartyDemo() {
   PARTY_FLOW.candidates = null; PARTY_FLOW.selectedKey = null;
-  PARTY_FLOW.selected = partyContext().source;
+  PARTY_FLOW.selected = '';
   if (onScreen('s-ip3-2-party-select')) renderIP32();
 }
 function jump(id) {
   var base = [{ id: 's-ip1-home', ctx: {} }], p2 = { id: 's-ip2-project-list', ctx: {} }, no;
   FORM31 = null; FORM52 = null; CONFIRM = null;
-  APP.role = id.indexOf('s-im') === 0 ? 'im' : 'ps';   /* 角色跟着屏幕走：IM 屏为 IM，其余为 PS */
+  APP.role = 'ps';
   switch (id) {
     case 's-ip1-home': APP.role = 'ps'; STACK = base; break;
-    case 's-ip2-project-list': APP.ip2Tab = 'pending'; clearIP21(); STACK = base.concat([p2]); break;
-    case 's-ip2-1-search': clearIP21(); STACK = base.concat([p2, { id: id, ctx: {} }]); break;
+    case 's-ip2-project-list': APP.ip2Tab = 'pending'; APP.ip2Q = ''; STACK = base.concat([p2]); break;
     case 's-ip3-select-equipment': STACK = base.concat([p2, { id: id, ctx: { pid: APP.ip3Proj } }]); break;
     case 's-ip3-1-form':
       ensureForm31(APP.ip31Type);
       STACK = base.concat([p2, { id: 's-ip3-select-equipment', ctx: { pid: FORM31.pid } }, { id: id, ctx: {} }]); break;
     case 's-ip3-2-party-select':
       var pPid = ip3SourcePid(), pSel = SEL[pPid], pGi = pSel.g != null ? pSel.g : 0, pGroup = PROJ[pPid].groups[pGi] || PROJ[pPid].groups[0];
-      PARTY_FLOW = { mode: 'first', pid: pPid, gi: pGi, ids: pSel.ids.length ? pSel.ids.slice() : pGroup.els.slice(0, 2), selected: pGroup.party, selectedKey: null, sourceParty: pGroup.party, candidates: null, debug: ip3IsDebug(), returnId: 's-ip3-select-equipment' };
+      var pIds = pSel.ids.length ? pSel.ids.slice() : pGroup.els.slice(0, 2), pCv = constructionValues(pIds);
+      PARTY_FLOW = { mode: 'first', pid: pPid, gi: pGi, ids: pIds, construction: pCv.length === 1 ? pCv[0] : '', selected: pGroup.party, selectedKey: null, sourceParty: pGroup.party, candidates: null, debug: ip3IsDebug(), returnId: 's-ip3-select-equipment' };
       STACK = base.concat([p2, { id: 's-ip3-select-equipment', ctx: { pid: APP.ip3Proj } }, { id: id, ctx: {} }]); break;
-    case 's-im1-home': APP.role = 'im'; STACK = base.concat([{ id: id, ctx: {} }]); break;
-    case 's-im2-approval-list': IM_STATE.tab = 'pending'; APP.role = 'im'; STACK = base.concat([{ id: 's-im1-home', ctx: {} }, { id: id, ctx: {} }]); break;
-    case 's-im3-approval-detail': APP.role = 'im'; STACK = base.concat([{ id: 's-im1-home', ctx: {} }, { id: 's-im2-approval-list', ctx: {} }, { id: id, ctx: {} }]); break;
     case 's-ip4-letter-list': APP.ip2Tab = 'progress'; STACK = base.concat([p2, { id: id, ctx: { pid: 'A' } }]); break;
     case 's-ip5-letter-detail':
       no = STORE[APP.ip5No] ? APP.ip5No : 'IAL20261022001M';
@@ -7253,7 +6831,7 @@ function jump(id) {
 }
 window.addEventListener('onsite-ial-localechange', function () {
   var id = cur().id;
-  if (id === 's-ip2-1-search') renderIP21();
+  if (id === 's-ip2-project-list') renderIP2();
   else if (id === 's-ip3-select-equipment') renderIP3();
 });
 window.IA = {
@@ -7261,47 +6839,31 @@ window.IA = {
   jump: jump,
   current: function () { return cur().id; },
   setIP2Empty: function (b) { APP.ip2Empty = b; if (onScreen('s-ip2-project-list')) renderIP2(); },
-  setIP21Tab: function (tab) {
-    tab = listTab(tab);
-    APP.ip21Tab = tab;
-    var stateKey = ip21StateKey(tab);
-    var presets = IP21_PRESETS[tab], value = presets[APP[stateKey]] != null ? presets[APP[stateKey]] : '';
-    APP.ip21Q = value;
-    var input = $('input[data-q="ip21"]'); if (input) input.value = value;
-    var search = $('#ip21-search'); if (search) search.classList.toggle('has-value', !!value);
-    renderIP21(); if (input) input.focus();
-  },
-  setIP21State: function (v, tab) {
-    tab = listTab(tab);
-    var stateKey = ip21StateKey(tab);
-    var presets = IP21_PRESETS[tab];
-    APP.ip21Tab = tab;
-    APP[stateKey] = presets[v] != null ? v : 'default';
-    var value = presets[APP[stateKey]], input = $('input[data-q="ip21"]');
-    if (input) input.value = value;
-    setQuery('ip21', value);
-    if (input && value) input.focus();
+  /* 演示：「可提交」提示条显示 / 已点「我知道了」 */
+  setIP2Notice: function (v) { APP.ip2NoticeClosed = v === 'closed'; if (onScreen('s-ip2-project-list')) renderIP2(); },
+  /* 演示：在当前页签填入示例关键词（项目名称 / 订单号 / 被授权方 / 无结果） */
+  setIP2Search: function (v) {
+    var d = IP2_SEARCH_DEMO[listTab(APP.ip2Tab)] || {};
+    APP.ip2Q = v === 'default' ? '' : (d[v] != null ? d[v] : '');
+    if (onScreen('s-ip2-project-list')) renderIP2();
   },
   setIP3Proj: function (p) {
     APP.ip3Proj = p;
     if (onScreen('s-ip3-select-equipment')) { cur().ctx.pid = p; show(cur(), true); }
   },
   setIP32Ctype: function (t) { PARTY_FLOW.debug = t === 'debug'; resetPartyDemo(); },
-  setIP32Constr: function (v) { PARTY_FLOW.construction = v; resetPartyDemo(); },
 
   setIP31Type: function (t) { APP.ip31Type = t; if (onScreen('s-ip3-1-form')) jump('s-ip3-1-form'); },
-  /* IP5 详情：授权书状态（13.1，7 种），生成独立的演示授权书，不加入列表 */
+  /* IP5 详情：授权书状态（13.1，5 种），生成独立的演示授权书，不加入列表 */
   setIP5Status: function (status) {
     APP.role = 'ps';
     var L = demoLetter(status);
     STORE[L.no] = L; APP.ip5No = L.no;
     if (onScreen('s-ip5-letter-detail')) { cur().ctx.no = L.no; renderIP5(cur().ctx); }
-  },
-  setIM2Empty: function (b) { IM_STATE.empty[IM_STATE.tab] = !!b; if (onScreen('s-im2-approval-list')) renderIM2(); },
-  setIM3Reject: function (v) { if (onScreen('s-im3-approval-detail')) { renderIM3(); openIMReject(v === 'filled'); } }
+  }
 };
-document.addEventListener('DOMContentLoaded', function () { syncIMApprovalBadge(); show(cur()); });
-if (document.readyState !== 'loading') { syncIMApprovalBadge(); show(cur()); }
+document.addEventListener('DOMContentLoaded', function () { show(cur()); });
+if (document.readyState !== 'loading') { show(cur()); }
 })();
 </script>
 
@@ -7322,35 +6884,31 @@ if (document.readyState !== 'loading') { syncIMApprovalBadge(); show(cur()); }
     if (evt === 'screen') {
       root.setAttribute('data-demo-screen', d.screen);
       document.querySelectorAll('.screen-nav button[data-go]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-go') === d.id); });
-    } else if (evt === 'ip21') check('ip21State', d.tab + ':' + (d.state || 'default'));
+    } else if (evt === 'ip2') {
+      check('ip2Search', d.state);
+      check('ip2Notice', d.notice);
+      /* 提示条只在「可提交」页签有：其他页签该组置灰 */
+      document.querySelectorAll('#demo-panel input[name="ip2Notice"]').forEach(function (r) { r.disabled = d.tab !== 'pending'; r.parentNode.classList.toggle('dp-off', d.tab !== 'pending'); });
+      /* 「可提交」页签不搜被授权方：该选项置灰 */
+      var partyRadio = radio('ip2Search', 'party');
+      if (partyRadio) { partyRadio.disabled = d.tab === 'pending'; partyRadio.parentNode.classList.toggle('dp-off', d.tab === 'pending'); }
+    }
     else if (evt === 'ip3') check('ip3Proj', d.pid);
     else if (evt === 'ip31') check('ip31Type', d.type);
-    else if (evt === 'ip32') {
-      check('ip32Ctype', d.ctype); check('ip32Constr', d.construction);
-      /* 调试协议不看施工类别：施工类别选项置灰 */
-      document.querySelectorAll('#demo-panel input[name="ip32Constr"]').forEach(function (r) {
-        r.disabled = d.ctype === 'debug'; r.parentNode.classList.toggle('dp-off', d.ctype === 'debug');
-      });
-    }
+    else if (evt === 'ip32') check('ip32Ctype', d.ctype);
     else if (evt === 'ip5') check('ip5Status', d.status);
-    else if (evt === 'im2') check('im2Data', d.empty ? 'empty' : 'default');
     scheduleDemoPanelHeight();
   });
 
   /* 面板选择 → 注入演示状态 */
   var H = {
     ip2Data: function (v) { IA.setIP2Empty(v === 'empty'); },
-    ip21State: function (v) {
-      var parts = v.split(':');
-      IA.setIP21State(parts[1], parts[0]);
-    },
+    ip2Search: function (v) { IA.setIP2Search(v); },
+    ip2Notice: function (v) { IA.setIP2Notice(v); },
     ip3Proj: function (v) { IA.setIP3Proj(v); },
     ip32Ctype: function (v) { IA.setIP32Ctype(v); },
-    ip32Constr: function (v) { IA.setIP32Constr(v); },
     ip31Type: function (v) { IA.setIP31Type(v); },
-    ip5Status: function (v) { IA.setIP5Status(v); },
-    im2Data: function (v) { IA.setIM2Empty(v === 'empty'); },
-    im3Reject: function (v) { IA.setIM3Reject(v); }
+    ip5Status: function (v) { IA.setIP5Status(v); }
   };
   document.querySelectorAll('#demo-panel input[type="radio"]').forEach(function (r) {
     r.addEventListener('change', function () {

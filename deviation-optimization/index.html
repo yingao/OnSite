@@ -2950,9 +2950,9 @@ window.DEVIATION_I18N['en-US'] = {
   noteList11: 'Status colors: To be Rectified and To be closed are orange (the task is not finished). Closed is grey (the task is finished).',
   noteList10: 'Filter options use 2 columns in English and 3 in Chinese. A text that does not fit one line in a cell takes a whole row.',
   noteDetail1: 'The log area shows the latest entry by default. View all log shows every entry.',
-  noteDetail2: 'Assignee and Close by show the role until a specific person is assigned, then the person.',
+  noteDetail2: 'Assignee and Close by show the role until a specific person is assigned, then the person. In the Deviation created log they show the values at the time of creation; later changes appear in the Deviation updated log.',
   noteDetail3: 'Return and Close ask for a second confirmation. Both add a log and change the status.',
-  noteDetail5: 'Deviation ID is always visible. More info sits right under it. When expanded, the project, people and related fields follow, separated by lines, and the button becomes Less info at the end, after Task No.',
+  noteDetail5: 'By default Deviation created shows Description, Attachment, Priority and Delay (hour), and More info sits right under them. When expanded, Deviation ID, the project and the elevator come first, then the people and the related fields, separated by lines, and the button becomes Less info at the end, after Task No.',
   noteDetail6: 'Edit is only available when the status is To be Rectified. To be closed shows Return and Close; Closed shows no buttons.',
   noteDetail7: 'Multi-line text such as Description, Remarks and Rejection Reason shows the label above the value. Attachments and photos show one file card per row. In each log, the operator and the time are the last two rows. The page ends with No more.',
   noteForm1: 'Assignee and Close by are prefilled with a default role. Assignee: if the creator is TE or a service role, Installer, otherwise FS. Close by: if the creator only has a service role, FS, otherwise the creator role.',
@@ -3166,9 +3166,9 @@ window.DEVIATION_I18N['zh-CN'] = {
   noteList11: '状态颜色：待整改、待关闭是橙色（任务还没完成）；已关闭是灰色（任务已结束）。',
   noteList10: '筛选选项英文一行 2 列、中文一行 3 列；一格放不下一行的文字，整行单独放。',
   noteDetail1: '记录区默认只显示最新一条，点「查看全部记录」展开全部。',
-  noteDetail2: '整改人和关闭人在还没有指定具体的人时显示角色，指定后显示具体的人。',
+  noteDetail2: '整改人和关闭人在还没有指定具体的人时显示角色，指定后显示具体的人。「即时报告已创建」这条 log 里显示的是创建那一刻的值，之后的修改记在「即时报告已修改」那条里。',
   noteDetail3: '「退回」和「关闭」都需要二次确认，确认后都会增加一条记录并变更状态。',
-  noteDetail5: 'Deviation ID 默认可见，「更多信息」紧跟在它下面。展开后项目、人员、关联信息依次在下方，用线分组，按钮变成「收起」，放在最后一个字段 Task No. 后面。',
+  noteDetail5: '「即时报告已创建」默认显示描述、附件、优先级和延误时长，「更多信息」紧跟在它们下面。展开后先是 Deviation ID、项目和梯台，再是人员和关联信息，用线分组，按钮变成「收起」，放在最后一个字段 Task No. 后面。',
   noteDetail6: '只有待整改状态才有 Edit；待关闭只有 Return 和 Close；已关闭没有按钮。',
   noteDetail7: '描述、备注、退回原因这类多行文本，字段名在上、值在下；附件和照片一行一个附件卡；每条记录里，操作人和时间是最后两行；页面最底部显示「没有更多了」。',
   noteForm1: '整改人和关闭人会预填默认角色。整改人：创建人是 TE 或维保角色时为安装工，其他情况为 FS。关闭人：创建人只有维保角色时为 FS，其他情况为创建人的角色。',
@@ -3837,7 +3837,7 @@ function mk(id, name, status, priority, o) {
     task: o.task, phase: o.phase, taskNo: '-', devId: o.devId, created: o.created, ies: !!o.ies
   };
   var delay0 = o.delay0 !== undefined ? o.delay0 : d.delay;
-  d.logs = (o.logs || []).concat([{ k: 'created', time: o.created, by: o.creator.name, d: { desc: o.desc0 || o.desc, att: d.att.slice(), priority: o.priority0 || priority, delay: delay0 } }]);
+  d.logs = (o.logs || []).concat([{ k: 'created', time: o.created, by: o.creator.name, d: { desc: o.desc0 || o.desc, att: d.att.slice(), priority: o.priority0 || priority, delay: delay0, assignee: clone(o.assignee0 || o.assignee), closeBy: clone(o.closeBy0 || o.closeBy) } }]);
   return d;
 }
 var DEVS = [
@@ -4108,6 +4108,7 @@ function logHTML(l) {
     title = 'lgCreated';
     rows = kvs(t('lblDescription'), esc(d.desc)) + kvs(t('lblAttachment'), fileList(d.att)) +
       kv(t('lblPriority'), prioHTML(d.priority)) + kv(t('lblDelayHour'), d.delay == null ? '-' : esc(d.delay)) +
+      kv(t('lblAssignee'), esc(refText(d.assignee))) + kv(t('lblCloseBy'), esc(refText(d.closeBy))) +
       kv(t('lblCreator'), esc(l.by)) + kv(t('lgCreateTime'), esc(l.time));
   } else if (l.k === 'updated') {
     title = 'lgUpdated';
@@ -4144,11 +4145,11 @@ function renderDetail() {
   var toggle = '<button class="os-toggle" type="button" data-act="toggle-more" aria-expanded="' + S.more + '">' + esc(t(S.more ? 'lessInfo' : 'moreInfo')) + ico(S.more ? 'chevron-up' : 'chevron-down') + '</button>';
   var created = kvlist(
     kvs(t('lblDescription'), esc(d.desc)) + kvs(t('lblAttachment'), fileList(d.att)) +
-    kv(t('lblPriority'), prioHTML(d.priority)) + kv(t('lblDelayHour'), d.delay == null ? '-' : esc(d.delay)) + kv(t('lblDevId'), esc(d.devId)));
-  /* 折叠入口永远在当前可见内容的末尾：收起时在 Deviation ID 后面，展开后在最后一个字段 Task No. 后面 */
+    kv(t('lblPriority'), prioHTML(d.priority)) + kv(t('lblDelayHour'), d.delay == null ? '-' : esc(d.delay)));
+  /* 折叠入口永远在当前可见内容的末尾：收起时在 Delay (hour) 后面，展开后在最后一个字段 Task No. 后面；Deviation ID 在展开区第一组最上面 */
   if (!S.more) created += toggle;
   else {
-    created += gd + kvlist(kv(t('lblProject'), esc(PROJECT.name) + '<span class="os-sub">' + esc(t('orderNo', { no: PROJECT.order })) + '</span>') +
+    created += gd + kvlist(kv(t('lblDevId'), esc(d.devId)) + kv(t('lblProject'), esc(PROJECT.name) + '<span class="os-sub">' + esc(t('orderNo', { no: PROJECT.order })) + '</span>') +
       kv(t('lblElevator'), esc(d.name) + '<span class="os-sub">' + esc(t('kenLine', { ken: d.ken })) + '</span>'));
     created += gd + kvlist(kv(t('lblCreator'), esc(d.creator.name)) + kv(t('lblAssignee'), esc(refText(d.assignee))) + kv(t('lblCloseBy'), esc(refText(d.closeBy))));
     created += gd + kvlist(kv(t('lblRelQuestion'), d.question ? esc(d.questionText) : '-') + kv(t('lblRelTask'), esc(d.task)) + kv(t('lblPhase'), esc(t(PHASE_KEY[d.phase]))) + kv(t('lblTaskNo'), esc(d.taskNo)));

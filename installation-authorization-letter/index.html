@@ -3343,8 +3343,8 @@ window.ONSITE_IAL_MOCK_EN = Object.freeze({
     "提交后只有两个动作：用印审批中「撤回授权书」，用印审批通过之后「作废授权书」。没有“修改并重新提交”：要改就撤回或作废，再从「可提交」重新填写、重新提交（新编号，重新申请用印）。": "After submitting there are only two actions: Withdraw Letter while seal approval is in progress, and Void Letter after it passes. There is no “modify and resubmit”: to change anything, withdraw or void the letter, then fill it in and submit again from Ready to Submit (new number, new seal request).",
     "撤回授权书：只有用印审批中可以撤回；二次确认后状态变“已撤回”，梯台回到「可提交」。": "Withdraw letter: only while seal approval is in progress. After a confirmation the status becomes Withdrawn and the elevators go back to Ready to Submit.",
     "作废授权书：不需要审批，PS 二次确认后直接作废。作废原因必填，附件选填（最多 5 个）。作废后状态变“已作废”，梯台回到「可提交」，「查看PDF」置灰；作废的提交人、时间、原因都留痕。": "Void letter: no approval needed; the PS confirms and the letter is voided at once. Void reason is required; attachments are optional (up to 5). After voiding, the status is Voided, the elevators go back to Ready to Submit, and View PDF is greyed out. Who voided it, when, why and the attachments are kept on record.",
-    "点「作废授权书」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填）两项，没有分组标题。点「提交」先弹二次确认：作废后原授权书立即失效，梯台回到「可提交」，需要重新提交；确认后浮层关闭，授权书直接作废。没填作废原因就点提交，浮层停留并在输入框下提示。": "Void Letter opens a bottom sheet on the details page (no new page). It has only two items, Void Reason (required) and attachments (optional), and no section titles. Submit shows a confirmation first: the original letter becomes invalid at once and its elevators go back to Ready to Submit to be submitted again. Once confirmed, the sheet closes and the letter is voided. If you tap Submit without a void reason, the sheet stays and the field shows an error.",
-    "已作废的详情：头部状态说明条「原授权书已作废，梯台已回到「可提交」」，条后面有「查看更多」，点开底部浮层，显示作废的提交人、提交时间、作废原因和附件。作废不是审批，所以这些信息不放在「审批信息」里。": "Details of a voided letter: the status notice at the top reads “The original letter has been voided; its elevators are back in Ready to Submit” with View More after it. View More opens a bottom sheet showing who voided it, when, the void reason and attachments. Voiding is not an approval, so this information is not under Approval Information.",
+    "点「作废授权书」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填）两项，没有分组标题。点「提交」先弹二次确认：作废后本授权书立即失效，梯台回到「可提交」，需要重新提交；确认后浮层关闭，授权书直接作废。没填作废原因就点提交，浮层停留并在输入框下提示。": "Void Letter opens a bottom sheet on the details page (no new page). It has only two items, Void Reason (required) and attachments (optional), and no section titles. Submit shows a confirmation first: this letter becomes invalid at once and its elevators go back to Ready to Submit to be submitted again. Once confirmed, the sheet closes and the letter is voided. If you tap Submit without a void reason, the sheet stays and the field shows an error.",
+    "已作废的详情：头部状态说明条「本授权书已作废，梯台已回到「可提交」」，条后面有「查看更多」，点开底部浮层，显示作废的提交人、提交时间、作废原因和附件。作废不是审批，所以这些信息不放在「审批信息」里。": "Details of a voided letter: the status notice at the top reads “This letter has been voided; its elevators are back in Ready to Submit” with View More after it. View More opens a bottom sheet showing who voided it, when, the void reason and attachments. Voiding is not an approval, so this information is not under Approval Information.",
     "要换被授权方、改梯台或改内容时：作废 → 原授权书作废、梯台回到「可提交」→ 重新填写并提交，重新选被授权方。": "To change the authorized party, the elevators or the content: void the letter → the original letter is voided and the elevators go back to Ready to Submit → fill it in and submit again, choosing the authorized party again.",
     "演示：把状态切到「用印审批通过」，点右上角「···」→「作废授权书」。": "Demo: switch the status to Seal Approval Passed, then tap the top-right “···” → Void Letter.",
     "右上角「···」只对 PS 显示：用印审批中 →「撤回授权书」；用印审批通过 →「作废授权书」。用印审批被拒绝、已撤回、已作废只读，不显示「···」。": "The top-right “···” is shown to the PS only: Seal Approval In Progress → Withdraw Letter; Seal Approval Passed → Void Letter. Seal Approval Rejected, Withdrawn and Voided letters are read-only and show no “···”.",
@@ -3364,7 +3364,7 @@ window.ONSITE_IAL_MOCK_EN = Object.freeze({
     "请先选择施工类别，再选择被授权方": "Select the construction category first, then the authorized party",
     "分公司经理": "Branch Manager",
     "确认作废授权书？": "Void this letter?",
-    "作废后原授权书立即失效，梯台回到「可提交」，需要重新提交。": "After voiding, the original letter becomes invalid at once and its elevators go back to Ready to Submit. They need to be submitted again.",
+    "作废后本授权书立即失效，梯台回到「可提交」，需要重新提交。": "After voiding, this letter becomes invalid at once and its elevators go back to Ready to Submit. They need to be submitted again.",
     "确认作废": "Confirm Void",
     '点「申请作废」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填，最多 5 个）两项，没有分组标题。点「提交」先弹二次确认：审批通过后原授权书将整份作废，梯台回到「可提交」，需要重新提交；确认后浮层关闭，详情停在「审批信息」，看到刚提交的申请。没填作废原因就点提交，浮层停留并在输入框下提示。': 'Request Voiding opens a bottom sheet on the details page (no new page). It has only two items, Void Reason (required) and attachments (optional, up to 5), and no section titles. Submit shows a confirmation first: after approval the whole original letter is voided and its elevators go back to Ready to Submit to be submitted again. Once confirmed, the sheet closes and the details page stays on Approval Information, showing the request you just submitted. If you tap Submit without a void reason, the sheet stays and the field shows an error.',
     '演示：把状态切到「用印审批通过」或「作废审批被拒绝」，点右上角「···」→「申请作废」。': 'Demo: switch the status to Seal Approval Passed or Void Approval Rejected, then tap the top-right “···” → Request Voiding.',
@@ -3445,7 +3445,7 @@ window.ONSITE_IAL_MOCK_EN = Object.freeze({
     '通过后原授权书将整份作废，梯台回到「可提交」，由 PS 重新提交。': 'After approval, the whole original letter is voided and its elevators go back to Ready to Submit for the PS to resubmit.',
     '拒绝后原授权书继续有效，并通知 PS（含拒绝原因）。': 'After rejection, the original letter stays valid and the PS is notified with the rejection reason.',
     '特批被拒绝，本次任务已结束，梯台已回到「可提交」': 'Special approval rejected. This task has ended and the elevators are back in Ready to Submit.',
-    '原授权书已作废，梯台已回到「可提交」': 'The original letter is voided and its elevators are back in Ready to Submit.',
+    '本授权书已作废，梯台已回到「可提交」': 'This letter has been voided and its elevators are back in Ready to Submit.',
     '审批通过后，原授权书将整份作废，梯台回到「可提交」，需要重新提交。': 'After approval, the whole original letter is voided and its elevators go back to Ready to Submit. You will need to submit again.',
     '确认提交安装授权书？': 'Submit installation authorization letter?',
     '提交后将自动发起用印审批，由 BGM / 分公司经理在泛微处理。': 'After submitting, seal approval starts automatically and is handled by the BGM / Branch Manager in Weaver.',
@@ -5549,8 +5549,8 @@ html[data-demo-screen="IP7.1"] #demo-panel .dp-empty { display: none; }
         <p>撤回授权书：只有用印审批中可以撤回；二次确认后状态变“已撤回”，梯台回到「可提交」。</p>
         <p>用印审批被拒绝：本次任务结束，记录归在「已完结」，梯台回到「可提交」，发消息提醒 PS；没有任何操作，要继续就从「可提交」重新填写、重新提交（新授权书、新编号）。</p>
         <p>作废授权书：不需要审批，PS 二次确认后直接作废。作废原因必填，附件选填（最多 5 个）。作废后状态变“已作废”，梯台回到「可提交」，「查看PDF」置灰；作废的提交人、时间、原因都留痕。</p>
-        <p>点「作废授权书」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填）两项，没有分组标题。点「提交」先弹二次确认：作废后原授权书立即失效，梯台回到「可提交」，需要重新提交；确认后浮层关闭，授权书直接作废。没填作废原因就点提交，浮层停留并在输入框下提示。</p>
-        <p>已作废的详情：头部状态说明条「原授权书已作废，梯台已回到「可提交」」，条后面有「查看更多」，点开底部浮层，显示作废的提交人、提交时间、作废原因和附件。作废不是审批，所以这些信息不放在「审批信息」里。</p>
+        <p>点「作废授权书」在详情页底部弹出浮层（不打开新页面），只有「作废原因」（必填）和附件（选填）两项，没有分组标题。点「提交」先弹二次确认：作废后本授权书立即失效，梯台回到「可提交」，需要重新提交；确认后浮层关闭，授权书直接作废。没填作废原因就点提交，浮层停留并在输入框下提示。</p>
+        <p>已作废的详情：头部状态说明条「本授权书已作废，梯台已回到「可提交」」，条后面有「查看更多」，点开底部浮层，显示作废的提交人、提交时间、作废原因和附件。作废不是审批，所以这些信息不放在「审批信息」里。</p>
         <p>要换被授权方、改梯台或改内容时：作废 → 原授权书作废、梯台回到「可提交」→ 重新填写并提交，重新选被授权方。</p>
         <p>演示：把状态切到「用印审批通过」，点右上角「···」→「作废授权书」。</p>
         <p>右上角「···」只对 PS 显示：用印审批中 →「撤回授权书」；用印审批通过 →「作废授权书」。用印审批被拒绝、已撤回、已作废只读，不显示「···」。</p>
@@ -6452,7 +6452,7 @@ function approvalRecords(L) { return (L.recs || []).map(normRec); }
 var STATUS_NOTICE = {
   '用印审批被拒绝': ['error', '用印审批被拒绝，本次任务已结束，梯台已回到「可提交」'],
   '已撤回': ['info', '授权书已撤回，梯台已回到「可提交」，请重新填写提交'],
-  '已作废': ['info', '原授权书已作废，梯台已回到「可提交」']
+  '已作废': ['info', '本授权书已作废，梯台已回到「可提交」']
 };
 function statusNoticeHtml(L) {
   var s = statusOf(L), n = STATUS_NOTICE[s];
@@ -6610,7 +6610,7 @@ function submit52() {
   var F = FORM52;
   if (!F) return;
   if (!validate(F, F.ctype)) { renderIP52(); var ta = $('#f52-reason'); if (ta) ta.focus(); return; }   /* 没填作废原因：浮层停留，错误提示在输入框下 */
-  confirmDlg({ title: '确认作废授权书？', body: '作废后原授权书立即失效，梯台回到「可提交」，需要重新提交。', ok: '确认作废', run: commit52, keep: true });
+  confirmDlg({ title: '确认作废授权书？', body: '作废后本授权书立即失效，梯台回到「可提交」，需要重新提交。', ok: '确认作废', run: commit52, keep: true });
 }
 /* 作废不需要审批：二次确认后直接作废，梯台回到「可提交」；作废的提交人、时间、原因、附件留痕在 L.voidInfo */
 function commit52() {
